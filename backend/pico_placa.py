@@ -11,8 +11,16 @@ restricciones = {
 
 def puede_circular(placa, fecha, hora):
 
-    # Obtener último número de la placa
-    ultimo_digito = int(placa[-1])
+    # Normalizar la placa (por si viene con espacios o en minusculas)
+    placa = placa.strip().upper()
+
+    # Obtener el digito a analizar
+    # Carros: AAA1111 -> ultimo caracter es numero
+    # Motos:  AA111A  -> ultimo caracter es letra, usar el penultimo
+    if placa[-1].isdigit():
+        ultimo_digito = int(placa[-1])
+    else:
+        ultimo_digito = int(placa[-2])
 
     # Convertir fecha
     fecha_obj = datetime.strptime(fecha, "%Y-%m-%d")
