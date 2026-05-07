@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pico y Placa</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Pico y Placa</h1>
+
+        <div class="form-row">
+            <input type="text" id="placa" placeholder="Ingrese placa">
+
+            <input type="date" id="fecha">
+
+            <input type="time" id="hora">
+
+            <button onclick="validarVehiculo()">
+                Consultar
+            </button>
+        </div>
+
+        <div id="resultado"></div>
+
+    </div>
+
+    <script src="/static/app.js"></script>
+
+</body>
+
+</html>
