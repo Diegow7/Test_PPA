@@ -22,6 +22,9 @@ Sistema desarrollado con FastAPI y PostgreSQL para validar si un vehículo puede
 
 ### Instalar dependencias
 
-```bash
+```CMD
+cd backend
+>venv\Scripts\activate
 pip install -r requirements.txt
 python -m pip install -r requirements.txt
+uvicorn main:app --reload  
