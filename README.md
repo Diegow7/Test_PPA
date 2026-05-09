@@ -24,7 +24,7 @@ Sistema desarrollado con FastAPI y PostgreSQL para validar si un vehículo puede
 
 ```CMD commands
 cd backend
->venv\Scripts\activate
+venv\Scripts\activate
 pip install -r requirements.txt
 python -m pip install -r requirements.txt
 uvicorn main:app --reload  
