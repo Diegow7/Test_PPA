@@ -14,6 +14,11 @@ def puede_circular(placa, fecha, hora):
     # Normalizar la placa (por si viene con espacios o en minusculas)
     placa = placa.strip().upper()
 
+    # Quitar guiones y validar que solo tenga letras y numeros
+    placa = placa.replace("-", "")
+    if not placa.isalnum():
+        return False
+
     # Obtener el digito a analizar
     # Carros: AAA1111 -> ultimo caracter es numero
     # Motos:  AA111A  -> ultimo caracter es letra, usar el penultimo
