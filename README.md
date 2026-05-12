@@ -22,7 +22,7 @@ Sistema desarrollado con FastAPI y PostgreSQL para validar si un vehículo puede
 
 ### Instalar dependencias
 
-```CMD commands
+```CMD commands for execute
 cd backend
 venv\Scripts\activate
 pip install -r requirements.txt
