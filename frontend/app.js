@@ -1,3 +1,5 @@
+const API_KEY = "cambia-esto";
+
 async function validarVehiculo() {
 
     const placa = document.getElementById("placa").value;
@@ -9,7 +11,8 @@ async function validarVehiculo() {
         method: "POST",
 
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "X-API-Key": API_KEY
         },
 
         body: JSON.stringify({

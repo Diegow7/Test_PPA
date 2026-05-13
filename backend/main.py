@@ -1,4 +1,6 @@
-from fastapi import FastAPI
+import os
+
+from fastapi import Depends, FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -9,6 +11,8 @@ from pico_placa import puede_circular
 
 # Crear app
 app = FastAPI()
+
+API_KEY = os.getenv("API_KEY")
 
 frontend_dir = Path(__file__).resolve().parents[1] / "frontend"
 app.mount("/static", StaticFiles(directory=frontend_dir), name="static")
@@ -28,6 +32,15 @@ class Vehiculo(BaseModel):
     fecha: str
     hora: str
 
+def verificar_api_key(x_api_key: str | None = Header(default=None, alias="X-API-Key")):
+    if not API_KEY:
+        raise HTTPException(status_code=500, detail="API key no configurada")
+
+    if x_api_key != API_KEY:
+        raise HTTPException(status_code=401, detail="API key invalida")
+
+    return x_api_key
+
 # Ruta principal
 @app.get("/")
 def home():
@@ -35,7 +48,7 @@ def home():
 
 # Ruta para validar circulación
 @app.post("/validar")
-def validar_vehiculo(vehiculo: Vehiculo):
+def validar_vehiculo(vehiculo: Vehiculo, _: str = Depends(verificar_api_key)):
 
     # Verificar circulación
     permitido = puede_circular(
