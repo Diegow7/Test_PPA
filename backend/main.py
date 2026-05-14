@@ -76,13 +76,15 @@ def validar_vehiculo(
     _: str = Depends(verificar_api_key),
     __: None = Depends(verificar_rate_limit)
 ):
-
-    # Verificar circulación
-    permitido = puede_circular(
-        vehiculo.placa,
-        vehiculo.fecha,
-        vehiculo.hora
-    )
+    try:
+        # Verificar circulación
+        permitido = puede_circular(
+            vehiculo.placa,
+            vehiculo.fecha,
+            vehiculo.hora
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
 
     # Resultado texto
     resultado = (

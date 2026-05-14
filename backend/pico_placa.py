@@ -1,4 +1,5 @@
 from datetime import datetime
+import re
 
 # Restricciones por día
 restricciones = {
@@ -9,7 +10,7 @@ restricciones = {
     "Friday": [9, 0]
 }
 
-def puede_circular(placa, fecha, hora):
+def _validar_placa(placa):
 
     # Normalizar la placa (por si viene con espacios o en minusculas)
     placa = placa.strip().upper()
@@ -17,24 +18,38 @@ def puede_circular(placa, fecha, hora):
     # Quitar guiones y validar que solo tenga letras y numeros
     placa = placa.replace("-", "")
     if not placa.isalnum():
-        return False
+        raise ValueError("Placa invalida: solo letras y numeros")
 
-    # Obtener el digito a analizar
-    # Carros: AAA1111 -> ultimo caracter es numero
-    # Motos:  AA111A  -> ultimo caracter es letra, usar el penultimo
-    if placa[-1].isdigit():
+    patron_carro = r"^[A-Z]{3}[0-9]{4}$"
+    patron_moto = r"^[A-Z]{2}[0-9]{3}[A-Z]$"
+
+    if re.match(patron_carro, placa):
         ultimo_digito = int(placa[-1])
-    else:
+        return placa, ultimo_digito
+
+    if re.match(patron_moto, placa):
         ultimo_digito = int(placa[-2])
+        return placa, ultimo_digito
+
+    raise ValueError("Placa invalida: formato esperado AAA1111 o AA111A")
+
+def puede_circular(placa, fecha, hora):
+    placa, ultimo_digito = _validar_placa(placa)
 
     # Convertir fecha
-    fecha_obj = datetime.strptime(fecha, "%Y-%m-%d")
+    try:
+        fecha_obj = datetime.strptime(fecha, "%Y-%m-%d")
+    except ValueError as exc:
+        raise ValueError("Fecha invalida: formato esperado YYYY-MM-DD") from exc
 
     # Obtener día de la semana
     dia_semana = fecha_obj.strftime("%A")
 
     # Convertir hora
-    hora_obj = datetime.strptime(hora, "%H:%M").time()
+    try:
+        hora_obj = datetime.strptime(hora, "%H:%M").time()
+    except ValueError as exc:
+        raise ValueError("Hora invalida: formato esperado HH:MM") from exc
 
     # Horarios restringidos
     manana_inicio = datetime.strptime("07:00", "%H:%M").time()
