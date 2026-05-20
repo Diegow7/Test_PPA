@@ -1,31 +1,150 @@
 const API_KEY = "cambia-esto";
 
+const placaInput = document.getElementById("placa");
+const fechaInput = document.getElementById("fecha");
+const horaInput = document.getElementById("hora");
+const btnConsultar = document.getElementById("btn-consultar");
+const mensaje = document.getElementById("mensaje");
+const resultado = document.getElementById("resultado");
+
+function setMensaje(texto, tipo) {
+    mensaje.textContent = texto;
+    mensaje.classList.remove("mensaje--error", "mensaje--ok");
+
+    if (tipo === "error") {
+        mensaje.classList.add("mensaje--error");
+    }
+
+    if (tipo === "ok") {
+        mensaje.classList.add("mensaje--ok");
+    }
+}
+
+function setLoading(estado) {
+    btnConsultar.disabled = estado;
+    btnConsultar.textContent = estado ? "Consultando..." : "Consultar";
+    placaInput.disabled = estado;
+    fechaInput.disabled = estado;
+    horaInput.disabled = estado;
+}
+
+function normalizarPlaca(valor) {
+    return valor.trim().toUpperCase().replace("-", "");
+}
+
+function validarPlaca(valor) {
+    const placa = normalizarPlaca(valor);
+
+    if (!placa) {
+        return "La placa es obligatoria";
+    }
+
+    if (!/^[A-Z0-9]+$/.test(placa)) {
+        return "La placa solo permite letras y numeros";
+    }
+
+    if (/^[A-Z]{3}[0-9]{4}$/.test(placa)) {
+        return "";
+    }
+
+    if (/^[A-Z]{2}[0-9]{3}[A-Z]$/.test(placa)) {
+        return "";
+    }
+
+    return "Formato invalido. Usa AAA1111 o AA111A";
+}
+
+function validarFecha(valor) {
+    if (!valor) {
+        return "La fecha es obligatoria";
+    }
+
+    return "";
+}
+
+function validarHora(valor) {
+    if (!valor) {
+        return "La hora es obligatoria";
+    }
+
+    return "";
+}
+
+function validarFormulario() {
+    const errores = [];
+    const errorPlaca = validarPlaca(placaInput.value);
+    const errorFecha = validarFecha(fechaInput.value);
+    const errorHora = validarHora(horaInput.value);
+
+    placaInput.classList.toggle("is-invalid", Boolean(errorPlaca));
+    fechaInput.classList.toggle("is-invalid", Boolean(errorFecha));
+    horaInput.classList.toggle("is-invalid", Boolean(errorHora));
+
+    if (errorPlaca) {
+        errores.push(errorPlaca);
+    }
+
+    if (errorFecha) {
+        errores.push(errorFecha);
+    }
+
+    if (errorHora) {
+        errores.push(errorHora);
+    }
+
+    if (errores.length) {
+        setMensaje(errores[0], "error");
+        return false;
+    }
+
+    setMensaje("", "");
+    return true;
+}
+
 async function validarVehiculo() {
+    if (!validarFormulario()) {
+        resultado.textContent = "";
+        return;
+    }
 
-    const placa = document.getElementById("placa").value;
-    const fecha = document.getElementById("fecha").value;
-    const hora = document.getElementById("hora").value;
+    setLoading(true);
 
-    const response = await fetch("/validar", {
+    try {
+        const response = await fetch("/validar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-API-Key": API_KEY
+            },
+            body: JSON.stringify({
+                placa: placaInput.value,
+                fecha: fechaInput.value,
+                hora: horaInput.value
+            })
+        });
 
-        method: "POST",
+        let data = null;
+        try {
+            data = await response.json();
+        } catch {
+            data = null;
+        }
 
-        headers: {
-            "Content-Type": "application/json",
-            "X-API-Key": API_KEY
-        },
+        if (!response.ok) {
+            const detalle = data && data.detail ? data.detail : "Error al consultar";
+            setMensaje(detalle, "error");
+            resultado.textContent = "";
+            return;
+        }
 
-        body: JSON.stringify({
-            placa,
-            fecha,
-            hora
-        })
-    });
-
-    const data = await response.json();
-
-    document.getElementById("resultado").innerHTML =
-        data.resultado;
+        setMensaje("Consulta exitosa", "ok");
+        resultado.textContent = data.resultado;
+    } catch (error) {
+        setMensaje("No se pudo conectar al servidor", "error");
+        resultado.textContent = "";
+    } finally {
+        setLoading(false);
+    }
 }
 
 function setDefaults() {
@@ -41,3 +160,6 @@ function setDefaults() {
 }
 
 document.addEventListener("DOMContentLoaded", setDefaults);
+placaInput.addEventListener("input", validarFormulario);
+fechaInput.addEventListener("change", validarFormulario);
+horaInput.addEventListener("change", validarFormulario);

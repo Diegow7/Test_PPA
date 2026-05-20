@@ -75,6 +75,32 @@ button:hover {
 	color: var(--accent);
 }
 
+.mensaje {
+	margin-top: 12px;
+	min-height: 20px;
+	font-weight: 600;
+	color: var(--muted);
+}
+
+.mensaje--error {
+	color: #9b1c1c;
+}
+
+.mensaje--ok {
+	color: #0f5d3a;
+}
+
+.hint {
+	margin: 8px 0 0;
+	color: var(--muted);
+	font-size: 0.95rem;
+}
+
+.is-invalid {
+	border-color: #9b1c1c;
+	box-shadow: 0 0 0 2px rgba(155, 28, 28, 0.12);
+}
+
 .form-row {
 	display: flex;
 	flex-wrap: wrap;

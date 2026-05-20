@@ -16,17 +16,29 @@
         <h1>Pico y Placa</h1>
 
         <div class="form-row">
-            <input type="text" id="placa" placeholder="Ingrese placa">
+            <input
+                type="text"
+                id="placa"
+                placeholder="Ingrese placa"
+                maxlength="8"
+                autocapitalize="characters"
+                aria-describedby="placa-ayuda"
+            >
 
             <input type="date" id="fecha">
 
             <input type="time" id="hora">
 
-            <button onclick="validarVehiculo()">
+            <button id="btn-consultar" onclick="validarVehiculo()">
                 Consultar
             </button>
         </div>
 
+        <p id="placa-ayuda" class="hint">
+            Formato valido: AAA1111 o AA111A. Guion opcional.
+        </p>
+
+        <div id="mensaje" class="mensaje" role="status" aria-live="polite"></div>
         <div id="resultado"></div>
 
     </div>
