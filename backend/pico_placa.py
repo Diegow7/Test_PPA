@@ -17,8 +17,14 @@ def _validar_placa(placa):
 
     # Quitar guiones y validar que solo tenga letras y numeros
     placa = placa.replace("-", "")
+    if not placa:
+        raise ValueError("Placa invalida: es obligatoria")
+
     if not placa.isalnum():
         raise ValueError("Placa invalida: solo letras y numeros")
+
+    if len(placa) not in (6, 7):
+        raise ValueError("Placa invalida: longitud esperada 6 (moto) o 7 (carro)")
 
     patron_carro = r"^[A-Z]{3}[0-9]{4}$"
     patron_moto = r"^[A-Z]{2}[0-9]{3}[A-Z]$"
@@ -37,6 +43,9 @@ def puede_circular(placa, fecha, hora):
     placa, ultimo_digito = _validar_placa(placa)
 
     # Convertir fecha
+    if not fecha:
+        raise ValueError("Fecha invalida: es obligatoria")
+
     try:
         fecha_obj = datetime.strptime(fecha, "%Y-%m-%d")
     except ValueError as exc:
@@ -46,6 +55,9 @@ def puede_circular(placa, fecha, hora):
     dia_semana = fecha_obj.strftime("%A")
 
     # Convertir hora
+    if not hora:
+        raise ValueError("Hora invalida: es obligatoria")
+
     try:
         hora_obj = datetime.strptime(hora, "%H:%M").time()
     except ValueError as exc:

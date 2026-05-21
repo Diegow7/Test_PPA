@@ -43,6 +43,10 @@ function validarPlaca(valor) {
         return "La placa solo permite letras y numeros";
     }
 
+    if (placa.length !== 6 && placa.length !== 7) {
+        return "Longitud invalida: 6 (moto) o 7 (carro)";
+    }
+
     if (/^[A-Z]{3}[0-9]{4}$/.test(placa)) {
         return "";
     }
