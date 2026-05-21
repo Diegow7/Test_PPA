@@ -90,6 +90,10 @@ button:hover {
 	color: #0f5d3a;
 }
 
+.mensaje--warn {
+	color: #8a4b0f;
+}
+
 .hint {
 	margin: 8px 0 0;
 	color: var(--muted);

@@ -31,16 +31,28 @@ def _validar_placa(placa):
 
     if re.match(patron_carro, placa):
         ultimo_digito = int(placa[-1])
-        return placa, ultimo_digito
+        prefijo = placa[:3]
+        return placa, ultimo_digito, "carro", prefijo
 
     if re.match(patron_moto, placa):
         ultimo_digito = int(placa[-2])
-        return placa, ultimo_digito
+        prefijo = placa[:2]
+        return placa, ultimo_digito, "moto", prefijo
 
     raise ValueError("Placa invalida: formato esperado AAA1111 o AA111A")
 
+def obtener_info_placa(placa):
+    placa_norm, ultimo_digito, tipo, prefijo = _validar_placa(placa)
+    return {
+        "placa": placa_norm,
+        "ultimo_digito": ultimo_digito,
+        "tipo": tipo,
+        "prefijo": prefijo
+    }
+
 def puede_circular(placa, fecha, hora):
-    placa, ultimo_digito = _validar_placa(placa)
+    info = obtener_info_placa(placa)
+    ultimo_digito = info["ultimo_digito"]
 
     # Convertir fecha
     if not fecha:

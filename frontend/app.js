@@ -9,7 +9,7 @@ const resultado = document.getElementById("resultado");
 
 function setMensaje(texto, tipo) {
     mensaje.textContent = texto;
-    mensaje.classList.remove("mensaje--error", "mensaje--ok");
+    mensaje.classList.remove("mensaje--error", "mensaje--ok", "mensaje--warn");
 
     if (tipo === "error") {
         mensaje.classList.add("mensaje--error");
@@ -17,6 +17,10 @@ function setMensaje(texto, tipo) {
 
     if (tipo === "ok") {
         mensaje.classList.add("mensaje--ok");
+    }
+
+    if (tipo === "warn") {
+        mensaje.classList.add("mensaje--warn");
     }
 }
 
@@ -141,7 +145,11 @@ async function validarVehiculo() {
             return;
         }
 
-        setMensaje("Consulta exitosa", "ok");
+        if (data.advertencia) {
+            setMensaje(data.advertencia, "warn");
+        } else {
+            setMensaje("Consulta exitosa", "ok");
+        }
         resultado.textContent = data.resultado;
     } catch (error) {
         setMensaje("No se pudo conectar al servidor", "error");

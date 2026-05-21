@@ -9,7 +9,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from pathlib import Path
 
-from pico_placa import puede_circular
+from pico_placa import puede_circular, obtener_info_placa
 
 # Crear app
 app = FastAPI()
@@ -17,6 +17,19 @@ app = FastAPI()
 API_KEY = os.getenv("API_KEY")
 RATE_LIMIT_MAX = int(os.getenv("RATE_LIMIT_MAX", "30"))
 RATE_LIMIT_WINDOW_SEC = int(os.getenv("RATE_LIMIT_WINDOW_SEC", "60"))
+
+def _parse_prefijos(valor):
+    if not valor:
+        return []
+
+    return [
+        item.strip().upper()
+        for item in valor.split(",")
+        if item.strip()
+    ]
+
+PREFIJOS_CARRO = _parse_prefijos(os.getenv("PREFIJOS_CARRO", ""))
+PREFIJOS_MOTO = _parse_prefijos(os.getenv("PREFIJOS_MOTO", ""))
 
 _rate_limit_buckets: dict[str, deque[float]] = defaultdict(deque)
 
@@ -77,6 +90,8 @@ def validar_vehiculo(
     __: None = Depends(verificar_rate_limit)
 ):
     try:
+        info_placa = obtener_info_placa(vehiculo.placa)
+
         # Verificar circulación
         permitido = puede_circular(
             vehiculo.placa,
@@ -85,6 +100,16 @@ def validar_vehiculo(
         )
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    advertencia = None
+    prefijos_config = (
+        PREFIJOS_CARRO if info_placa["tipo"] == "carro" else PREFIJOS_MOTO
+    )
+    if prefijos_config and info_placa["prefijo"] not in prefijos_config:
+        advertencia = (
+            "Prefijo no reconocido para "
+            f"{info_placa['tipo']}: {info_placa['prefijo']}"
+        )
 
     # Resultado texto
     resultado = (
@@ -95,9 +120,14 @@ def validar_vehiculo(
     )
 
     # Respuesta
-    return {
+    respuesta = {
         "placa": vehiculo.placa,
         "fecha": vehiculo.fecha,
         "hora": vehiculo.hora,
         "resultado": resultado
     }
+
+    if advertencia:
+        respuesta["advertencia"] = advertencia
+
+    return respuesta
