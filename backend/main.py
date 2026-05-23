@@ -28,8 +28,12 @@ def _parse_prefijos(valor):
         if item.strip()
     ]
 
-PREFIJOS_CARRO = _parse_prefijos(os.getenv("PREFIJOS_CARRO", ""))
-PREFIJOS_MOTO = _parse_prefijos(os.getenv("PREFIJOS_MOTO", ""))
+PREFIJOS_CARRO = _parse_prefijos(
+    os.getenv("PREFIJOS_CARRO", "ABC,DEF,GHI,JKL,MNO,PQR,STU,XYZ")
+)
+PREFIJOS_MOTO = _parse_prefijos(
+    os.getenv("PREFIJOS_MOTO", "AB,CD,EF,GH,JK,LM,NP,QR,ST,UV")
+)
 
 _rate_limit_buckets: dict[str, deque[float]] = defaultdict(deque)
 
