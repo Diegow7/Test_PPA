@@ -75,6 +75,24 @@ function validarHora(valor) {
         return "La hora es obligatoria";
     }
 
+    const partes = valor.split(":");
+    if (partes.length !== 2) {
+        return "Hora invalida";
+    }
+
+    const horas = Number(partes[0]);
+    const minutos = Number(partes[1]);
+    if (Number.isNaN(horas) || Number.isNaN(minutos)) {
+        return "Hora invalida";
+    }
+
+    const totalMinutos = horas * 60 + minutos;
+    const inicio = 5 * 60;
+    const fin = 12 * 60;
+    if (totalMinutos < inicio || totalMinutos > fin) {
+        return "Hora fuera de rango: 05:00 a 12:00";
+    }
+
     return "";
 }
 
