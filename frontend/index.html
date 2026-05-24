@@ -11,37 +11,70 @@
 
 <body>
 
-    <div class="container">
+    <main class="shell">
+        <section class="intro">
+            <span class="badge">Control Vehicular</span>
+            <h1>Pico y Placa</h1>
+            <p class="subtitle">
+                Valida en segundos si un vehiculo puede circular segun el dia y la hora.
+            </p>
+            <div class="tips">
+                <div class="tip">
+                    <span class="tip-title">Formatos aceptados</span>
+                    <span>Carro: AAA1111 · Moto: AA111A</span>
+                </div>
+                <div class="tip">
+                    <span class="tip-title">Rango permitido</span>
+                    <span>Hora entre 05:00 y 12:00</span>
+                </div>
+            </div>
+        </section>
 
-        <h1>Pico y Placa</h1>
+        <section class="panel">
+            <div class="panel-head">
+                <h2>Consulta rapida</h2>
+                <p>Completa los datos para recibir el estado en tiempo real.</p>
+            </div>
 
-        <div class="form-row">
-            <input
-                type="text"
-                id="placa"
-                placeholder="Ingrese placa"
-                maxlength="8"
-                autocapitalize="characters"
-                aria-describedby="placa-ayuda"
-            >
+            <div class="form-grid">
+                <label class="field">
+                    <span>Placa</span>
+                    <input
+                        type="text"
+                        id="placa"
+                        placeholder="Ej: ABC-1234"
+                        maxlength="8"
+                        autocapitalize="characters"
+                        aria-describedby="placa-ayuda"
+                    >
+                </label>
 
-            <input type="date" id="fecha">
+                <label class="field">
+                    <span>Fecha</span>
+                    <input type="date" id="fecha">
+                </label>
 
-            <input type="time" id="hora">
+                <label class="field">
+                    <span>Hora</span>
+                    <input type="time" id="hora">
+                </label>
 
-            <button id="btn-consultar" onclick="validarVehiculo()">
-                Consultar
-            </button>
-        </div>
+                <div class="actions">
+                    <button id="btn-consultar" onclick="validarVehiculo()" type="button">
+                        Consultar ahora
+                    </button>
+                    <p id="placa-ayuda" class="hint">
+                        Guion opcional. Solo letras y numeros.
+                    </p>
+                </div>
+            </div>
 
-        <p id="placa-ayuda" class="hint">
-            Formato valido: AAA1111 o AA111A. Guion opcional.
-        </p>
-
-        <div id="mensaje" class="mensaje" role="status" aria-live="polite"></div>
-        <div id="resultado"></div>
-
-    </div>
+            <div class="status">
+                <div id="mensaje" class="mensaje" role="status" aria-live="polite"></div>
+                <div id="resultado"></div>
+            </div>
+        </section>
+    </main>
 
     <script src="/static/app.js"></script>
 
