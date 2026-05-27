@@ -253,6 +253,7 @@ button:disabled {
 .input-wrap input {
 	width: 100%;
 	padding-left: 44px;
+	padding-right: 44px;
 	transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
@@ -265,7 +266,28 @@ button:disabled {
 	color: rgba(30, 79, 93, 0.85);
 }
 
-.is-invalid + .input-icon {
+.input-status {
+	position: absolute;
+	right: 14px;
+	width: 18px;
+	height: 18px;
+	color: #1a7b4f;
+	opacity: 0;
+	transform: scale(0.6);
+	transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.input-status svg {
+	width: 100%;
+	height: 100%;
+}
+
+.input-wrap--valid .input-status {
+	opacity: 1;
+	transform: scale(1);
+}
+
+.input-wrap--invalid .input-icon {
 	color: rgba(155, 28, 28, 0.7);
 }
 

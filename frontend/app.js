@@ -102,9 +102,9 @@ function validarFormulario() {
     const errorFecha = validarFecha(fechaInput.value);
     const errorHora = validarHora(horaInput.value);
 
-    placaInput.classList.toggle("is-invalid", Boolean(errorPlaca));
-    fechaInput.classList.toggle("is-invalid", Boolean(errorFecha));
-    horaInput.classList.toggle("is-invalid", Boolean(errorHora));
+    setFieldState(placaInput, errorPlaca);
+    setFieldState(fechaInput, errorFecha);
+    setFieldState(horaInput, errorHora);
 
     if (errorPlaca) {
         errores.push(errorPlaca);
@@ -125,6 +125,22 @@ function validarFormulario() {
 
     setMensaje("", "");
     return true;
+}
+
+function setFieldState(input, error) {
+    const wrap = input.closest(".input-wrap");
+    const tieneValor = input.value.trim().length > 0;
+    const esValido = !error && tieneValor;
+
+    input.classList.toggle("is-invalid", Boolean(error));
+    input.classList.toggle("is-valid", esValido);
+
+    if (!wrap) {
+        return;
+    }
+
+    wrap.classList.toggle("input-wrap--invalid", Boolean(error));
+    wrap.classList.toggle("input-wrap--valid", esValido);
 }
 
 async function validarVehiculo() {
