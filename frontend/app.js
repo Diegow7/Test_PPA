@@ -129,6 +129,8 @@ function validarFormulario() {
 
 function setFieldState(input, error) {
     const wrap = input.closest(".input-wrap");
+    const field = input.closest(".field");
+    const mensajeCampo = field ? field.querySelector(".field-message") : null;
     const tieneValor = input.value.trim().length > 0;
     const esValido = !error && tieneValor;
 
@@ -141,6 +143,16 @@ function setFieldState(input, error) {
 
     wrap.classList.toggle("input-wrap--invalid", Boolean(error));
     wrap.classList.toggle("input-wrap--valid", esValido);
+
+    if (mensajeCampo) {
+        if (esValido) {
+            mensajeCampo.textContent = "Listo";
+            mensajeCampo.classList.add("field-message--visible");
+        } else {
+            mensajeCampo.textContent = "";
+            mensajeCampo.classList.remove("field-message--visible");
+        }
+    }
 }
 
 async function validarVehiculo() {

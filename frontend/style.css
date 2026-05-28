@@ -285,6 +285,7 @@ button:disabled {
 .input-wrap--valid .input-status {
 	opacity: 1;
 	transform: scale(1);
+	animation: pop 0.25s ease;
 }
 
 .input-wrap--invalid .input-icon {
@@ -302,6 +303,20 @@ button:disabled {
 	font-size: 0.88rem;
 	letter-spacing: 0.04em;
 	text-transform: uppercase;
+}
+
+.field-message {
+	min-height: 18px;
+	font-size: 0.82rem;
+	color: #1a7b4f;
+	opacity: 0;
+	transform: translateY(-2px);
+	transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.field-message--visible {
+	opacity: 1;
+	transform: translateY(0);
 }
 
 .actions {
@@ -349,5 +364,17 @@ button:disabled {
 	to {
 		opacity: 1;
 		transform: translateY(0);
+	}
+}
+
+@keyframes pop {
+	0% {
+		transform: scale(0.6);
+	}
+	60% {
+		transform: scale(1.15);
+	}
+	100% {
+		transform: scale(1);
 	}
 }
