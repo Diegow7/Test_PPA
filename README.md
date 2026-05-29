@@ -28,3 +28,12 @@ venv\Scripts\activate
 pip install -r requirements.txt
 python -m pip install -r requirements.txt
 uvicorn main:app --reload  
+```
+
+### Ejecutar pruebas
+
+```CMD commands for execute
+cd backend
+venv\Scripts\activate
+pytest
+```
