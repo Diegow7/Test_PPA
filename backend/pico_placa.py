@@ -50,23 +50,16 @@ def obtener_info_placa(placa):
         "prefijo": prefijo
     }
 
-def puede_circular(placa, fecha, hora):
-    info = obtener_info_placa(placa)
-    ultimo_digito = info["ultimo_digito"]
-
-    # Convertir fecha
+def _validar_fecha(fecha):
     if not fecha:
         raise ValueError("Fecha invalida: es obligatoria")
 
     try:
-        fecha_obj = datetime.strptime(fecha, "%Y-%m-%d")
+        return datetime.strptime(fecha, "%Y-%m-%d")
     except ValueError as exc:
         raise ValueError("Fecha invalida: formato esperado YYYY-MM-DD") from exc
 
-    # Obtener día de la semana
-    dia_semana = fecha_obj.strftime("%A")
-
-    # Convertir hora
+def _validar_hora(hora):
     if not hora:
         raise ValueError("Hora invalida: es obligatoria")
 
@@ -79,6 +72,21 @@ def puede_circular(placa, fecha, hora):
     hora_fin = datetime.strptime("12:00", "%H:%M").time()
     if not (hora_inicio <= hora_obj <= hora_fin):
         raise ValueError("Hora invalida: rango permitido 05:00 a 12:00")
+
+    return hora_obj
+
+def puede_circular(placa, fecha, hora):
+    info = obtener_info_placa(placa)
+    ultimo_digito = info["ultimo_digito"]
+
+    # Convertir fecha
+    fecha_obj = _validar_fecha(fecha)
+
+    # Obtener día de la semana
+    dia_semana = fecha_obj.strftime("%A")
+
+    # Convertir hora
+    hora_obj = _validar_hora(hora)
 
     # Horarios restringidos
     manana_inicio = datetime.strptime("07:00", "%H:%M").time()
