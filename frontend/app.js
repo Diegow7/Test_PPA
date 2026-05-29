@@ -185,7 +185,13 @@ async function validarVehiculo() {
         }
 
         if (!response.ok) {
-            const detalle = data && data.detail ? data.detail : "Error al consultar";
+            let detalle = data && data.detail ? data.detail : "Error al consultar";
+            if (detalle && typeof detalle === "object") {
+                const valores = Array.isArray(detalle)
+                    ? detalle
+                    : Object.values(detalle);
+                detalle = valores.length ? valores[0] : "Error al consultar";
+            }
             setMensaje(detalle, "error");
             resultado.textContent = "";
             return;

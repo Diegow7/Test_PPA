@@ -75,18 +75,32 @@ def _validar_hora(hora):
 
     return hora_obj
 
-def puede_circular(placa, fecha, hora):
-    info = obtener_info_placa(placa)
-    ultimo_digito = info["ultimo_digito"]
+def validar_entrada(placa, fecha, hora):
+    errores = {}
 
-    # Convertir fecha
-    fecha_obj = _validar_fecha(fecha)
+    try:
+        info = obtener_info_placa(placa)
+    except ValueError as exc:
+        errores["placa"] = str(exc)
+        info = None
 
+    try:
+        fecha_obj = _validar_fecha(fecha)
+    except ValueError as exc:
+        errores["fecha"] = str(exc)
+        fecha_obj = None
+
+    try:
+        hora_obj = _validar_hora(hora)
+    except ValueError as exc:
+        errores["hora"] = str(exc)
+        hora_obj = None
+
+    return info, fecha_obj, hora_obj, errores
+
+def _puede_circular(ultimo_digito, fecha_obj, hora_obj):
     # Obtener día de la semana
     dia_semana = fecha_obj.strftime("%A")
-
-    # Convertir hora
-    hora_obj = _validar_hora(hora)
 
     # Horarios restringidos
     manana_inicio = datetime.strptime("07:00", "%H:%M").time()
@@ -111,3 +125,13 @@ def puede_circular(placa, fecha, hora):
                 return False
 
     return True
+
+def puede_circular(placa, fecha, hora):
+    info, fecha_obj, hora_obj, errores = validar_entrada(placa, fecha, hora)
+    if errores:
+        primer_error = next(iter(errores.values()))
+        raise ValueError(primer_error)
+
+    ultimo_digito = info["ultimo_digito"]
+
+    return _puede_circular(ultimo_digito, fecha_obj, hora_obj)

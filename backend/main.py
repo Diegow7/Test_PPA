@@ -9,7 +9,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from pathlib import Path
 
-from pico_placa import puede_circular, obtener_info_placa
+from pico_placa import puede_circular, obtener_info_placa, validar_entrada, _puede_circular
 
 # Crear app
 app = FastAPI()
@@ -94,13 +94,18 @@ def validar_vehiculo(
     __: None = Depends(verificar_rate_limit)
 ):
     try:
-        info_placa = obtener_info_placa(vehiculo.placa)
-
-        # Verificar circulación
-        permitido = puede_circular(
+        info_placa, fecha_obj, hora_obj, errores = validar_entrada(
             vehiculo.placa,
             vehiculo.fecha,
             vehiculo.hora
+        )
+        if errores:
+            raise HTTPException(status_code=400, detail=errores)
+
+        permitido = _puede_circular(
+            info_placa["ultimo_digito"],
+            fecha_obj,
+            hora_obj
         )
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
