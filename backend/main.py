@@ -110,15 +110,16 @@ def validar_vehiculo(
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
-    advertencia = None
+    errores_prefijo = {}
     prefijos_config = (
         PREFIJOS_CARRO if info_placa["tipo"] == "carro" else PREFIJOS_MOTO
     )
     if prefijos_config and info_placa["prefijo"] not in prefijos_config:
-        advertencia = (
+        errores_prefijo["placa"] = (
             "Prefijo no reconocido para "
             f"{info_placa['tipo']}: {info_placa['prefijo']}"
         )
+        raise HTTPException(status_code=400, detail=errores_prefijo)
 
     # Resultado texto
     resultado = (
@@ -135,8 +136,5 @@ def validar_vehiculo(
         "hora": vehiculo.hora,
         "resultado": resultado
     }
-
-    if advertencia:
-        respuesta["advertencia"] = advertencia
 
     return respuesta

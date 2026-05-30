@@ -205,11 +205,7 @@ async function validarVehiculo() {
             return;
         }
 
-        if (data.advertencia) {
-            setMensaje(data.advertencia, "warn");
-        } else {
-            setMensaje("Consulta exitosa", "ok");
-        }
+        setMensaje("Consulta exitosa", "ok");
         resultado.textContent = data.resultado;
     } catch (error) {
         setMensaje("No se pudo conectar al servidor", "error");
