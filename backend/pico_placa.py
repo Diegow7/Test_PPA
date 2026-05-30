@@ -55,9 +55,14 @@ def _validar_fecha(fecha):
         raise ValueError("Fecha invalida: es obligatoria")
 
     try:
-        return datetime.strptime(fecha, "%Y-%m-%d")
+        fecha_obj = datetime.strptime(fecha, "%Y-%m-%d")
     except ValueError as exc:
         raise ValueError("Fecha invalida: formato esperado YYYY-MM-DD") from exc
+
+    if fecha_obj.date() > datetime.now().date():
+        raise ValueError("Fecha invalida: no puede ser futura")
+
+    return fecha_obj
 
 def _validar_hora(hora):
     if not hora:

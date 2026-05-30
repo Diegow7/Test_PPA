@@ -67,6 +67,14 @@ function validarFecha(valor) {
         return "La fecha es obligatoria";
     }
 
+    const fechaIngresada = new Date(`${valor}T00:00:00`);
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+
+    if (fechaIngresada > hoy) {
+        return "La fecha no puede ser futura";
+    }
+
     return "";
 }
 
