@@ -7,6 +7,9 @@ const btnConsultar = document.getElementById("btn-consultar");
 const mensaje = document.getElementById("mensaje");
 const resultado = document.getElementById("resultado");
 
+const PREFIJOS_CARRO = ["ABC", "DEF", "GHI", "JKL", "MNO", "PQR", "STU", "XYZ"];
+const PREFIJOS_MOTO = ["AB", "CD", "EF", "GH", "JK", "LM", "NP", "QR", "ST", "UV"];
+
 function setMensaje(texto, tipo) {
     mensaje.textContent = texto;
     mensaje.classList.remove("mensaje--error", "mensaje--ok", "mensaje--warn");
@@ -52,10 +55,18 @@ function validarPlaca(valor) {
     }
 
     if (/^[A-Z]{3}[0-9]{4}$/.test(placa)) {
+        const prefijo = placa.slice(0, 3);
+        if (!PREFIJOS_CARRO.includes(prefijo)) {
+            return `Prefijo no reconocido para carro: ${prefijo}`;
+        }
         return "";
     }
 
     if (/^[A-Z]{2}[0-9]{3}[A-Z]$/.test(placa)) {
+        const prefijo = placa.slice(0, 2);
+        if (!PREFIJOS_MOTO.includes(prefijo)) {
+            return `Prefijo no reconocido para moto: ${prefijo}`;
+        }
         return "";
     }
 
