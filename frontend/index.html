@@ -11,7 +11,9 @@
 
 <body>
 
-    <main class="shell">
+    <a class="skip-link" href="#consulta">Saltar al formulario</a>
+
+    <main class="shell" id="contenido">
         <section class="intro">
             <span class="badge">Guia de Circulacion</span>
             <h1>Consulta Pico y Placa</h1>
@@ -30,9 +32,9 @@
             </div>
         </section>
 
-        <section class="panel">
+        <section class="panel" id="consulta" aria-labelledby="titulo-consulta">
             <div class="panel-head">
-                <h2>Consulta en un paso</h2>
+                <h2 id="titulo-consulta">Consulta en un paso</h2>
                 <p>Completa los datos y recibe la respuesta al instante.</p>
             </div>
 
@@ -57,7 +59,9 @@
                             placeholder="Ej: ABC-1234"
                             maxlength="8"
                             autocapitalize="characters"
-                            aria-describedby="placa-ayuda"
+                            aria-describedby="placa-ayuda placa-estado"
+                            aria-required="true"
+                            required
                         >
                         <span class="input-status" aria-hidden="true">
                             <svg viewBox="0 0 24 24" role="presentation" focusable="false">
@@ -65,7 +69,7 @@
                             </svg>
                         </span>
                     </div>
-                    <span class="field-message" aria-live="polite"></span>
+                    <span class="field-message" id="placa-estado" aria-live="polite"></span>
                 </label>
 
                 <div class="field-group">
@@ -77,14 +81,20 @@
                                 <path d="M7 3h2v2h6V3h2v2h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h3V3zm13 6H4v10h16V9z" fill="currentColor"/>
                             </svg>
                         </span>
-                        <input type="date" id="fecha">
+                        <input
+                            type="date"
+                            id="fecha"
+                            aria-describedby="fecha-ayuda fecha-estado"
+                            aria-required="true"
+                            required
+                        >
                         <span class="input-status" aria-hidden="true">
                             <svg viewBox="0 0 24 24" role="presentation" focusable="false">
                                 <path d="M9.2 16.2 4.8 11.8l1.4-1.4 3 3 8-8 1.4 1.4-9.4 9.4z" fill="currentColor"/>
                             </svg>
                         </span>
                     </div>
-                    <span class="field-message" aria-live="polite"></span>
+                    <span class="field-message" id="fecha-estado" aria-live="polite"></span>
                 </label>
 
                     <label class="field">
@@ -95,14 +105,20 @@
                                 <path d="M12 4a8 8 0 1 1 0 16 8 8 0 0 1 0-16zm1 4h-2v5l4 2 1-1.73-3-1.52V8z" fill="currentColor"/>
                             </svg>
                         </span>
-                        <input type="time" id="hora">
+                        <input
+                            type="time"
+                            id="hora"
+                            aria-describedby="hora-ayuda hora-estado"
+                            aria-required="true"
+                            required
+                        >
                         <span class="input-status" aria-hidden="true">
                             <svg viewBox="0 0 24 24" role="presentation" focusable="false">
                                 <path d="M9.2 16.2 4.8 11.8l1.4-1.4 3 3 8-8 1.4 1.4-9.4 9.4z" fill="currentColor"/>
                             </svg>
                         </span>
                     </div>
-                    <span class="field-message" aria-live="polite"></span>
+                    <span class="field-message" id="hora-estado" aria-live="polite"></span>
                 </label>
                 </div>
 
@@ -113,11 +129,17 @@
                     <p id="placa-ayuda" class="hint">
                         Guion opcional. Solo letras y numeros. Prefijo obligatorio.
                     </p>
+                    <p id="fecha-ayuda" class="hint">
+                        Fecha no puede ser futura.
+                    </p>
+                    <p id="hora-ayuda" class="hint">
+                        Hora permitida: 05:00 a 12:00.
+                    </p>
                 </div>
             </div>
 
-            <div class="status">
-                <div id="mensaje" class="mensaje" role="status" aria-live="polite"></div>
+            <div class="status" role="region" aria-live="polite" aria-atomic="true">
+                <div id="mensaje" class="mensaje"></div>
                 <div id="resultado"></div>
             </div>
         </section>

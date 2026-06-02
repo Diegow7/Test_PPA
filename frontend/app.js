@@ -155,6 +155,7 @@ function setFieldState(input, error) {
 
     input.classList.toggle("is-invalid", Boolean(error));
     input.classList.toggle("is-valid", esValido);
+    input.setAttribute("aria-invalid", Boolean(error));
 
     if (!wrap) {
         return;

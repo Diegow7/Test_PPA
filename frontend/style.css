@@ -4,7 +4,7 @@
 	--bg: #f4efe7;
 	--panel: #ffffff;
 	--ink: #1c1c1c;
-	--muted: #6d655d;
+	--muted: #5b534c;
 	--accent: #1e4f5d;
 	--accent-strong: #0d2f38;
 	--accent-warm: #c46a24;
@@ -27,6 +27,24 @@ body {
 	font-family: "Manrope", system-ui, -apple-system, sans-serif;
 	position: relative;
 	overflow-x: hidden;
+}
+
+.skip-link {
+	position: absolute;
+	left: 16px;
+	top: 16px;
+	padding: 10px 14px;
+	background: #0d2f38;
+	color: #fff;
+	border-radius: 8px;
+	text-decoration: none;
+	transform: translateY(-140%);
+	transition: transform 0.2s ease;
+	z-index: 2;
+}
+
+.skip-link:focus {
+	transform: translateY(0);
 }
 
 body::before,
@@ -188,6 +206,13 @@ input:focus {
 	outline: none;
 	border-color: rgba(30, 79, 93, 0.5);
 	box-shadow: 0 0 0 3px rgba(30, 79, 93, 0.14);
+}
+
+input:focus-visible,
+button:focus-visible,
+.skip-link:focus-visible {
+	outline: 3px solid rgba(196, 106, 36, 0.5);
+	outline-offset: 2px;
 }
 
 button {
