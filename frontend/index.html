@@ -36,8 +36,14 @@
                 <p>Completa los datos y recibe la respuesta al instante.</p>
             </div>
 
+            <ol class="steps">
+                <li>Ingresa la placa</li>
+                <li>Selecciona fecha y hora</li>
+                <li>Consulta el estado</li>
+            </ol>
+
             <div class="form-grid">
-                <label class="field">
+                <label class="field field--full">
                     <span>Placa del vehiculo</span>
                     <div class="input-wrap">
                         <span class="input-icon" aria-hidden="true">
@@ -62,7 +68,8 @@
                     <span class="field-message" aria-live="polite"></span>
                 </label>
 
-                <label class="field">
+                <div class="field-group">
+                    <label class="field">
                     <span>Fecha de consulta</span>
                     <div class="input-wrap">
                         <span class="input-icon" aria-hidden="true">
@@ -80,7 +87,7 @@
                     <span class="field-message" aria-live="polite"></span>
                 </label>
 
-                <label class="field">
+                    <label class="field">
                     <span>Hora de consulta</span>
                     <div class="input-wrap">
                         <span class="input-icon" aria-hidden="true">
@@ -97,6 +104,7 @@
                     </div>
                     <span class="field-message" aria-live="polite"></span>
                 </label>
+                </div>
 
                 <div class="actions">
                     <button id="btn-consultar" onclick="validarVehiculo()" type="button">

@@ -143,6 +143,31 @@ h1 {
 	color: var(--muted);
 }
 
+.steps {
+	margin: 0 0 18px;
+	padding: 0;
+	list-style: none;
+	display: grid;
+	gap: 8px;
+	color: var(--muted);
+	font-size: 0.95rem;
+}
+
+.steps li {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.steps li::before {
+	content: "";
+	width: 10px;
+	height: 10px;
+	border-radius: 999px;
+	background: var(--accent-warm);
+	box-shadow: 0 0 0 4px rgba(196, 106, 36, 0.12);
+}
+
 input,
 button {
 	height: 46px;
@@ -226,7 +251,18 @@ button:disabled {
 
 .form-grid {
 	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 16px;
+}
+
+.field--full {
+	grid-column: 1 / -1;
+}
+
+.field-group {
+	grid-column: 1 / -1;
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: 16px;
 }
 
@@ -347,6 +383,10 @@ button:disabled {
 
 @media (max-width: 620px) {
 	.form-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.field-group {
 		grid-template-columns: 1fr;
 	}
 
