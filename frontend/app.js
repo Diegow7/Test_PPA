@@ -29,10 +29,11 @@ function setMensaje(texto, tipo) {
 
 function setLoading(estado) {
     btnConsultar.disabled = estado;
-    btnConsultar.textContent = estado ? "Consultando..." : "Consultar";
+    btnConsultar.textContent = estado ? "Consultando..." : "Consultar estado";
     placaInput.disabled = estado;
     fechaInput.disabled = estado;
     horaInput.disabled = estado;
+    btnConsultar.setAttribute("aria-busy", estado);
 }
 
 function normalizarPlaca(valor) {
@@ -176,6 +177,7 @@ function setFieldState(input, error) {
 }
 
 async function validarVehiculo() {
+    resultado.classList.remove("resultado--ok", "resultado--error");
     if (!validarFormulario()) {
         resultado.textContent = "";
         return;
@@ -214,14 +216,17 @@ async function validarVehiculo() {
             }
             setMensaje(detalle, "error");
             resultado.textContent = "";
+            resultado.classList.add("resultado--error");
             return;
         }
 
         setMensaje("Consulta lista", "ok");
         resultado.textContent = data.resultado;
+        resultado.classList.add("resultado--ok");
     } catch (error) {
         setMensaje("No se pudo conectar. Intenta de nuevo.", "error");
         resultado.textContent = "";
+        resultado.classList.add("resultado--error");
     } finally {
         setLoading(false);
     }

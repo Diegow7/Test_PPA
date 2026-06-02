@@ -8,6 +8,8 @@
 	--accent: #1e4f5d;
 	--accent-strong: #0d2f38;
 	--accent-warm: #c46a24;
+	--success: #1a7b4f;
+	--error: #9b1c1c;
 	--border: rgba(34, 34, 34, 0.12);
 	--shadow: 0 28px 60px rgba(22, 30, 35, 0.18);
 }
@@ -161,6 +163,22 @@ h1 {
 	color: var(--muted);
 }
 
+.progress {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 8px;
+	margin: 12px 0 18px;
+	font-size: 0.85rem;
+	color: var(--muted);
+}
+
+.progress span {
+	padding: 8px 10px;
+	border-radius: 999px;
+	text-align: center;
+	background: rgba(30, 79, 93, 0.08);
+}
+
 .steps {
 	margin: 0 0 18px;
 	padding: 0;
@@ -252,11 +270,11 @@ button:disabled {
 }
 
 .mensaje--error {
-	color: #9b1c1c;
+	color: var(--error);
 }
 
 .mensaje--ok {
-	color: #0f5d3a;
+	color: var(--success);
 }
 
 .mensaje--warn {
@@ -332,7 +350,7 @@ button:disabled {
 	right: 14px;
 	width: 18px;
 	height: 18px;
-	color: #1a7b4f;
+	color: var(--success);
 	opacity: 0;
 	transform: scale(0.6);
 	transition: opacity 0.2s ease, transform 0.2s ease;
@@ -369,7 +387,7 @@ button:disabled {
 .field-message {
 	min-height: 18px;
 	font-size: 0.82rem;
-	color: #1a7b4f;
+	color: var(--success);
 	opacity: 0;
 	transform: translateY(-2px);
 	transition: opacity 0.2s ease, transform 0.2s ease;
@@ -382,10 +400,13 @@ button:disabled {
 
 .actions {
 	grid-column: 1 / -1;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 16px;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 8px;
+}
+
+.actions button {
+	width: 100%;
 }
 
 .status {
@@ -394,6 +415,29 @@ button:disabled {
 	border-radius: 16px;
 	background: rgba(30, 79, 93, 0.05);
 	border: 1px solid rgba(30, 79, 93, 0.12);
+}
+
+.resultado {
+	margin-top: 10px;
+	padding: 14px 16px;
+	border-radius: 14px;
+	background: #fff;
+	border: 1px solid rgba(30, 79, 93, 0.2);
+	font-size: 1.05rem;
+	font-weight: 700;
+	color: var(--accent-strong);
+}
+
+.resultado--ok {
+	border-color: rgba(26, 123, 79, 0.35);
+	background: rgba(26, 123, 79, 0.08);
+	color: var(--success);
+}
+
+.resultado--error {
+	border-color: rgba(155, 28, 28, 0.35);
+	background: rgba(155, 28, 28, 0.08);
+	color: var(--error);
 }
 
 @media (max-width: 860px) {
@@ -415,9 +459,8 @@ button:disabled {
 		grid-template-columns: 1fr;
 	}
 
-	.actions {
-		flex-direction: column;
-		align-items: stretch;
+	.progress {
+		grid-template-columns: 1fr;
 	}
 }
 
