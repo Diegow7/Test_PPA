@@ -216,10 +216,10 @@ async function validarVehiculo() {
             return;
         }
 
-        setMensaje("Consulta exitosa", "ok");
+        setMensaje("Consulta lista", "ok");
         resultado.textContent = data.resultado;
     } catch (error) {
-        setMensaje("No se pudo conectar al servidor", "error");
+        setMensaje("No se pudo conectar. Intenta de nuevo.", "error");
         resultado.textContent = "";
     } finally {
         setLoading(false);

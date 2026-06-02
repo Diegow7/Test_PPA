@@ -13,32 +13,32 @@
 
     <main class="shell">
         <section class="intro">
-            <span class="badge">Control Vehicular</span>
-            <h1>Pico y Placa</h1>
+            <span class="badge">Guia de Circulacion</span>
+            <h1>Consulta Pico y Placa</h1>
             <p class="subtitle">
-                Valida en segundos si un vehiculo puede circular segun el dia y la hora.
+                Verifica rapido si puedes circular hoy. Ingresa placa, fecha y hora.
             </p>
             <div class="tips">
                 <div class="tip">
-                    <span class="tip-title">Formatos aceptados</span>
+                    <span class="tip-title">Formato de placa</span>
                     <span>Carro: AAA1111 · Moto: AA111A</span>
                 </div>
                 <div class="tip">
-                    <span class="tip-title">Rango permitido</span>
-                    <span>Hora entre 05:00 y 12:00</span>
+                    <span class="tip-title">Rango de hora</span>
+                    <span>Solo se permite 05:00 a 12:00</span>
                 </div>
             </div>
         </section>
 
         <section class="panel">
             <div class="panel-head">
-                <h2>Consulta rapida</h2>
-                <p>Completa los datos para recibir el estado en tiempo real.</p>
+                <h2>Consulta en un paso</h2>
+                <p>Completa los datos y recibe la respuesta al instante.</p>
             </div>
 
             <div class="form-grid">
                 <label class="field">
-                    <span>Placa</span>
+                    <span>Placa del vehiculo</span>
                     <div class="input-wrap">
                         <span class="input-icon" aria-hidden="true">
                             <svg viewBox="0 0 24 24" role="presentation" focusable="false">
@@ -63,7 +63,7 @@
                 </label>
 
                 <label class="field">
-                    <span>Fecha</span>
+                    <span>Fecha de consulta</span>
                     <div class="input-wrap">
                         <span class="input-icon" aria-hidden="true">
                             <svg viewBox="0 0 24 24" role="presentation" focusable="false">
@@ -81,7 +81,7 @@
                 </label>
 
                 <label class="field">
-                    <span>Hora</span>
+                    <span>Hora de consulta</span>
                     <div class="input-wrap">
                         <span class="input-icon" aria-hidden="true">
                             <svg viewBox="0 0 24 24" role="presentation" focusable="false">
@@ -100,10 +100,10 @@
 
                 <div class="actions">
                     <button id="btn-consultar" onclick="validarVehiculo()" type="button">
-                        Consultar ahora
+                        Consultar estado
                     </button>
                     <p id="placa-ayuda" class="hint">
-                        Guion opcional. Solo letras y numeros.
+                        Guion opcional. Solo letras y numeros. Prefijo obligatorio.
                     </p>
                 </div>
             </div>
