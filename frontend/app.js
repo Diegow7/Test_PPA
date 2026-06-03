@@ -6,6 +6,7 @@ const horaInput = document.getElementById("hora");
 const btnConsultar = document.getElementById("btn-consultar");
 const mensaje = document.getElementById("mensaje");
 const resultado = document.getElementById("resultado");
+const resumenErrores = document.getElementById("resumen-errores");
 
 const PREFIJOS_CARRO = ["ABC", "DEF", "GHI", "JKL", "MNO", "PQR", "STU", "XYZ"];
 const PREFIJOS_MOTO = ["AB", "CD", "EF", "GH", "JK", "LM", "NP", "QR", "ST", "UV"];
@@ -140,11 +141,28 @@ function validarFormulario() {
 
     if (errores.length) {
         setMensaje(errores[0], "error");
+        mostrarResumenErrores(errores);
         return false;
     }
 
     setMensaje("", "");
+    mostrarResumenErrores([]);
     return true;
+}
+
+function mostrarResumenErrores(errores) {
+    if (!resumenErrores) {
+        return;
+    }
+
+    if (!errores.length) {
+        resumenErrores.textContent = "";
+        resumenErrores.classList.remove("error-summary--visible");
+        return;
+    }
+
+    resumenErrores.textContent = `Revisa: ${errores.join(" · ")}`;
+    resumenErrores.classList.add("error-summary--visible");
 }
 
 function setFieldState(input, error) {
@@ -182,6 +200,8 @@ async function validarVehiculo() {
         resultado.textContent = "";
         return;
     }
+
+    mostrarResumenErrores([]);
 
     setLoading(true);
 

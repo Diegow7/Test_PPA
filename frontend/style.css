@@ -163,6 +163,24 @@ h1 {
 	color: var(--muted);
 }
 
+.error-summary {
+	margin: 12px 0 18px;
+	padding: 12px 14px;
+	border-radius: 14px;
+	border: 1px solid rgba(155, 28, 28, 0.3);
+	background: rgba(155, 28, 28, 0.08);
+	color: var(--error);
+	font-weight: 600;
+	opacity: 0;
+	transform: translateY(-4px);
+	transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.error-summary--visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
 .progress {
 	display: grid;
 	grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -426,18 +444,25 @@ button:disabled {
 	font-size: 1.05rem;
 	font-weight: 700;
 	color: var(--accent-strong);
+	opacity: 0;
+	transform: translateY(8px);
+	transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 .resultado--ok {
 	border-color: rgba(26, 123, 79, 0.35);
 	background: rgba(26, 123, 79, 0.08);
 	color: var(--success);
+	opacity: 1;
+	transform: translateY(0);
 }
 
 .resultado--error {
 	border-color: rgba(155, 28, 28, 0.35);
 	background: rgba(155, 28, 28, 0.08);
 	color: var(--error);
+	opacity: 1;
+	transform: translateY(0);
 }
 
 @media (max-width: 860px) {
