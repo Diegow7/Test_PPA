@@ -435,6 +435,57 @@ button:disabled {
 	border: 1px solid rgba(30, 79, 93, 0.12);
 }
 
+.history {
+	margin-top: 18px;
+	padding: 16px;
+	border-radius: 16px;
+	background: rgba(255, 255, 255, 0.7);
+	border: 1px solid rgba(30, 79, 93, 0.12);
+}
+
+.history-head {
+	margin-bottom: 12px;
+}
+
+.history-head h3 {
+	margin: 0 0 6px;
+	font-family: "Fraunces", serif;
+	font-size: 1.2rem;
+}
+
+.history-head p {
+	margin: 0;
+	color: var(--muted);
+}
+
+.history-list {
+	display: grid;
+	gap: 10px;
+}
+
+.history-item {
+	padding: 12px 14px;
+	border-radius: 12px;
+	background: #fff;
+	border: 1px solid rgba(30, 79, 93, 0.15);
+	display: grid;
+	gap: 4px;
+	font-size: 0.95rem;
+}
+
+.history-item span {
+	color: var(--muted);
+	font-size: 0.85rem;
+}
+
+.history-item--ok {
+	border-color: rgba(26, 123, 79, 0.3);
+}
+
+.history-item--error {
+	border-color: rgba(155, 28, 28, 0.3);
+}
+
 .resultado {
 	margin-top: 10px;
 	padding: 14px 16px;

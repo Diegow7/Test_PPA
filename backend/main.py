@@ -1,6 +1,7 @@
 import os
 import time
 from collections import defaultdict, deque
+from datetime import datetime
 
 from fastapi import Depends, FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -17,6 +18,7 @@ app = FastAPI()
 API_KEY = os.getenv("API_KEY")
 RATE_LIMIT_MAX = int(os.getenv("RATE_LIMIT_MAX", "30"))
 RATE_LIMIT_WINDOW_SEC = int(os.getenv("RATE_LIMIT_WINDOW_SEC", "60"))
+HISTORY_LIMIT = int(os.getenv("HISTORY_LIMIT", "20"))
 
 def _parse_prefijos(valor):
     if not valor:
@@ -36,6 +38,7 @@ PREFIJOS_MOTO = _parse_prefijos(
 )
 
 _rate_limit_buckets: dict[str, deque[float]] = defaultdict(deque)
+_historial_consultas: list[dict[str, str]] = []
 
 frontend_dir = Path(__file__).resolve().parents[1] / "frontend"
 app.mount("/static", StaticFiles(directory=frontend_dir), name="static")
@@ -54,6 +57,13 @@ class Vehiculo(BaseModel):
     placa: str
     fecha: str
     hora: str
+
+class Consulta(BaseModel):
+    placa: str
+    fecha: str
+    hora: str
+    resultado: str
+    timestamp: str
 
 def verificar_api_key(x_api_key: str | None = Header(default=None, alias="X-API-Key")):
     if not API_KEY:
@@ -137,4 +147,22 @@ def validar_vehiculo(
         "resultado": resultado
     }
 
+    _historial_consultas.insert(0, {
+        "placa": vehiculo.placa,
+        "fecha": vehiculo.fecha,
+        "hora": vehiculo.hora,
+        "resultado": resultado,
+        "timestamp": datetime.now().isoformat(timespec="seconds")
+    })
+
+    if len(_historial_consultas) > HISTORY_LIMIT:
+        _historial_consultas.pop()
+
     return respuesta
+
+@app.get("/historial", response_model=list[Consulta])
+def obtener_historial(
+    _: str = Depends(verificar_api_key),
+    __: None = Depends(verificar_rate_limit)
+):
+    return _historial_consultas

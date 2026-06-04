@@ -7,6 +7,7 @@ const btnConsultar = document.getElementById("btn-consultar");
 const mensaje = document.getElementById("mensaje");
 const resultado = document.getElementById("resultado");
 const resumenErrores = document.getElementById("resumen-errores");
+const historial = document.getElementById("historial");
 
 const PREFIJOS_CARRO = ["ABC", "DEF", "GHI", "JKL", "MNO", "PQR", "STU", "XYZ"];
 const PREFIJOS_MOTO = ["AB", "CD", "EF", "GH", "JK", "LM", "NP", "QR", "ST", "UV"];
@@ -243,12 +244,53 @@ async function validarVehiculo() {
         setMensaje("Consulta lista", "ok");
         resultado.textContent = data.resultado;
         resultado.classList.add("resultado--ok");
+        await cargarHistorial();
     } catch (error) {
         setMensaje("No se pudo conectar. Intenta de nuevo.", "error");
         resultado.textContent = "";
         resultado.classList.add("resultado--error");
     } finally {
         setLoading(false);
+    }
+}
+
+async function cargarHistorial() {
+    if (!historial) {
+        return;
+    }
+
+    try {
+        const response = await fetch("/historial", {
+            headers: {
+                "X-API-Key": API_KEY
+            }
+        });
+
+        if (!response.ok) {
+            historial.innerHTML = "";
+            return;
+        }
+
+        const data = await response.json();
+        if (!Array.isArray(data) || data.length === 0) {
+            historial.innerHTML = "<div class=\"history-item\">Sin consultas aun.</div>";
+            return;
+        }
+
+        historial.innerHTML = data.map((item) => {
+            const clase = item.resultado === "Puede circular"
+                ? "history-item history-item--ok"
+                : "history-item history-item--error";
+            return `
+                <div class="${clase}">
+                    <strong>${item.resultado}</strong>
+                    <span>${item.placa} · ${item.fecha} · ${item.hora}</span>
+                    <span>${item.timestamp}</span>
+                </div>
+            `;
+        }).join("");
+    } catch {
+        historial.innerHTML = "";
     }
 }
 
@@ -265,6 +307,7 @@ function setDefaults() {
 }
 
 document.addEventListener("DOMContentLoaded", setDefaults);
+document.addEventListener("DOMContentLoaded", cargarHistorial);
 placaInput.addEventListener("input", validarFormulario);
 fechaInput.addEventListener("change", validarFormulario);
 horaInput.addEventListener("change", validarFormulario);
