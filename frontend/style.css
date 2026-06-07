@@ -463,6 +463,18 @@ button:disabled {
 	gap: 10px;
 }
 
+.history-actions {
+	display: flex;
+	gap: 10px;
+	margin-bottom: 12px;
+}
+
+.history-actions button {
+	height: 40px;
+	font-size: 0.9rem;
+	padding: 0 14px;
+}
+
 .history-item {
 	padding: 12px 14px;
 	border-radius: 12px;

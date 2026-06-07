@@ -8,6 +8,8 @@ const mensaje = document.getElementById("mensaje");
 const resultado = document.getElementById("resultado");
 const resumenErrores = document.getElementById("resumen-errores");
 const historial = document.getElementById("historial");
+const btnExportarHistorial = document.getElementById("btn-exportar-historial");
+const btnLimpiarHistorial = document.getElementById("btn-limpiar-historial");
 
 const PREFIJOS_CARRO = ["ABC", "DEF", "GHI", "JKL", "MNO", "PQR", "STU", "XYZ"];
 const PREFIJOS_MOTO = ["AB", "CD", "EF", "GH", "JK", "LM", "NP", "QR", "ST", "UV"];
@@ -288,6 +290,42 @@ function guardarConsultaLocal(consulta) {
     localStorage.setItem(HISTORY_KEY, JSON.stringify(historialLocal));
 }
 
+function limpiarHistorialLocal() {
+    localStorage.removeItem(HISTORY_KEY);
+}
+
+function exportarHistorialCSV() {
+    const data = obtenerHistorialLocal();
+    if (!data.length) {
+        setMensaje("No hay historial para exportar.", "error");
+        return;
+    }
+
+    const encabezado = ["placa", "fecha", "hora", "resultado", "timestamp"];
+    const filas = data.map((item) => [
+        item.placa,
+        item.fecha,
+        item.hora,
+        item.resultado,
+        item.timestamp
+    ]);
+    const contenido = [encabezado, ...filas]
+        .map((fila) => fila.map((valor) => `"${String(valor).replace(/"/g, '""')}"`).join(","))
+        .join("\n");
+
+    const blob = new Blob([contenido], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const enlace = document.createElement("a");
+    enlace.href = url;
+    enlace.download = "historial_pico_y_placa.csv";
+    document.body.appendChild(enlace);
+    enlace.click();
+    document.body.removeChild(enlace);
+    URL.revokeObjectURL(url);
+
+    setMensaje("Historial exportado en CSV.", "ok");
+}
+
 function cargarHistorial() {
     if (!historial) {
         return;
@@ -330,3 +368,15 @@ document.addEventListener("DOMContentLoaded", cargarHistorial);
 placaInput.addEventListener("input", validarFormulario);
 fechaInput.addEventListener("change", validarFormulario);
 horaInput.addEventListener("change", validarFormulario);
+
+if (btnExportarHistorial) {
+    btnExportarHistorial.addEventListener("click", exportarHistorialCSV);
+}
+
+if (btnLimpiarHistorial) {
+    btnLimpiarHistorial.addEventListener("click", () => {
+        limpiarHistorialLocal();
+        cargarHistorial();
+        setMensaje("Historial limpiado.", "ok");
+    });
+}
