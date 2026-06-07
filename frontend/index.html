@@ -171,9 +171,17 @@
                     </div>
                 </div>
                 <div class="history-actions">
+                    <input
+                        id="buscar-historial"
+                        class="history-search"
+                        type="text"
+                        placeholder="Buscar en historial..."
+                        aria-label="Buscar en historial"
+                    >
                     <button id="btn-exportar-historial" type="button">Exportar CSV</button>
                     <button id="btn-limpiar-historial" type="button">Limpiar historial</button>
                 </div>
+                <p id="history-match-count" class="history-match-count"></p>
                 <div id="historial" class="history-list"></div>
             </section>
         </section>

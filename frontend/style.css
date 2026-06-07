@@ -467,6 +467,23 @@ button:disabled {
 	display: flex;
 	gap: 10px;
 	margin-bottom: 12px;
+	flex-wrap: wrap;
+}
+
+.history-search {
+	flex: 1 1 240px;
+	min-width: 220px;
+	height: 40px;
+	padding: 0 12px;
+	border-radius: 10px;
+	border: 1px solid rgba(30, 79, 93, 0.2);
+	background: #fff;
+}
+
+.history-match-count {
+	margin: 0 0 10px;
+	font-size: 0.85rem;
+	color: var(--muted);
 }
 
 .history-stats {

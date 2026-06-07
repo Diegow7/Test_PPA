@@ -8,6 +8,8 @@ const mensaje = document.getElementById("mensaje");
 const resultado = document.getElementById("resultado");
 const resumenErrores = document.getElementById("resumen-errores");
 const historial = document.getElementById("historial");
+const buscarHistorialInput = document.getElementById("buscar-historial");
+const historyMatchCount = document.getElementById("history-match-count");
 const btnExportarHistorial = document.getElementById("btn-exportar-historial");
 const btnLimpiarHistorial = document.getElementById("btn-limpiar-historial");
 const statTotal = document.getElementById("stat-total");
@@ -335,13 +337,31 @@ function cargarHistorial() {
     }
 
     const data = obtenerHistorialLocal();
+    const termino = buscarHistorialInput
+        ? buscarHistorialInput.value.trim().toLowerCase()
+        : "";
+
+    const dataFiltrada = termino
+        ? data.filter((item) => {
+            const contenido = `${item.placa} ${item.fecha} ${item.hora} ${item.resultado} ${item.timestamp}`
+                .toLowerCase();
+            return contenido.includes(termino);
+        })
+        : data;
+
     actualizarEstadisticas(data);
-    if (!data.length) {
+    if (historyMatchCount) {
+        historyMatchCount.textContent = termino
+            ? `Mostrando ${dataFiltrada.length} de ${data.length} consultas.`
+            : `Mostrando ${data.length} consultas.`;
+    }
+
+    if (!dataFiltrada.length) {
         historial.innerHTML = "<div class=\"history-item\">Sin consultas aun.</div>";
         return;
     }
 
-    historial.innerHTML = data.map((item) => {
+    historial.innerHTML = dataFiltrada.map((item) => {
         const clase = item.resultado === "Puede circular"
             ? "history-item history-item--ok"
             : "history-item history-item--error";
@@ -397,4 +417,8 @@ if (btnLimpiarHistorial) {
         cargarHistorial();
         setMensaje("Historial limpiado.", "ok");
     });
+}
+
+if (buscarHistorialInput) {
+    buscarHistorialInput.addEventListener("input", cargarHistorial);
 }
