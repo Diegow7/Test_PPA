@@ -469,6 +469,42 @@ button:disabled {
 	margin-bottom: 12px;
 }
 
+.history-stats {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 10px;
+	margin-bottom: 12px;
+}
+
+.stat-card {
+	padding: 10px 12px;
+	border-radius: 12px;
+	border: 1px solid rgba(30, 79, 93, 0.2);
+	background: #fff;
+	display: grid;
+	gap: 4px;
+}
+
+.stat-card span {
+	font-size: 0.8rem;
+	color: var(--muted);
+}
+
+.stat-card strong {
+	font-size: 1.15rem;
+	color: var(--accent-strong);
+}
+
+.stat-card--ok {
+	border-color: rgba(26, 123, 79, 0.25);
+	background: rgba(26, 123, 79, 0.08);
+}
+
+.stat-card--error {
+	border-color: rgba(155, 28, 28, 0.25);
+	background: rgba(155, 28, 28, 0.08);
+}
+
 .history-actions button {
 	height: 40px;
 	font-size: 0.9rem;
@@ -540,6 +576,10 @@ button:disabled {
 
 @media (max-width: 620px) {
 	.form-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.history-stats {
 		grid-template-columns: 1fr;
 	}
 

@@ -10,6 +10,9 @@ const resumenErrores = document.getElementById("resumen-errores");
 const historial = document.getElementById("historial");
 const btnExportarHistorial = document.getElementById("btn-exportar-historial");
 const btnLimpiarHistorial = document.getElementById("btn-limpiar-historial");
+const statTotal = document.getElementById("stat-total");
+const statOk = document.getElementById("stat-ok");
+const statError = document.getElementById("stat-error");
 
 const PREFIJOS_CARRO = ["ABC", "DEF", "GHI", "JKL", "MNO", "PQR", "STU", "XYZ"];
 const PREFIJOS_MOTO = ["AB", "CD", "EF", "GH", "JK", "LM", "NP", "QR", "ST", "UV"];
@@ -332,6 +335,7 @@ function cargarHistorial() {
     }
 
     const data = obtenerHistorialLocal();
+    actualizarEstadisticas(data);
     if (!data.length) {
         historial.innerHTML = "<div class=\"history-item\">Sin consultas aun.</div>";
         return;
@@ -349,6 +353,20 @@ function cargarHistorial() {
             </div>
         `;
     }).join("");
+}
+
+function actualizarEstadisticas(data) {
+    if (!statTotal || !statOk || !statError) {
+        return;
+    }
+
+    const total = data.length;
+    const ok = data.filter((item) => item.resultado === "Puede circular").length;
+    const error = total - ok;
+
+    statTotal.textContent = String(total);
+    statOk.textContent = String(ok);
+    statError.textContent = String(error);
 }
 
 function setDefaults() {
