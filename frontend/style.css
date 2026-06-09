@@ -528,6 +528,14 @@ button:disabled {
 	padding: 0 14px;
 }
 
+#btn-restaurar-historial {
+	background: linear-gradient(135deg, #c46a24, #ad5a1c);
+}
+
+.is-hidden {
+	display: none !important;
+}
+
 .history-item {
 	padding: 12px 14px;
 	border-radius: 12px;

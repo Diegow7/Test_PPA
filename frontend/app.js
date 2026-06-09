@@ -12,6 +12,7 @@ const buscarHistorialInput = document.getElementById("buscar-historial");
 const historyMatchCount = document.getElementById("history-match-count");
 const btnExportarHistorial = document.getElementById("btn-exportar-historial");
 const btnLimpiarHistorial = document.getElementById("btn-limpiar-historial");
+const btnRestaurarHistorial = document.getElementById("btn-restaurar-historial");
 const statTotal = document.getElementById("stat-total");
 const statOk = document.getElementById("stat-ok");
 const statError = document.getElementById("stat-error");
@@ -20,6 +21,7 @@ const PREFIJOS_CARRO = ["ABC", "DEF", "GHI", "JKL", "MNO", "PQR", "STU", "XYZ"];
 const PREFIJOS_MOTO = ["AB", "CD", "EF", "GH", "JK", "LM", "NP", "QR", "ST", "UV"];
 const HISTORY_KEY = "ppa_historial_consultas";
 const HISTORY_LIMIT = 20;
+let historialBorradoTemporal = null;
 
 function setMensaje(texto, tipo) {
     mensaje.textContent = texto;
@@ -296,7 +298,27 @@ function guardarConsultaLocal(consulta) {
 }
 
 function limpiarHistorialLocal() {
+    historialBorradoTemporal = obtenerHistorialLocal();
     localStorage.removeItem(HISTORY_KEY);
+}
+
+function restaurarHistorialLocal() {
+    if (!historialBorradoTemporal || !historialBorradoTemporal.length) {
+        return false;
+    }
+
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(historialBorradoTemporal));
+    historialBorradoTemporal = null;
+    return true;
+}
+
+function actualizarBotonRestaurar() {
+    if (!btnRestaurarHistorial) {
+        return;
+    }
+
+    const mostrar = Boolean(historialBorradoTemporal && historialBorradoTemporal.length);
+    btnRestaurarHistorial.classList.toggle("is-hidden", !mostrar);
 }
 
 function exportarHistorialCSV() {
@@ -416,9 +438,25 @@ if (btnLimpiarHistorial) {
         limpiarHistorialLocal();
         cargarHistorial();
         setMensaje("Historial limpiado.", "ok");
+        actualizarBotonRestaurar();
     });
 }
 
 if (buscarHistorialInput) {
     buscarHistorialInput.addEventListener("input", cargarHistorial);
 }
+
+if (btnRestaurarHistorial) {
+    btnRestaurarHistorial.addEventListener("click", () => {
+        const restaurado = restaurarHistorialLocal();
+        if (restaurado) {
+            cargarHistorial();
+            setMensaje("Historial restaurado.", "ok");
+        } else {
+            setMensaje("No hay historial para restaurar.", "error");
+        }
+        actualizarBotonRestaurar();
+    });
+}
+
+actualizarBotonRestaurar();
