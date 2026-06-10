@@ -435,6 +435,19 @@ button:disabled {
 	border: 1px solid rgba(30, 79, 93, 0.12);
 }
 
+.status-actions {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+	margin-top: 12px;
+}
+
+.status-actions button {
+	height: 40px;
+	font-size: 0.9rem;
+	padding: 0 14px;
+}
+
 .history {
 	margin-top: 18px;
 	padding: 16px;

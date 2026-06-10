@@ -13,6 +13,8 @@ const historyMatchCount = document.getElementById("history-match-count");
 const btnExportarHistorial = document.getElementById("btn-exportar-historial");
 const btnLimpiarHistorial = document.getElementById("btn-limpiar-historial");
 const btnRestaurarHistorial = document.getElementById("btn-restaurar-historial");
+const btnCopiarResultado = document.getElementById("btn-copiar-resultado");
+const btnLimpiarFormulario = document.getElementById("btn-limpiar-formulario");
 const statTotal = document.getElementById("stat-total");
 const statOk = document.getElementById("stat-ok");
 const statError = document.getElementById("stat-error");
@@ -37,6 +39,48 @@ function setMensaje(texto, tipo) {
 
     if (tipo === "warn") {
         mensaje.classList.add("mensaje--warn");
+    }
+}
+
+function limpiarFormulario() {
+    placaInput.value = "";
+    setDefaults();
+    mostrarResumenErrores([]);
+    setMensaje("Formulario limpio.", "ok");
+    resultado.textContent = "";
+    resultado.classList.remove("resultado--ok", "resultado--error");
+
+    [placaInput, fechaInput, horaInput].forEach((input) => {
+        input.classList.remove("is-invalid", "is-valid");
+        input.removeAttribute("aria-invalid");
+
+        const wrap = input.closest(".input-wrap");
+        const field = input.closest(".field");
+        const mensajeCampo = field ? field.querySelector(".field-message") : null;
+
+        if (wrap) {
+            wrap.classList.remove("input-wrap--invalid", "input-wrap--valid");
+        }
+
+        if (mensajeCampo) {
+            mensajeCampo.textContent = "";
+            mensajeCampo.classList.remove("field-message--visible");
+        }
+    });
+}
+
+async function copiarResultado() {
+    const texto = resultado.textContent.trim();
+    if (!texto) {
+        setMensaje("No hay resultado para copiar.", "error");
+        return;
+    }
+
+    try {
+        await navigator.clipboard.writeText(texto);
+        setMensaje("Resultado copiado.", "ok");
+    } catch {
+        setMensaje("No se pudo copiar el resultado.", "error");
     }
 }
 
@@ -457,6 +501,14 @@ if (btnRestaurarHistorial) {
         }
         actualizarBotonRestaurar();
     });
+}
+
+if (btnCopiarResultado) {
+    btnCopiarResultado.addEventListener("click", copiarResultado);
+}
+
+if (btnLimpiarFormulario) {
+    btnLimpiarFormulario.addEventListener("click", limpiarFormulario);
 }
 
 actualizarBotonRestaurar();
