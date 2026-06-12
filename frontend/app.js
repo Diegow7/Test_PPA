@@ -511,4 +511,23 @@ if (btnLimpiarFormulario) {
     btnLimpiarFormulario.addEventListener("click", limpiarFormulario);
 }
 
+document.addEventListener("keydown", (event) => {
+    const activeElement = document.activeElement;
+    const isTypingField = activeElement && (
+        activeElement.tagName === "INPUT"
+        || activeElement.tagName === "TEXTAREA"
+        || activeElement.isContentEditable
+    );
+
+    if (event.key === "Enter" && isTypingField && !btnConsultar.disabled) {
+        event.preventDefault();
+        validarVehiculo();
+    }
+
+    if (event.key === "Escape" && isTypingField && !btnConsultar.disabled) {
+        event.preventDefault();
+        limpiarFormulario();
+    }
+});
+
 actualizarBotonRestaurar();
