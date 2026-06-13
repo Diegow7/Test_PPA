@@ -15,6 +15,7 @@ const btnLimpiarHistorial = document.getElementById("btn-limpiar-historial");
 const btnRestaurarHistorial = document.getElementById("btn-restaurar-historial");
 const btnCopiarResultado = document.getElementById("btn-copiar-resultado");
 const btnLimpiarFormulario = document.getElementById("btn-limpiar-formulario");
+const restriccionesDia = document.getElementById("restricciones-dia");
 const statTotal = document.getElementById("stat-total");
 const statOk = document.getElementById("stat-ok");
 const statError = document.getElementById("stat-error");
@@ -23,6 +24,13 @@ const PREFIJOS_CARRO = ["ABC", "DEF", "GHI", "JKL", "MNO", "PQR", "STU", "XYZ"];
 const PREFIJOS_MOTO = ["AB", "CD", "EF", "GH", "JK", "LM", "NP", "QR", "ST", "UV"];
 const HISTORY_KEY = "ppa_historial_consultas";
 const HISTORY_LIMIT = 20;
+const RESTRICCIONES = {
+	"Monday": [1, 2],
+	"Tuesday": [3, 4],
+	"Wednesday": [5, 6],
+	"Thursday": [7, 8],
+	"Friday": [9, 0]
+};
 let historialBorradoTemporal = null;
 
 function setMensaje(texto, tipo) {
@@ -454,7 +462,26 @@ function actualizarEstadisticas(data) {
     statOk.textContent = String(ok);
     statError.textContent = String(error);
 }
+function mostrarRestriccionesDia() {
+	if (!restriccionesDia) {
+		return;
+	}
 
+	const hoy = new Date();
+	const dias = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+	const nombreDia = dias[hoy.getDay()];
+	const restringidas = RESTRICCIONES[nombreDia];
+
+	if (!restringidas) {
+		restriccionesDia.textContent = "Hoy no hay restricciones de pico y placa.";
+		restriccionesDia.classList.remove("restricciones-dia--empty");
+		return;
+	}
+
+	const digitosTexto = restringidas.join(", ");
+	restriccionesDia.textContent = `Hoy (${nombreDia}) están restringidas las placas terminadas en: ${digitosTexto}.`;
+	restriccionesDia.classList.remove("restricciones-dia--empty");
+}
 function setDefaults() {
     const now = new Date();
     const yyyy = now.getFullYear();
@@ -469,6 +496,7 @@ function setDefaults() {
 
 document.addEventListener("DOMContentLoaded", setDefaults);
 document.addEventListener("DOMContentLoaded", cargarHistorial);
+document.addEventListener("DOMContentLoaded", mostrarRestriccionesDia);
 placaInput.addEventListener("input", validarFormulario);
 fechaInput.addEventListener("change", validarFormulario);
 horaInput.addEventListener("change", validarFormulario);
