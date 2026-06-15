@@ -1,12 +1,11 @@
 # Proyecto Pico y Placa
 
-Sistema desarrollado con FastAPI y PostgreSQL para validar si un vehículo puede circular según las reglas de Pico y Placa.
+Sistema desarrollado con FastAPI y frontend web (HTML, CSS y JavaScript) para validar si un vehículo puede circular según las reglas de Pico y Placa.
 
 ## Tecnologías usadas
 
 - Python
 - FastAPI
-- PostgreSQL
 - HTML
 - CSS
 - JavaScript
@@ -16,7 +15,7 @@ Sistema desarrollado con FastAPI y PostgreSQL para validar si un vehículo puede
 - Validar circulación vehicular
 - Guardar historial de consultas
 - API REST
-- Frontend simple
+- Frontend con historial local (localStorage)
 
 ## Ejecutar proyecto
 

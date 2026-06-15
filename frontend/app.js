@@ -31,6 +31,15 @@ const RESTRICCIONES = {
 	"Thursday": [7, 8],
 	"Friday": [9, 0]
 };
+const DIA_ES = {
+    "Monday": "lunes",
+    "Tuesday": "martes",
+    "Wednesday": "miercoles",
+    "Thursday": "jueves",
+    "Friday": "viernes",
+    "Saturday": "sabado",
+    "Sunday": "domingo"
+};
 let historialBorradoTemporal = null;
 
 function setMensaje(texto, tipo) {
@@ -462,7 +471,7 @@ function actualizarEstadisticas(data) {
     statOk.textContent = String(ok);
     statError.textContent = String(error);
 }
-function mostrarRestriccionesDia() {
+async function mostrarRestriccionesDia() {
 	if (!restriccionesDia) {
 		return;
 	}
@@ -470,7 +479,32 @@ function mostrarRestriccionesDia() {
 	const hoy = new Date();
 	const dias = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 	const nombreDia = dias[hoy.getDay()];
-	const restringidas = RESTRICCIONES[nombreDia];
+    let restriccionesActuales = RESTRICCIONES;
+
+    try {
+        const response = await fetch("/reglas", {
+            headers: {
+                "X-API-Key": API_KEY
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            if (Array.isArray(data.restricciones_por_dia)) {
+                restriccionesActuales = data.restricciones_por_dia.reduce((acc, item) => {
+                    if (item && item.dia && Array.isArray(item.digitos)) {
+                        acc[item.dia] = item.digitos;
+                    }
+                    return acc;
+                }, {});
+            }
+        }
+    } catch {
+        restriccionesActuales = RESTRICCIONES;
+    }
+
+    const restringidas = restriccionesActuales[nombreDia];
+    const diaTexto = DIA_ES[nombreDia] || nombreDia;
 
 	if (!restringidas) {
 		restriccionesDia.textContent = "Hoy no hay restricciones de pico y placa.";
@@ -479,7 +513,7 @@ function mostrarRestriccionesDia() {
 	}
 
 	const digitosTexto = restringidas.join(", ");
-	restriccionesDia.textContent = `Hoy (${nombreDia}) están restringidas las placas terminadas en: ${digitosTexto}.`;
+    restriccionesDia.textContent = `Hoy (${diaTexto}) estan restringidas las placas terminadas en: ${digitosTexto}.`;
 	restriccionesDia.classList.remove("restricciones-dia--empty");
 }
 function setDefaults() {

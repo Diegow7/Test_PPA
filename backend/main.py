@@ -10,7 +10,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from pathlib import Path
 
-from pico_placa import puede_circular, obtener_info_placa, validar_entrada, _puede_circular
+from pico_placa import restricciones, validar_entrada, _puede_circular
 
 # Crear app
 app = FastAPI()
@@ -64,6 +64,17 @@ class Consulta(BaseModel):
     hora: str
     resultado: str
     timestamp: str
+
+class ReglaDia(BaseModel):
+    dia: str
+    digitos: list[int]
+
+class ReglasPicoPlaca(BaseModel):
+    prefijos_carro: list[str]
+    prefijos_moto: list[str]
+    horario_validacion: str
+    franjas_restringidas: list[str]
+    restricciones_por_dia: list[ReglaDia]
 
 def verificar_api_key(x_api_key: str | None = Header(default=None, alias="X-API-Key")):
     if not API_KEY:
@@ -159,6 +170,30 @@ def validar_vehiculo(
         _historial_consultas.pop()
 
     return respuesta
+
+@app.get("/health")
+def healthcheck():
+    return {
+        "status": "ok",
+        "timestamp": datetime.now().isoformat(timespec="seconds"),
+        "historial_consultas": len(_historial_consultas)
+    }
+
+@app.get("/reglas", response_model=ReglasPicoPlaca)
+def obtener_reglas(
+    _: str = Depends(verificar_api_key),
+    __: None = Depends(verificar_rate_limit)
+):
+    return {
+        "prefijos_carro": PREFIJOS_CARRO,
+        "prefijos_moto": PREFIJOS_MOTO,
+        "horario_validacion": "05:00-12:00",
+        "franjas_restringidas": ["07:00-09:30", "16:00-19:30"],
+        "restricciones_por_dia": [
+            {"dia": dia, "digitos": digitos}
+            for dia, digitos in restricciones.items()
+        ]
+    }
 
 @app.get("/historial", response_model=list[Consulta])
 def obtener_historial(
