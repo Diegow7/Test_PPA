@@ -437,13 +437,20 @@ button:disabled {
 
 .restricciones-dia {
 	margin-top: 12px;
-	padding: 12px 14px;
+	padding: 14px 16px;
 	border-radius: 12px;
 	background: rgba(196, 106, 36, 0.08);
 	border: 1px solid rgba(196, 106, 36, 0.2);
 	color: var(--accent-strong);
 	font-size: 0.9rem;
-	line-height: 1.5;
+	line-height: 1.6;
+}
+
+.restricciones-dia strong {
+	display: block;
+	font-weight: 700;
+	margin-bottom: 6px;
+	color: var(--error);
 }
 
 .restricciones-dia--empty {
