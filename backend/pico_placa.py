@@ -12,11 +12,17 @@ restricciones = {
 
 def _validar_placa(placa):
 
+    if placa is None:
+        raise ValueError("Placa invalida: es obligatoria")
+
+    if not isinstance(placa, str):
+        raise ValueError("Placa invalida: debe ser texto")
+
     # Normalizar la placa (por si viene con espacios o en minusculas)
     placa = placa.strip().upper()
 
-    # Quitar guiones y validar que solo tenga letras y numeros
-    placa = placa.replace("-", "")
+    # Quitar separadores comunes y validar que solo tenga letras y numeros
+    placa = re.sub(r"[-\s]", "", placa)
     if not placa:
         raise ValueError("Placa invalida: es obligatoria")
 

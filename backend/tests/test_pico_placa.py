@@ -54,6 +54,29 @@ def test_validar_entrada_fuera_rango_hora():
     assert errores["hora"] == "Hora invalida: rango permitido 05:00 a 12:00"
 
 
+def test_validar_entrada_placa_con_espacios_y_guiones():
+    info, _, _, errores = validar_entrada(
+        " ab-123 c ",
+        "2026-05-25",
+        "09:10"
+    )
+
+    assert errores == {}
+    assert info["placa"] == "AB123C"
+    assert info["tipo"] == "moto"
+
+
+def test_validar_entrada_placa_no_texto():
+    info, _, _, errores = validar_entrada(
+        None,
+        "2026-05-25",
+        "09:10"
+    )
+
+    assert info is None
+    assert errores["placa"] == "Placa invalida: es obligatoria"
+
+
 def test_puede_circular_restringido():
     assert puede_circular("ABC1231", "2026-05-25", "08:00") is False
 

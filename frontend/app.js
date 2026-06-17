@@ -111,7 +111,7 @@ function setLoading(estado) {
 }
 
 function normalizarPlaca(valor) {
-    return valor.trim().toUpperCase().replace("-", "");
+    return String(valor ?? "").trim().toUpperCase().replace(/[-\s]/g, "");
 }
 
 function validarPlaca(valor) {
