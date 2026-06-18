@@ -35,6 +35,7 @@ def test_reglas_ok():
     data = response.json()
     assert "prefijos_carro" in data
     assert "prefijos_moto" in data
+    assert data["horario_validacion"] == "05:00-19:30"
     assert "restricciones_por_dia" in data
 
     monday = next(item for item in data["restricciones_por_dia"] if item["dia"] == "Monday")

@@ -48,10 +48,10 @@ def test_validar_entrada_fuera_rango_hora():
     _, _, _, errores = validar_entrada(
         "ABC1234",
         "2026-05-25",
-        "13:00"
+        "20:00"
     )
 
-    assert errores["hora"] == "Hora invalida: rango permitido 05:00 a 12:00"
+    assert errores["hora"] == "Hora invalida: rango permitido 05:00 a 19:30"
 
 
 def test_validar_entrada_placa_con_espacios_y_guiones():
@@ -79,6 +79,10 @@ def test_validar_entrada_placa_no_texto():
 
 def test_puede_circular_restringido():
     assert puede_circular("ABC1231", "2026-05-25", "08:00") is False
+
+
+def test_puede_circular_restringido_tarde():
+    assert puede_circular("ABC1231", "2026-05-25", "16:30") is False
 
 
 def test_puede_circular_permitido():

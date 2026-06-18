@@ -182,9 +182,9 @@ function validarHora(valor) {
 
     const totalMinutos = horas * 60 + minutos;
     const inicio = 5 * 60;
-    const fin = 12 * 60;
+    const fin = 19 * 60 + 30;
     if (totalMinutos < inicio || totalMinutos > fin) {
-        return "Hora fuera de rango: 05:00 a 12:00";
+        return "Hora fuera de rango: 05:00 a 19:30";
     }
 
     return "";

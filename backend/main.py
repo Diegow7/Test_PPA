@@ -187,7 +187,7 @@ def obtener_reglas(
     return {
         "prefijos_carro": PREFIJOS_CARRO,
         "prefijos_moto": PREFIJOS_MOTO,
-        "horario_validacion": "05:00-12:00",
+        "horario_validacion": "05:00-19:30",
         "franjas_restringidas": ["07:00-09:30", "16:00-19:30"],
         "restricciones_por_dia": [
             {"dia": dia, "digitos": digitos}

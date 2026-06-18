@@ -80,9 +80,9 @@ def _validar_hora(hora):
         raise ValueError("Hora invalida: formato esperado HH:MM") from exc
 
     hora_inicio = datetime.strptime("05:00", "%H:%M").time()
-    hora_fin = datetime.strptime("12:00", "%H:%M").time()
+    hora_fin = datetime.strptime("19:30", "%H:%M").time()
     if not (hora_inicio <= hora_obj <= hora_fin):
-        raise ValueError("Hora invalida: rango permitido 05:00 a 12:00")
+        raise ValueError("Hora invalida: rango permitido 05:00 a 19:30")
 
     return hora_obj
 
