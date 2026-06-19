@@ -171,6 +171,55 @@ def validar_vehiculo(
 
     return respuesta
 
+@app.post("/simular")
+def simular_vehiculo(
+    vehiculo: Vehiculo,
+    _: str = Depends(verificar_api_key),
+    __: None = Depends(verificar_rate_limit)
+):
+    try:
+        info_placa, fecha_obj, hora_obj, errores = validar_entrada(
+            vehiculo.placa,
+            vehiculo.fecha,
+            vehiculo.hora
+        )
+        if errores:
+            raise HTTPException(status_code=400, detail=errores)
+
+        permitido = _puede_circular(
+            info_placa["ultimo_digito"],
+            fecha_obj,
+            hora_obj
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    errores_prefijo = {}
+    prefijos_config = (
+        PREFIJOS_CARRO if info_placa["tipo"] == "carro" else PREFIJOS_MOTO
+    )
+    if prefijos_config and info_placa["prefijo"] not in prefijos_config:
+        errores_prefijo["placa"] = (
+            "Prefijo no reconocido para "
+            f"{info_placa['tipo']}: {info_placa['prefijo']}"
+        )
+        raise HTTPException(status_code=400, detail=errores_prefijo)
+
+    resultado = (
+        "Puede circular"
+        if permitido
+        else
+        "No puede circular"
+    )
+
+    return {
+        "placa": vehiculo.placa,
+        "fecha": vehiculo.fecha,
+        "hora": vehiculo.hora,
+        "resultado": resultado,
+        "simulado": True
+    }
+
 @app.get("/health")
 def healthcheck():
     return {

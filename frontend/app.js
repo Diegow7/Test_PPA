@@ -15,6 +15,7 @@ const btnLimpiarHistorial = document.getElementById("btn-limpiar-historial");
 const btnRestaurarHistorial = document.getElementById("btn-restaurar-historial");
 const btnCopiarResultado = document.getElementById("btn-copiar-resultado");
 const btnLimpiarFormulario = document.getElementById("btn-limpiar-formulario");
+const guardarHistorialCheckbox = document.getElementById("guardar-historial");
 const restriccionesDia = document.getElementById("restricciones-dia");
 const statTotal = document.getElementById("stat-total");
 const statOk = document.getElementById("stat-ok");
@@ -279,7 +280,8 @@ async function validarVehiculo() {
     setLoading(true);
 
     try {
-        const response = await fetch("/validar", {
+        const endpoint = guardarHistorialCheckbox && guardarHistorialCheckbox.checked ? "/validar" : "/simular";
+        const response = await fetch(endpoint, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -316,14 +318,19 @@ async function validarVehiculo() {
         setMensaje("Consulta lista", "ok");
         resultado.textContent = data.resultado;
         resultado.classList.add("resultado--ok");
-        guardarConsultaLocal({
-            placa: placaInput.value,
-            fecha: fechaInput.value,
-            hora: horaInput.value,
-            resultado: data.resultado,
-            timestamp: new Date().toISOString().slice(0, 19)
-        });
-        cargarHistorial();
+        
+        if (guardarHistorialCheckbox && guardarHistorialCheckbox.checked) {
+            guardarConsultaLocal({
+                placa: placaInput.value,
+                fecha: fechaInput.value,
+                hora: horaInput.value,
+                resultado: data.resultado,
+                timestamp: new Date().toISOString().slice(0, 19)
+            });
+            cargarHistorial();
+        } else {
+            setMensaje("Consulta simulada (sin guardar)", "ok");
+        }
     } catch (error) {
         setMensaje("No se pudo conectar. Intenta de nuevo.", "error");
         resultado.textContent = "";
