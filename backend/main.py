@@ -250,3 +250,15 @@ def obtener_historial(
     __: None = Depends(verificar_rate_limit)
 ):
     return _historial_consultas
+
+@app.post("/historial/limpiar")
+def limpiar_historial(
+    _: str = Depends(verificar_api_key),
+    __: None = Depends(verificar_rate_limit)
+):
+    cantidad = len(_historial_consultas)
+    _historial_consultas.clear()
+    return {
+        "historial_vacio": True,
+        "eliminadas": cantidad
+    }
