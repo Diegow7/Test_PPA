@@ -102,81 +102,7 @@ def verificar_rate_limit(request: Request):
 
     bucket.append(now)
 
-# Ruta principal
-@app.get("/")
-def home():
-    return FileResponse(frontend_dir / "index.html")
-
-# Ruta para validar circulación
-@app.post("/validar")
-def validar_vehiculo(
-    vehiculo: Vehiculo,
-    _: str = Depends(verificar_api_key),
-    __: None = Depends(verificar_rate_limit)
-):
-    try:
-        info_placa, fecha_obj, hora_obj, errores = validar_entrada(
-            vehiculo.placa,
-            vehiculo.fecha,
-            vehiculo.hora
-        )
-        if errores:
-            raise HTTPException(status_code=400, detail=errores)
-
-        permitido = _puede_circular(
-            info_placa["ultimo_digito"],
-            fecha_obj,
-            hora_obj
-        )
-    except ValueError as exc:
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
-
-    errores_prefijo = {}
-    prefijos_config = (
-        PREFIJOS_CARRO if info_placa["tipo"] == "carro" else PREFIJOS_MOTO
-    )
-    if prefijos_config and info_placa["prefijo"] not in prefijos_config:
-        errores_prefijo["placa"] = (
-            "Prefijo no reconocido para "
-            f"{info_placa['tipo']}: {info_placa['prefijo']}"
-        )
-        raise HTTPException(status_code=400, detail=errores_prefijo)
-
-    # Resultado texto
-    resultado = (
-        "Puede circular"
-        if permitido
-        else
-        "No puede circular"
-    )
-
-    # Respuesta
-    respuesta = {
-        "placa": vehiculo.placa,
-        "fecha": vehiculo.fecha,
-        "hora": vehiculo.hora,
-        "resultado": resultado
-    }
-
-    _historial_consultas.insert(0, {
-        "placa": vehiculo.placa,
-        "fecha": vehiculo.fecha,
-        "hora": vehiculo.hora,
-        "resultado": resultado,
-        "timestamp": datetime.now().isoformat(timespec="seconds")
-    })
-
-    if len(_historial_consultas) > HISTORY_LIMIT:
-        _historial_consultas.pop()
-
-    return respuesta
-
-@app.post("/simular")
-def simular_vehiculo(
-    vehiculo: Vehiculo,
-    _: str = Depends(verificar_api_key),
-    __: None = Depends(verificar_rate_limit)
-):
+def _procesar_consulta(vehiculo: Vehiculo) -> dict:
     try:
         info_placa, fecha_obj, hora_obj, errores = validar_entrada(
             vehiculo.placa,
@@ -216,9 +142,45 @@ def simular_vehiculo(
         "placa": vehiculo.placa,
         "fecha": vehiculo.fecha,
         "hora": vehiculo.hora,
-        "resultado": resultado,
-        "simulado": True
+        "resultado": resultado
     }
+
+# Ruta principal
+@app.get("/")
+def home():
+    return FileResponse(frontend_dir / "index.html")
+
+# Ruta para validar circulación
+@app.post("/validar")
+def validar_vehiculo(
+    vehiculo: Vehiculo,
+    _: str = Depends(verificar_api_key),
+    __: None = Depends(verificar_rate_limit)
+):
+    respuesta = _procesar_consulta(vehiculo)
+
+    _historial_consultas.insert(0, {
+        "placa": vehiculo.placa,
+        "fecha": vehiculo.fecha,
+        "hora": vehiculo.hora,
+        "resultado": respuesta["resultado"],
+        "timestamp": datetime.now().isoformat(timespec="seconds")
+    })
+
+    if len(_historial_consultas) > HISTORY_LIMIT:
+        _historial_consultas.pop()
+
+    return respuesta
+
+@app.post("/simular")
+def simular_vehiculo(
+    vehiculo: Vehiculo,
+    _: str = Depends(verificar_api_key),
+    __: None = Depends(verificar_rate_limit)
+):
+    respuesta = _procesar_consulta(vehiculo)
+    respuesta["simulado"] = True
+    return respuesta
 
 @app.get("/health")
 def healthcheck():
