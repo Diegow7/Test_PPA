@@ -422,6 +422,17 @@ function actualizarBotonRestaurar() {
     btnRestaurarHistorial.classList.toggle("is-hidden", !mostrar);
 }
 
+function actualizarEstadoBotonLimpiarHistorial() {
+    if (!btnLimpiarHistorial) {
+        return;
+    }
+
+    const total = obtenerHistorialLocal().length;
+    const deshabilitado = total === 0;
+    btnLimpiarHistorial.disabled = deshabilitado;
+    btnLimpiarHistorial.setAttribute("aria-disabled", String(deshabilitado));
+}
+
 function exportarHistorialCSV() {
     const data = obtenerHistorialLocal();
     if (!data.length) {
@@ -460,6 +471,7 @@ function cargarHistorial() {
     }
 
     const data = obtenerHistorialLocal();
+    actualizarEstadoBotonLimpiarHistorial();
     const termino = buscarHistorialInput
         ? buscarHistorialInput.value.trim().toLowerCase()
         : "";
@@ -643,3 +655,4 @@ document.addEventListener("keydown", (event) => {
 
 actualizarBotonRestaurar();
 actualizarTextoBotonConsulta();
+actualizarEstadoBotonLimpiarHistorial();
