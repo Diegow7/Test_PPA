@@ -104,11 +104,25 @@ async function copiarResultado() {
 
 function setLoading(estado) {
     btnConsultar.disabled = estado;
-    btnConsultar.textContent = estado ? "Consultando..." : "Consultar estado";
+    btnConsultar.textContent = estado ? "Consultando..." : obtenerTextoBotonConsulta();
     placaInput.disabled = estado;
     fechaInput.disabled = estado;
     horaInput.disabled = estado;
     btnConsultar.setAttribute("aria-busy", estado);
+}
+
+function obtenerTextoBotonConsulta() {
+    return guardarHistorialCheckbox && !guardarHistorialCheckbox.checked
+        ? "Simular estado"
+        : "Consultar estado";
+}
+
+function actualizarTextoBotonConsulta() {
+    if (!btnConsultar || btnConsultar.disabled) {
+        return;
+    }
+
+    btnConsultar.textContent = obtenerTextoBotonConsulta();
 }
 
 function normalizarPlaca(valor) {
@@ -604,6 +618,10 @@ if (btnLimpiarFormulario) {
     btnLimpiarFormulario.addEventListener("click", limpiarFormulario);
 }
 
+if (guardarHistorialCheckbox) {
+    guardarHistorialCheckbox.addEventListener("change", actualizarTextoBotonConsulta);
+}
+
 document.addEventListener("keydown", (event) => {
     const activeElement = document.activeElement;
     const isTypingField = activeElement && (
@@ -624,3 +642,4 @@ document.addEventListener("keydown", (event) => {
 });
 
 actualizarBotonRestaurar();
+actualizarTextoBotonConsulta();
