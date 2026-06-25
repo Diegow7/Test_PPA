@@ -370,6 +370,25 @@ function limpiarHistorialLocal() {
     localStorage.removeItem(HISTORY_KEY);
 }
 
+async function limpiarHistorialServidor() {
+    try {
+        const response = await fetch("/historial/limpiar", {
+            method: "POST",
+            headers: {
+                "X-API-Key": API_KEY
+            }
+        });
+
+        if (!response.ok) {
+            return false;
+        }
+
+        return true;
+    } catch {
+        return false;
+    }
+}
+
 function restaurarHistorialLocal() {
     if (!historialBorradoTemporal || !historialBorradoTemporal.length) {
         return false;
@@ -547,10 +566,15 @@ if (btnExportarHistorial) {
 }
 
 if (btnLimpiarHistorial) {
-    btnLimpiarHistorial.addEventListener("click", () => {
+    btnLimpiarHistorial.addEventListener("click", async () => {
         limpiarHistorialLocal();
         cargarHistorial();
-        setMensaje("Historial limpiado.", "ok");
+        const limpiadoServidor = await limpiarHistorialServidor();
+        if (limpiadoServidor) {
+            setMensaje("Historial local y servidor limpiados.", "ok");
+        } else {
+            setMensaje("Historial local limpiado.", "warn");
+        }
         actualizarBotonRestaurar();
     });
 }
