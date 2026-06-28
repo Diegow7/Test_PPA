@@ -79,6 +79,18 @@ def test_validar_entrada_fecha_y_hora_con_espacios():
     assert hora_obj.strftime("%H:%M") == "08:00"
 
 
+def test_validar_entrada_fecha_con_barras():
+    info, fecha_obj, _, errores = validar_entrada(
+        "ABC1234",
+        "2026/05/25",
+        "08:00"
+    )
+
+    assert errores == {}
+    assert info["tipo"] == "carro"
+    assert fecha_obj.strftime("%Y-%m-%d") == "2026-05-25"
+
+
 def test_validar_entrada_placa_no_texto():
     info, _, _, errores = validar_entrada(
         None,

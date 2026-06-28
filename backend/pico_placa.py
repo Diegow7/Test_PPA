@@ -61,7 +61,7 @@ def _validar_fecha(fecha):
         raise ValueError("Fecha invalida: es obligatoria")
 
     if isinstance(fecha, str):
-        fecha = fecha.strip()
+        fecha = fecha.strip().replace("/", "-")
 
     if not fecha:
         raise ValueError("Fecha invalida: es obligatoria")
