@@ -32,6 +32,7 @@ const RESTRICCIONES = {
 	"Thursday": [7, 8],
 	"Friday": [9, 0]
 };
+const FRANJAS_RESTRINGIDAS = ["07:00-09:30", "16:00-19:30"];
 const DIA_ES = {
     "Monday": "lunes",
     "Tuesday": "martes",
@@ -532,6 +533,7 @@ async function mostrarRestriccionesDia() {
 	const dias = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 	const nombreDia = dias[hoy.getDay()];
     let restriccionesActuales = RESTRICCIONES;
+    let franjasActuales = FRANJAS_RESTRINGIDAS;
 
     try {
         const response = await fetch("/reglas", {
@@ -550,9 +552,14 @@ async function mostrarRestriccionesDia() {
                     return acc;
                 }, {});
             }
+
+            if (Array.isArray(data.franjas_restringidas) && data.franjas_restringidas.length) {
+                franjasActuales = data.franjas_restringidas;
+            }
         }
     } catch {
         restriccionesActuales = RESTRICCIONES;
+        franjasActuales = FRANJAS_RESTRINGIDAS;
     }
 
     const restringidas = restriccionesActuales[nombreDia];
@@ -565,7 +572,8 @@ async function mostrarRestriccionesDia() {
 	}
 
 	const digitosTexto = restringidas.join(", ");
-    restriccionesDia.textContent = `Hoy (${diaTexto}) estan restringidas las placas terminadas en: ${digitosTexto}.`;
+    const franjasTexto = franjasActuales.join(" y ");
+    restriccionesDia.textContent = `Hoy (${diaTexto}) estan restringidas las placas terminadas en: ${digitosTexto}. Horarios: ${franjasTexto}.`;
 	restriccionesDia.classList.remove("restricciones-dia--empty");
 }
 function setDefaults() {
