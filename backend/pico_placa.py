@@ -60,6 +60,12 @@ def _validar_fecha(fecha):
     if not fecha:
         raise ValueError("Fecha invalida: es obligatoria")
 
+    if isinstance(fecha, str):
+        fecha = fecha.strip()
+
+    if not fecha:
+        raise ValueError("Fecha invalida: es obligatoria")
+
     try:
         fecha_obj = datetime.strptime(fecha, "%Y-%m-%d")
     except ValueError as exc:
@@ -71,6 +77,12 @@ def _validar_fecha(fecha):
     return fecha_obj
 
 def _validar_hora(hora):
+    if not hora:
+        raise ValueError("Hora invalida: es obligatoria")
+
+    if isinstance(hora, str):
+        hora = hora.strip()
+
     if not hora:
         raise ValueError("Hora invalida: es obligatoria")
 
