@@ -10,6 +10,13 @@ restricciones = {
     "Friday": [9, 0]
 }
 
+HORA_INICIO_VALIDACION = datetime.strptime("05:00", "%H:%M").time()
+HORA_FIN_VALIDACION = datetime.strptime("19:30", "%H:%M").time()
+MANANA_INICIO = datetime.strptime("07:00", "%H:%M").time()
+MANANA_FIN = datetime.strptime("09:30", "%H:%M").time()
+TARDE_INICIO = datetime.strptime("16:00", "%H:%M").time()
+TARDE_FIN = datetime.strptime("19:30", "%H:%M").time()
+
 def _validar_placa(placa):
 
     if placa is None:
@@ -91,9 +98,7 @@ def _validar_hora(hora):
     except ValueError as exc:
         raise ValueError("Hora invalida: formato esperado HH:MM") from exc
 
-    hora_inicio = datetime.strptime("05:00", "%H:%M").time()
-    hora_fin = datetime.strptime("19:30", "%H:%M").time()
-    if not (hora_inicio <= hora_obj <= hora_fin):
+    if not (HORA_INICIO_VALIDACION <= hora_obj <= HORA_FIN_VALIDACION):
         raise ValueError("Hora invalida: rango permitido 05:00 a 19:30")
 
     return hora_obj
@@ -125,18 +130,11 @@ def _puede_circular(ultimo_digito, fecha_obj, hora_obj):
     # Obtener día de la semana
     dia_semana = fecha_obj.strftime("%A")
 
-    # Horarios restringidos
-    manana_inicio = datetime.strptime("07:00", "%H:%M").time()
-    manana_fin = datetime.strptime("09:30", "%H:%M").time()
-
-    tarde_inicio = datetime.strptime("16:00", "%H:%M").time()
-    tarde_fin = datetime.strptime("19:30", "%H:%M").time()
-
     # Verificar si está en horario restringido
     en_horario_restringido = (
-        manana_inicio <= hora_obj <= manana_fin
+        MANANA_INICIO <= hora_obj <= MANANA_FIN
         or
-        tarde_inicio <= hora_obj <= tarde_fin
+        TARDE_INICIO <= hora_obj <= TARDE_FIN
     )
 
     # Verificar restricción del día
