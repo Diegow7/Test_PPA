@@ -130,6 +130,15 @@ function normalizarPlaca(valor) {
     return String(valor ?? "").trim().toUpperCase().replace(/[-\s]/g, "");
 }
 
+function escapeHtml(valor) {
+    return String(valor)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
 function validarPlaca(valor) {
     const placa = normalizarPlaca(valor);
 
@@ -503,9 +512,9 @@ function cargarHistorial() {
             : "history-item history-item--error";
         return `
             <div class="${clase}">
-                <strong>${item.resultado}</strong>
-                <span>${item.placa} · ${item.fecha} · ${item.hora}</span>
-                <span>${item.timestamp}</span>
+                <strong>${escapeHtml(item.resultado)}</strong>
+                <span>${escapeHtml(item.placa)} · ${escapeHtml(item.fecha)} · ${escapeHtml(item.hora)}</span>
+                <span>${escapeHtml(item.timestamp)}</span>
             </div>
         `;
     }).join("");
