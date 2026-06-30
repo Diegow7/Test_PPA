@@ -19,6 +19,11 @@ API_KEY = os.getenv("API_KEY")
 RATE_LIMIT_MAX = int(os.getenv("RATE_LIMIT_MAX", "30"))
 RATE_LIMIT_WINDOW_SEC = int(os.getenv("RATE_LIMIT_WINDOW_SEC", "60"))
 HISTORY_LIMIT = int(os.getenv("HISTORY_LIMIT", "20"))
+CORS_ORIGINS = [
+    origen.strip()
+    for origen in os.getenv("CORS_ORIGINS", "http://localhost:8000").split(",")
+    if origen.strip()
+]
 
 def _parse_prefijos(valor):
     if not valor:
@@ -46,7 +51,7 @@ app.mount("/static", StaticFiles(directory=frontend_dir), name="static")
 # Permitir conexión frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
