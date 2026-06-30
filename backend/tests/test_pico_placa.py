@@ -102,6 +102,19 @@ def test_validar_entrada_placa_no_texto():
     assert errores["placa"] == "Placa invalida: es obligatoria"
 
 
+def test_validar_entrada_fecha_y_hora_no_texto():
+    _, fecha_obj, hora_obj, errores = validar_entrada(
+        "ABC1234",
+        20260525,
+        800
+    )
+
+    assert fecha_obj is None
+    assert hora_obj is None
+    assert errores["fecha"] == "Fecha invalida: debe ser texto"
+    assert errores["hora"] == "Hora invalida: debe ser texto"
+
+
 def test_puede_circular_restringido():
     assert puede_circular("ABC1231", "2026-05-25", "08:00") is False
 

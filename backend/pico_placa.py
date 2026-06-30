@@ -67,8 +67,10 @@ def _validar_fecha(fecha):
     if not fecha:
         raise ValueError("Fecha invalida: es obligatoria")
 
-    if isinstance(fecha, str):
-        fecha = fecha.strip().replace("/", "-")
+    if not isinstance(fecha, str):
+        raise ValueError("Fecha invalida: debe ser texto")
+
+    fecha = fecha.strip().replace("/", "-")
 
     if not fecha:
         raise ValueError("Fecha invalida: es obligatoria")
@@ -87,8 +89,10 @@ def _validar_hora(hora):
     if not hora:
         raise ValueError("Hora invalida: es obligatoria")
 
-    if isinstance(hora, str):
-        hora = hora.strip()
+    if not isinstance(hora, str):
+        raise ValueError("Hora invalida: debe ser texto")
+
+    hora = hora.strip()
 
     if not hora:
         raise ValueError("Hora invalida: es obligatoria")
