@@ -453,7 +453,7 @@ function exportarHistorialCSV() {
         .map((fila) => fila.map((valor) => `"${String(valor).replace(/"/g, '""')}"`).join(","))
         .join("\n");
 
-    const blob = new Blob([contenido], { type: "text/csv;charset=utf-8;" });
+    const blob = new Blob(["\uFEFF", contenido], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const enlace = document.createElement("a");
     enlace.href = url;
