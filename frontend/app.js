@@ -597,6 +597,8 @@ function setDefaults() {
     document.getElementById("fecha").value = hoy;
     document.getElementById("fecha").max = hoy;
     document.getElementById("hora").value = `${hh}:${min}`;
+    document.getElementById("hora").min = "05:00";
+    document.getElementById("hora").max = "19:30";
 }
 
 document.addEventListener("DOMContentLoaded", setDefaults);
