@@ -593,7 +593,9 @@ function setDefaults() {
     const hh = String(now.getHours()).padStart(2, "0");
     const min = String(now.getMinutes()).padStart(2, "0");
 
-    document.getElementById("fecha").value = `${yyyy}-${mm}-${dd}`;
+    const hoy = `${yyyy}-${mm}-${dd}`;
+    document.getElementById("fecha").value = hoy;
+    document.getElementById("fecha").max = hoy;
     document.getElementById("hora").value = `${hh}:${min}`;
 }
 
