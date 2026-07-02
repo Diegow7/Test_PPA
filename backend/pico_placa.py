@@ -17,6 +17,20 @@ MANANA_FIN = datetime.strptime("09:30", "%H:%M").time()
 TARDE_INICIO = datetime.strptime("16:00", "%H:%M").time()
 TARDE_FIN = datetime.strptime("19:30", "%H:%M").time()
 
+def _normalizar_texto_obligatorio(valor, mensaje_error):
+    if not valor:
+        raise ValueError(mensaje_error)
+
+    if not isinstance(valor, str):
+        raise ValueError(mensaje_error.replace("es obligatoria", "debe ser texto").replace("es obligatorio", "debe ser texto"))
+
+    valor = valor.strip()
+
+    if not valor:
+        raise ValueError(mensaje_error)
+
+    return valor
+
 def _validar_placa(placa):
 
     if placa is None:
@@ -64,16 +78,8 @@ def obtener_info_placa(placa):
     }
 
 def _validar_fecha(fecha):
-    if not fecha:
-        raise ValueError("Fecha invalida: es obligatoria")
-
-    if not isinstance(fecha, str):
-        raise ValueError("Fecha invalida: debe ser texto")
-
-    fecha = fecha.strip().replace("/", "-")
-
-    if not fecha:
-        raise ValueError("Fecha invalida: es obligatoria")
+    fecha = _normalizar_texto_obligatorio(fecha, "Fecha invalida: es obligatoria")
+    fecha = fecha.replace("/", "-")
 
     try:
         fecha_obj = datetime.strptime(fecha, "%Y-%m-%d")
@@ -86,16 +92,7 @@ def _validar_fecha(fecha):
     return fecha_obj
 
 def _validar_hora(hora):
-    if not hora:
-        raise ValueError("Hora invalida: es obligatoria")
-
-    if not isinstance(hora, str):
-        raise ValueError("Hora invalida: debe ser texto")
-
-    hora = hora.strip()
-
-    if not hora:
-        raise ValueError("Hora invalida: es obligatoria")
+    hora = _normalizar_texto_obligatorio(hora, "Hora invalida: es obligatoria")
 
     try:
         hora_obj = datetime.strptime(hora, "%H:%M").time()
