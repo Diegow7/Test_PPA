@@ -20,6 +20,7 @@ def test_healthcheck_ok():
     assert "timestamp" in data
     assert "historial_consultas" in data
     assert "uptime_seconds" in data
+    assert "api_key_configurada" in data
 
 
 def test_reglas_requiere_api_key():
