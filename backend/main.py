@@ -14,6 +14,7 @@ from pico_placa import restricciones, validar_entrada, _puede_circular
 
 # Crear app
 app = FastAPI()
+APP_START_TIME = time.time()
 
 API_KEY = os.getenv("API_KEY")
 RATE_LIMIT_MAX = int(os.getenv("RATE_LIMIT_MAX", "30"))
@@ -192,7 +193,8 @@ def healthcheck():
     return {
         "status": "ok",
         "timestamp": datetime.now().isoformat(timespec="seconds"),
-        "historial_consultas": len(_historial_consultas)
+        "historial_consultas": len(_historial_consultas),
+        "uptime_seconds": round(time.time() - APP_START_TIME, 2)
     }
 
 @app.get("/reglas", response_model=ReglasPicoPlaca)

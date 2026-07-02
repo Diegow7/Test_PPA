@@ -19,6 +19,7 @@ def test_healthcheck_ok():
     assert data["status"] == "ok"
     assert "timestamp" in data
     assert "historial_consultas" in data
+    assert "uptime_seconds" in data
 
 
 def test_reglas_requiere_api_key():
