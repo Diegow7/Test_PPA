@@ -10,7 +10,17 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from pathlib import Path
 
-from pico_placa import restricciones, validar_entrada, _puede_circular
+from pico_placa import (
+    HORA_FIN_VALIDACION,
+    HORA_INICIO_VALIDACION,
+    MANANA_FIN,
+    MANANA_INICIO,
+    TARDE_FIN,
+    TARDE_INICIO,
+    restricciones,
+    validar_entrada,
+    _puede_circular,
+)
 
 # Crear app
 app = FastAPI()
@@ -206,8 +216,14 @@ def obtener_reglas(
     return {
         "prefijos_carro": PREFIJOS_CARRO,
         "prefijos_moto": PREFIJOS_MOTO,
-        "horario_validacion": "05:00-19:30",
-        "franjas_restringidas": ["07:00-09:30", "16:00-19:30"],
+        "horario_validacion": (
+            f"{HORA_INICIO_VALIDACION.strftime('%H:%M')}-"
+            f"{HORA_FIN_VALIDACION.strftime('%H:%M')}"
+        ),
+        "franjas_restringidas": [
+            f"{MANANA_INICIO.strftime('%H:%M')}-{MANANA_FIN.strftime('%H:%M')}",
+            f"{TARDE_INICIO.strftime('%H:%M')}-{TARDE_FIN.strftime('%H:%M')}"
+        ],
         "restricciones_por_dia": [
             {"dia": dia, "digitos": digitos}
             for dia, digitos in restricciones.items()
