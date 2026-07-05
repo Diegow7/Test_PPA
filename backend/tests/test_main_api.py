@@ -72,3 +72,4 @@ def test_limpiar_historial_ok():
     data = response.json()
     assert data["historial_vacio"] is True
     assert data["eliminadas"] >= 1
+    assert data["restantes"] == 0
