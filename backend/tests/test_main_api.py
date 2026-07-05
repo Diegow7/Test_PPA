@@ -60,7 +60,9 @@ def test_simular_ok():
 def test_limpiar_historial_ok():
     headers = _headers()
 
-    client.post("/simular", headers=headers, json={
+    client.post("/historial/limpiar", headers=headers)
+
+    client.post("/validar", headers=headers, json={
         "placa": "ABC1230",
         "fecha": "2026-05-25",
         "hora": "10:30"
