@@ -1,6 +1,9 @@
 from datetime import datetime
 import re
 
+FORMATO_FECHA = "%Y-%m-%d"
+FORMATO_HORA = "%H:%M"
+
 # Restricciones por día
 restricciones = {
     "Monday": [1, 2],
@@ -10,12 +13,12 @@ restricciones = {
     "Friday": [9, 0]
 }
 
-HORA_INICIO_VALIDACION = datetime.strptime("05:00", "%H:%M").time()
-HORA_FIN_VALIDACION = datetime.strptime("19:30", "%H:%M").time()
-MANANA_INICIO = datetime.strptime("07:00", "%H:%M").time()
-MANANA_FIN = datetime.strptime("09:30", "%H:%M").time()
-TARDE_INICIO = datetime.strptime("16:00", "%H:%M").time()
-TARDE_FIN = datetime.strptime("19:30", "%H:%M").time()
+HORA_INICIO_VALIDACION = datetime.strptime("05:00", FORMATO_HORA).time()
+HORA_FIN_VALIDACION = datetime.strptime("19:30", FORMATO_HORA).time()
+MANANA_INICIO = datetime.strptime("07:00", FORMATO_HORA).time()
+MANANA_FIN = datetime.strptime("09:30", FORMATO_HORA).time()
+TARDE_INICIO = datetime.strptime("16:00", FORMATO_HORA).time()
+TARDE_FIN = datetime.strptime("19:30", FORMATO_HORA).time()
 
 def _normalizar_texto_obligatorio(valor, mensaje_obligatorio, mensaje_tipo):
     if not valor:
@@ -86,7 +89,7 @@ def _validar_fecha(fecha):
     fecha = fecha.replace("/", "-")
 
     try:
-        fecha_obj = datetime.strptime(fecha, "%Y-%m-%d")
+        fecha_obj = datetime.strptime(fecha, FORMATO_FECHA)
     except ValueError as exc:
         raise ValueError("Fecha invalida: formato esperado YYYY-MM-DD") from exc
 
@@ -103,7 +106,7 @@ def _validar_hora(hora):
     )
 
     try:
-        hora_obj = datetime.strptime(hora, "%H:%M").time()
+        hora_obj = datetime.strptime(hora, FORMATO_HORA).time()
     except ValueError as exc:
         raise ValueError("Hora invalida: formato esperado HH:MM") from exc
 
