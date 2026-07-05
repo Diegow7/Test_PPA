@@ -246,5 +246,6 @@ def limpiar_historial(
     _historial_consultas.clear()
     return {
         "historial_vacio": True,
-        "eliminadas": cantidad
+        "eliminadas": cantidad,
+        "restantes": len(_historial_consultas)
     }
