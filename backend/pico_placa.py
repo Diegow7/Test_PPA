@@ -3,6 +3,8 @@ import re
 
 FORMATO_FECHA = "%Y-%m-%d"
 FORMATO_HORA = "%H:%M"
+PATRON_PLACA_CARRO = re.compile(r"^[A-Z]{3}[0-9]{4}$")
+PATRON_PLACA_MOTO = re.compile(r"^[A-Z]{2}[0-9]{3}[A-Z]$")
 
 # Restricciones por día
 restricciones = {
@@ -56,15 +58,12 @@ def _validar_placa(placa):
     if len(placa) not in (6, 7):
         raise ValueError("Placa invalida: longitud esperada 6 (moto) o 7 (carro)")
 
-    patron_carro = r"^[A-Z]{3}[0-9]{4}$"
-    patron_moto = r"^[A-Z]{2}[0-9]{3}[A-Z]$"
-
-    if re.match(patron_carro, placa):
+    if PATRON_PLACA_CARRO.match(placa):
         ultimo_digito = int(placa[-1])
         prefijo = placa[:3]
         return placa, ultimo_digito, "carro", prefijo
 
-    if re.match(patron_moto, placa):
+    if PATRON_PLACA_MOTO.match(placa):
         ultimo_digito = int(placa[-2])
         prefijo = placa[:2]
         return placa, ultimo_digito, "moto", prefijo
