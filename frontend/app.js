@@ -443,6 +443,17 @@ function actualizarEstadoBotonLimpiarHistorial() {
     btnLimpiarHistorial.setAttribute("aria-disabled", String(deshabilitado));
 }
 
+function actualizarEstadoBotonExportarHistorial() {
+    if (!btnExportarHistorial) {
+        return;
+    }
+
+    const total = obtenerHistorialLocal().length;
+    const deshabilitado = total === 0;
+    btnExportarHistorial.disabled = deshabilitado;
+    btnExportarHistorial.setAttribute("aria-disabled", String(deshabilitado));
+}
+
 function exportarHistorialCSV() {
     const data = obtenerHistorialLocal();
     if (!data.length) {
@@ -482,6 +493,7 @@ function cargarHistorial() {
 
     const data = obtenerHistorialLocal();
     actualizarEstadoBotonLimpiarHistorial();
+    actualizarEstadoBotonExportarHistorial();
     const termino = buscarHistorialInput
         ? buscarHistorialInput.value.trim().toLowerCase()
         : "";
@@ -677,3 +689,4 @@ document.addEventListener("keydown", (event) => {
 actualizarBotonRestaurar();
 actualizarTextoBotonConsulta();
 actualizarEstadoBotonLimpiarHistorial();
+actualizarEstadoBotonExportarHistorial();
