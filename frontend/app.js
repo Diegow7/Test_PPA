@@ -602,8 +602,12 @@ function setDefaults() {
     const yyyy = now.getFullYear();
     const mm = String(now.getMonth() + 1).padStart(2, "0");
     const dd = String(now.getDate()).padStart(2, "0");
-    const hh = String(now.getHours()).padStart(2, "0");
-    const min = String(now.getMinutes()).padStart(2, "0");
+    const minutosActuales = now.getHours() * 60 + now.getMinutes();
+    const minimoPermitido = 5 * 60;
+    const maximoPermitido = 19 * 60 + 30;
+    const minutosAjustados = Math.min(Math.max(minutosActuales, minimoPermitido), maximoPermitido);
+    const hh = String(Math.floor(minutosAjustados / 60)).padStart(2, "0");
+    const min = String(minutosAjustados % 60).padStart(2, "0");
 
     const hoy = `${yyyy}-${mm}-${dd}`;
     document.getElementById("fecha").value = hoy;
