@@ -68,6 +68,7 @@ function limpiarFormulario() {
     setMensaje("Formulario limpio.", "ok");
     resultado.textContent = "";
     resultado.classList.remove("resultado--ok", "resultado--error");
+    actualizarEstadoBotonCopiarResultado();
 
     [placaInput, fechaInput, horaInput].forEach((input) => {
         input.classList.remove("is-invalid", "is-valid");
@@ -124,6 +125,16 @@ function actualizarTextoBotonConsulta() {
     }
 
     btnConsultar.textContent = obtenerTextoBotonConsulta();
+}
+
+function actualizarEstadoBotonCopiarResultado() {
+    if (!btnCopiarResultado) {
+        return;
+    }
+
+    const deshabilitado = resultado.textContent.trim().length === 0;
+    btnCopiarResultado.disabled = deshabilitado;
+    btnCopiarResultado.setAttribute("aria-disabled", String(deshabilitado));
 }
 
 function normalizarPlaca(valor) {
@@ -296,6 +307,7 @@ async function validarVehiculo() {
     resultado.classList.remove("resultado--ok", "resultado--error");
     if (!validarFormulario()) {
         resultado.textContent = "";
+        actualizarEstadoBotonCopiarResultado();
         return;
     }
 
@@ -336,12 +348,14 @@ async function validarVehiculo() {
             setMensaje(detalle, "error");
             resultado.textContent = "";
             resultado.classList.add("resultado--error");
+            actualizarEstadoBotonCopiarResultado();
             return;
         }
 
         setMensaje("Consulta lista", "ok");
         resultado.textContent = data.resultado;
         resultado.classList.add("resultado--ok");
+        actualizarEstadoBotonCopiarResultado();
         
         if (guardarHistorialCheckbox && guardarHistorialCheckbox.checked) {
             guardarConsultaLocal({
@@ -359,6 +373,7 @@ async function validarVehiculo() {
         setMensaje("No se pudo conectar. Intenta de nuevo.", "error");
         resultado.textContent = "";
         resultado.classList.add("resultado--error");
+        actualizarEstadoBotonCopiarResultado();
     } finally {
         setLoading(false);
     }
@@ -694,3 +709,4 @@ actualizarBotonRestaurar();
 actualizarTextoBotonConsulta();
 actualizarEstadoBotonLimpiarHistorial();
 actualizarEstadoBotonExportarHistorial();
+actualizarEstadoBotonCopiarResultado();
