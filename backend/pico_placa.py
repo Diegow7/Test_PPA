@@ -22,7 +22,11 @@ MANANA_FIN = datetime.strptime("09:30", FORMATO_HORA).time()
 TARDE_INICIO = datetime.strptime("16:00", FORMATO_HORA).time()
 TARDE_FIN = datetime.strptime("19:30", FORMATO_HORA).time()
 
-def _normalizar_texto_obligatorio(valor, mensaje_obligatorio, mensaje_tipo):
+def _normalizar_texto_obligatorio(
+    valor: object,
+    mensaje_obligatorio: str,
+    mensaje_tipo: str
+) -> str:
     if not valor:
         raise ValueError(mensaje_obligatorio)
 
@@ -36,7 +40,7 @@ def _normalizar_texto_obligatorio(valor, mensaje_obligatorio, mensaje_tipo):
 
     return valor
 
-def _validar_placa(placa):
+def _validar_placa(placa: object) -> tuple[str, int, str, str]:
 
     if placa is None:
         raise ValueError("Placa invalida: es obligatoria")
@@ -70,7 +74,7 @@ def _validar_placa(placa):
 
     raise ValueError("Placa invalida: formato esperado AAA1111 o AA111A")
 
-def obtener_info_placa(placa):
+def obtener_info_placa(placa: object) -> dict[str, str | int]:
     placa_norm, ultimo_digito, tipo, prefijo = _validar_placa(placa)
     return {
         "placa": placa_norm,
@@ -79,7 +83,7 @@ def obtener_info_placa(placa):
         "prefijo": prefijo
     }
 
-def _validar_fecha(fecha):
+def _validar_fecha(fecha: object) -> datetime:
     fecha = _normalizar_texto_obligatorio(
         fecha,
         "Fecha invalida: es obligatoria",
@@ -97,7 +101,7 @@ def _validar_fecha(fecha):
 
     return fecha_obj
 
-def _validar_hora(hora):
+def _validar_hora(hora: object):
     hora = _normalizar_texto_obligatorio(
         hora,
         "Hora invalida: es obligatoria",
@@ -114,7 +118,7 @@ def _validar_hora(hora):
 
     return hora_obj
 
-def validar_entrada(placa, fecha, hora):
+def validar_entrada(placa: object, fecha: object, hora: object):
     errores = {}
 
     try:
@@ -137,14 +141,14 @@ def validar_entrada(placa, fecha, hora):
 
     return info, fecha_obj, hora_obj, errores
 
-def _esta_en_horario_restringido(hora_obj):
+def _esta_en_horario_restringido(hora_obj) -> bool:
     return (
         MANANA_INICIO <= hora_obj <= MANANA_FIN
         or
         TARDE_INICIO <= hora_obj <= TARDE_FIN
     )
 
-def _puede_circular(ultimo_digito, fecha_obj, hora_obj):
+def _puede_circular(ultimo_digito: int, fecha_obj: datetime, hora_obj) -> bool:
     # Obtener día de la semana
     dia_semana = fecha_obj.strftime("%A")
 
@@ -157,7 +161,7 @@ def _puede_circular(ultimo_digito, fecha_obj, hora_obj):
 
     return not _esta_en_horario_restringido(hora_obj)
 
-def puede_circular(placa, fecha, hora):
+def puede_circular(placa: object, fecha: object, hora: object) -> bool:
     info, fecha_obj, hora_obj, errores = validar_entrada(placa, fecha, hora)
     if errores:
         primer_error = next(iter(errores.values()))
