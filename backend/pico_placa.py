@@ -148,17 +148,14 @@ def _puede_circular(ultimo_digito, fecha_obj, hora_obj):
     # Obtener día de la semana
     dia_semana = fecha_obj.strftime("%A")
 
-    en_horario_restringido = _esta_en_horario_restringido(hora_obj)
+    digitos_restringidos = restricciones.get(dia_semana)
+    if not digitos_restringidos:
+        return True
 
-    # Verificar restricción del día
-    if dia_semana in restricciones:
+    if ultimo_digito not in digitos_restringidos:
+        return True
 
-        if ultimo_digito in restricciones[dia_semana]:
-
-            if en_horario_restringido:
-                return False
-
-    return True
+    return not _esta_en_horario_restringido(hora_obj)
 
 def puede_circular(placa, fecha, hora):
     info, fecha_obj, hora_obj, errores = validar_entrada(placa, fecha, hora)
