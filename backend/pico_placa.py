@@ -137,16 +137,18 @@ def validar_entrada(placa, fecha, hora):
 
     return info, fecha_obj, hora_obj, errores
 
-def _puede_circular(ultimo_digito, fecha_obj, hora_obj):
-    # Obtener día de la semana
-    dia_semana = fecha_obj.strftime("%A")
-
-    # Verificar si está en horario restringido
-    en_horario_restringido = (
+def _esta_en_horario_restringido(hora_obj):
+    return (
         MANANA_INICIO <= hora_obj <= MANANA_FIN
         or
         TARDE_INICIO <= hora_obj <= TARDE_FIN
     )
+
+def _puede_circular(ultimo_digito, fecha_obj, hora_obj):
+    # Obtener día de la semana
+    dia_semana = fecha_obj.strftime("%A")
+
+    en_horario_restringido = _esta_en_horario_restringido(hora_obj)
 
     # Verificar restricción del día
     if dia_semana in restricciones:
