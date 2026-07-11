@@ -101,6 +101,16 @@ def test_validar_entrada_fecha_con_barras():
     assert fecha_obj.strftime("%Y-%m-%d") == "2026-05-25"
 
 
+def test_validar_entrada_formato_fecha_no_estricto():
+    _, _, _, errores = validar_entrada(
+        "ABC1234",
+        "2026-5-25",
+        "08:00"
+    )
+
+    assert errores["fecha"] == "Fecha invalida: formato esperado YYYY-MM-DD"
+
+
 def test_validar_entrada_placa_no_texto():
     info, _, _, errores = validar_entrada(
         None,

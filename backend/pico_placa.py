@@ -3,6 +3,7 @@ import re
 
 FORMATO_FECHA = "%Y-%m-%d"
 FORMATO_HORA = "%H:%M"
+PATRON_FECHA_ESTRICTA = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 PATRON_HORA_ESTRICTA = re.compile(r"^\d{2}:\d{2}$")
 PATRON_PLACA_CARRO = re.compile(r"^[A-Z]{3}[0-9]{4}$")
 PATRON_PLACA_MOTO = re.compile(r"^[A-Z]{2}[0-9]{3}[A-Z]$")
@@ -91,6 +92,9 @@ def _validar_fecha(fecha: object) -> datetime:
         "Fecha invalida: debe ser texto"
     )
     fecha = fecha.replace("/", "-")
+
+    if not PATRON_FECHA_ESTRICTA.match(fecha):
+        raise ValueError("Fecha invalida: formato esperado YYYY-MM-DD")
 
     try:
         fecha_obj = datetime.strptime(fecha, FORMATO_FECHA)
