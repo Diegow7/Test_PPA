@@ -3,6 +3,7 @@ import re
 
 FORMATO_FECHA = "%Y-%m-%d"
 FORMATO_HORA = "%H:%M"
+PATRON_HORA_ESTRICTA = re.compile(r"^\d{2}:\d{2}$")
 PATRON_PLACA_CARRO = re.compile(r"^[A-Z]{3}[0-9]{4}$")
 PATRON_PLACA_MOTO = re.compile(r"^[A-Z]{2}[0-9]{3}[A-Z]$")
 
@@ -107,6 +108,9 @@ def _validar_hora(hora: object):
         "Hora invalida: es obligatoria",
         "Hora invalida: debe ser texto"
     )
+
+    if not PATRON_HORA_ESTRICTA.match(hora):
+        raise ValueError("Hora invalida: formato esperado HH:MM")
 
     try:
         hora_obj = datetime.strptime(hora, FORMATO_HORA).time()

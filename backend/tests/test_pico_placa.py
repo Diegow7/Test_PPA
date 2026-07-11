@@ -54,6 +54,16 @@ def test_validar_entrada_fuera_rango_hora():
     assert errores["hora"] == "Hora invalida: rango permitido 05:00 a 19:30"
 
 
+def test_validar_entrada_formato_hora_no_estricto():
+    _, _, _, errores = validar_entrada(
+        "ABC1234",
+        "2026-05-25",
+        "8:00"
+    )
+
+    assert errores["hora"] == "Hora invalida: formato esperado HH:MM"
+
+
 def test_validar_entrada_placa_con_espacios_y_guiones():
     info, _, _, errores = validar_entrada(
         " ab-123 c ",
