@@ -189,6 +189,10 @@ function validarFecha(valor) {
         return "La fecha es obligatoria";
     }
 
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(valor)) {
+        return "Formato invalido: usa YYYY-MM-DD";
+    }
+
     const fechaIngresada = new Date(`${valor}T00:00:00`);
     const hoy = new Date();
     hoy.setHours(0, 0, 0, 0);
@@ -203,6 +207,10 @@ function validarFecha(valor) {
 function validarHora(valor) {
     if (!valor) {
         return "La hora es obligatoria";
+    }
+
+    if (!/^\d{2}:\d{2}$/.test(valor)) {
+        return "Formato invalido: usa HH:MM";
     }
 
     const partes = valor.split(":");
