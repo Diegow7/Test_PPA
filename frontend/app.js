@@ -111,6 +111,18 @@ function setLoading(estado) {
     fechaInput.disabled = estado;
     horaInput.disabled = estado;
     btnConsultar.setAttribute("aria-busy", estado);
+
+    if (!btnCopiarResultado) {
+        return;
+    }
+
+    if (estado) {
+        btnCopiarResultado.disabled = true;
+        btnCopiarResultado.setAttribute("aria-disabled", "true");
+        return;
+    }
+
+    actualizarEstadoBotonCopiarResultado();
 }
 
 function obtenerTextoBotonConsulta() {
