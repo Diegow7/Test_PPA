@@ -76,6 +76,16 @@ def test_validar_entrada_placa_con_espacios_y_guiones():
     assert info["tipo"] == "moto"
 
 
+def test_validar_entrada_placa_con_separadores_consecutivos():
+    _, _, _, errores = validar_entrada(
+        "AB--123C",
+        "2026-05-25",
+        "09:10"
+    )
+
+    assert errores["placa"] == "Placa invalida: separadores consecutivos no permitidos"
+
+
 def test_validar_entrada_fecha_y_hora_con_espacios():
     info, fecha_obj, hora_obj, errores = validar_entrada(
         "ABC1234",

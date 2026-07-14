@@ -53,6 +53,9 @@ def _validar_placa(placa: object) -> tuple[str, int, str, str]:
     # Normalizar la placa (por si viene con espacios o en minusculas)
     placa = placa.strip().upper()
 
+    if re.search(r"[-\s]{2,}", placa):
+        raise ValueError("Placa invalida: separadores consecutivos no permitidos")
+
     # Quitar separadores comunes y validar que solo tenga letras y numeros
     placa = re.sub(r"[-\s]", "", placa)
     if not placa:
