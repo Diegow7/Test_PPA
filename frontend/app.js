@@ -603,6 +603,26 @@ async function mostrarRestriccionesDia() {
 		return;
 	}
 
+    if (!tieneApiKeyConfigurada()) {
+        const hoy = new Date();
+        const dias = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        const nombreDia = dias[hoy.getDay()];
+        const restringidas = RESTRICCIONES[nombreDia];
+        const diaTexto = DIA_ES[nombreDia] || nombreDia;
+
+        if (!restringidas) {
+            restriccionesDia.textContent = "Hoy no hay restricciones de pico y placa.";
+            restriccionesDia.classList.remove("restricciones-dia--empty");
+            return;
+        }
+
+        const digitosTexto = restringidas.join(", ");
+        const franjasTexto = FRANJAS_RESTRINGIDAS.join(" y ");
+        restriccionesDia.textContent = `Hoy (${diaTexto}) estan restringidas las placas terminadas en: ${digitosTexto}. Horarios: ${franjasTexto}.`;
+        restriccionesDia.classList.remove("restricciones-dia--empty");
+        return;
+    }
+
 	const hoy = new Date();
 	const dias = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 	const nombreDia = dias[hoy.getDay()];
