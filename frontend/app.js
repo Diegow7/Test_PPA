@@ -1,4 +1,5 @@
 const API_KEY = document.querySelector('meta[name="api-key"]')?.content ?? "";
+const API_KEY_PLACEHOLDER = "cambia-esto";
 
 const placaInput = document.getElementById("placa");
 const fechaInput = document.getElementById("fecha");
@@ -59,6 +60,11 @@ function setMensaje(texto, tipo) {
     if (tipo === "warn") {
         mensaje.classList.add("mensaje--warn");
     }
+}
+
+function tieneApiKeyConfigurada() {
+    const apiKey = API_KEY.trim();
+    return apiKey.length > 0 && apiKey !== API_KEY_PLACEHOLDER;
 }
 
 function limpiarFormulario() {
@@ -331,6 +337,14 @@ async function validarVehiculo() {
         return;
     }
 
+    if (!tieneApiKeyConfigurada()) {
+        setMensaje("Configura la API key para consultar.", "error");
+        resultado.textContent = "";
+        resultado.classList.add("resultado--error");
+        actualizarEstadoBotonCopiarResultado();
+        return;
+    }
+
     mostrarResumenErrores([]);
 
     setLoading(true);
@@ -430,6 +444,10 @@ function limpiarHistorialLocal() {
 }
 
 async function limpiarHistorialServidor() {
+    if (!tieneApiKeyConfigurada()) {
+        return false;
+    }
+
     try {
         const response = await fetch("/historial/limpiar", {
             method: "POST",
