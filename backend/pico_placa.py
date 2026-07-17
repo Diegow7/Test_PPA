@@ -7,6 +7,8 @@ PATRON_FECHA_ESTRICTA = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 PATRON_HORA_ESTRICTA = re.compile(r"^\d{2}:\d{2}$")
 PATRON_PLACA_CARRO = re.compile(r"^[A-Z]{3}[0-9]{4}$")
 PATRON_PLACA_MOTO = re.compile(r"^[A-Z]{2}[0-9]{3}[A-Z]$")
+PATRON_SEPARADORES_PLACA = re.compile(r"[-\s]")
+PATRON_SEPARADORES_CONSECUTIVOS = re.compile(r"[-\s]{2,}")
 
 # Restricciones por día
 restricciones = {
@@ -53,11 +55,11 @@ def _validar_placa(placa: object) -> tuple[str, int, str, str]:
     # Normalizar la placa (por si viene con espacios o en minusculas)
     placa = placa.strip().upper()
 
-    if re.search(r"[-\s]{2,}", placa):
+    if PATRON_SEPARADORES_CONSECUTIVOS.search(placa):
         raise ValueError("Placa invalida: separadores consecutivos no permitidos")
 
     # Quitar separadores comunes y validar que solo tenga letras y numeros
-    placa = re.sub(r"[-\s]", "", placa)
+    placa = PATRON_SEPARADORES_PLACA.sub("", placa)
     if not placa:
         raise ValueError("Placa invalida: es obligatoria")
 
