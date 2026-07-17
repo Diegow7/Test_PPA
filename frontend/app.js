@@ -7,6 +7,7 @@ const horaInput = document.getElementById("hora");
 const btnConsultar = document.getElementById("btn-consultar");
 const mensaje = document.getElementById("mensaje");
 const resultado = document.getElementById("resultado");
+const statusRegion = document.querySelector(".status");
 const resumenErrores = document.getElementById("resumen-errores");
 const historial = document.getElementById("historial");
 const buscarHistorialInput = document.getElementById("buscar-historial");
@@ -117,6 +118,9 @@ function setLoading(estado) {
     fechaInput.disabled = estado;
     horaInput.disabled = estado;
     btnConsultar.setAttribute("aria-busy", estado);
+    if (statusRegion) {
+        statusRegion.setAttribute("aria-busy", String(estado));
+    }
 
     if (!btnCopiarResultado) {
         return;
