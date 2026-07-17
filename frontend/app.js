@@ -598,34 +598,37 @@ function actualizarEstadisticas(data) {
     statOk.textContent = String(ok);
     statError.textContent = String(error);
 }
+
+function renderizarRestriccionesDia(nombreDia, restriccionesActuales, franjasActuales) {
+    const restringidas = restriccionesActuales[nombreDia];
+    const diaTexto = DIA_ES[nombreDia] || nombreDia;
+
+    if (!restringidas) {
+        restriccionesDia.textContent = "Hoy no hay restricciones de pico y placa.";
+        restriccionesDia.classList.remove("restricciones-dia--empty");
+        return;
+    }
+
+    const digitosTexto = restringidas.join(", ");
+    const franjasTexto = franjasActuales.join(" y ");
+    restriccionesDia.textContent = `Hoy (${diaTexto}) estan restringidas las placas terminadas en: ${digitosTexto}. Horarios: ${franjasTexto}.`;
+    restriccionesDia.classList.remove("restricciones-dia--empty");
+}
+
 async function mostrarRestriccionesDia() {
 	if (!restriccionesDia) {
 		return;
 	}
 
-    if (!tieneApiKeyConfigurada()) {
-        const hoy = new Date();
-        const dias = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        const nombreDia = dias[hoy.getDay()];
-        const restringidas = RESTRICCIONES[nombreDia];
-        const diaTexto = DIA_ES[nombreDia] || nombreDia;
-
-        if (!restringidas) {
-            restriccionesDia.textContent = "Hoy no hay restricciones de pico y placa.";
-            restriccionesDia.classList.remove("restricciones-dia--empty");
-            return;
-        }
-
-        const digitosTexto = restringidas.join(", ");
-        const franjasTexto = FRANJAS_RESTRINGIDAS.join(" y ");
-        restriccionesDia.textContent = `Hoy (${diaTexto}) estan restringidas las placas terminadas en: ${digitosTexto}. Horarios: ${franjasTexto}.`;
-        restriccionesDia.classList.remove("restricciones-dia--empty");
-        return;
-    }
-
 	const hoy = new Date();
 	const dias = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 	const nombreDia = dias[hoy.getDay()];
+
+    if (!tieneApiKeyConfigurada()) {
+        renderizarRestriccionesDia(nombreDia, RESTRICCIONES, FRANJAS_RESTRINGIDAS);
+        return;
+    }
+
     let restriccionesActuales = RESTRICCIONES;
     let franjasActuales = FRANJAS_RESTRINGIDAS;
 
@@ -656,19 +659,7 @@ async function mostrarRestriccionesDia() {
         franjasActuales = FRANJAS_RESTRINGIDAS;
     }
 
-    const restringidas = restriccionesActuales[nombreDia];
-    const diaTexto = DIA_ES[nombreDia] || nombreDia;
-
-	if (!restringidas) {
-		restriccionesDia.textContent = "Hoy no hay restricciones de pico y placa.";
-		restriccionesDia.classList.remove("restricciones-dia--empty");
-		return;
-	}
-
-	const digitosTexto = restringidas.join(", ");
-    const franjasTexto = franjasActuales.join(" y ");
-    restriccionesDia.textContent = `Hoy (${diaTexto}) estan restringidas las placas terminadas en: ${digitosTexto}. Horarios: ${franjasTexto}.`;
-	restriccionesDia.classList.remove("restricciones-dia--empty");
+    renderizarRestriccionesDia(nombreDia, restriccionesActuales, franjasActuales);
 }
 function setDefaults() {
     const now = new Date();
