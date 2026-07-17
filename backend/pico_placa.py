@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, time
 import re
 
 FORMATO_FECHA = "%Y-%m-%d"
@@ -109,7 +109,7 @@ def _validar_fecha(fecha: object) -> datetime:
 
     return fecha_obj
 
-def _validar_hora(hora: object):
+def _validar_hora(hora: object) -> time:
     hora = _normalizar_texto_obligatorio(
         hora,
         "Hora invalida: es obligatoria",
@@ -129,7 +129,11 @@ def _validar_hora(hora: object):
 
     return hora_obj
 
-def validar_entrada(placa: object, fecha: object, hora: object):
+def validar_entrada(
+    placa: object,
+    fecha: object,
+    hora: object
+) -> tuple[dict[str, str | int] | None, datetime | None, time | None, dict[str, str]]:
     errores = {}
 
     try:
@@ -152,14 +156,14 @@ def validar_entrada(placa: object, fecha: object, hora: object):
 
     return info, fecha_obj, hora_obj, errores
 
-def _esta_en_horario_restringido(hora_obj) -> bool:
+def _esta_en_horario_restringido(hora_obj: time) -> bool:
     return (
         MANANA_INICIO <= hora_obj <= MANANA_FIN
         or
         TARDE_INICIO <= hora_obj <= TARDE_FIN
     )
 
-def _puede_circular(ultimo_digito: int, fecha_obj: datetime, hora_obj) -> bool:
+def _puede_circular(ultimo_digito: int, fecha_obj: datetime, hora_obj: time) -> bool:
     # Obtener día de la semana
     dia_semana = fecha_obj.strftime("%A")
 
