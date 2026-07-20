@@ -96,10 +96,12 @@ def verificar_api_key(x_api_key: str | None = Header(default=None, alias="X-API-
     if not API_KEY:
         raise HTTPException(status_code=500, detail="API key no configurada")
 
-    if (x_api_key or "").strip() != API_KEY:
+    api_key_header = (x_api_key or "").strip()
+
+    if api_key_header != API_KEY:
         raise HTTPException(status_code=401, detail="API key invalida")
 
-    return x_api_key
+    return api_key_header
 
 def verificar_rate_limit(request: Request):
     client_ip = request.client.host if request.client else "unknown"
