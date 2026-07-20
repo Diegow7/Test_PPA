@@ -149,6 +149,23 @@ function actualizarTextoBotonConsulta() {
     btnConsultar.textContent = obtenerTextoBotonConsulta();
 }
 
+function actualizarEstadoBotonConsultaPorApiKey() {
+    if (!btnConsultar) {
+        return;
+    }
+
+    const apiKeyConfigurada = tieneApiKeyConfigurada();
+    btnConsultar.disabled = !apiKeyConfigurada;
+    btnConsultar.setAttribute("aria-disabled", String(!apiKeyConfigurada));
+
+    if (!apiKeyConfigurada) {
+        btnConsultar.textContent = "Configura API key";
+        return;
+    }
+
+    actualizarTextoBotonConsulta();
+}
+
 function actualizarEstadoBotonCopiarResultado() {
     if (!btnCopiarResultado) {
         return;
@@ -760,6 +777,7 @@ document.addEventListener("keydown", (event) => {
 
 actualizarBotonRestaurar();
 actualizarTextoBotonConsulta();
+actualizarEstadoBotonConsultaPorApiKey();
 actualizarEstadoBotonLimpiarHistorial();
 actualizarEstadoBotonExportarHistorial();
 actualizarEstadoBotonCopiarResultado();
