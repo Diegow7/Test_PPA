@@ -25,6 +25,10 @@ MANANA_INICIO = datetime.strptime("07:00", FORMATO_HORA).time()
 MANANA_FIN = datetime.strptime("09:30", FORMATO_HORA).time()
 TARDE_INICIO = datetime.strptime("16:00", FORMATO_HORA).time()
 TARDE_FIN = datetime.strptime("19:30", FORMATO_HORA).time()
+FRANJAS_RESTRINGIDAS = (
+    (MANANA_INICIO, MANANA_FIN),
+    (TARDE_INICIO, TARDE_FIN)
+)
 
 def _normalizar_texto_obligatorio(
     valor: object,
@@ -159,11 +163,7 @@ def validar_entrada(
     return info, fecha_obj, hora_obj, errores
 
 def _esta_en_horario_restringido(hora_obj: time) -> bool:
-    return (
-        MANANA_INICIO <= hora_obj <= MANANA_FIN
-        or
-        TARDE_INICIO <= hora_obj <= TARDE_FIN
-    )
+    return any(inicio <= hora_obj <= fin for inicio, fin in FRANJAS_RESTRINGIDAS)
 
 def _puede_circular(ultimo_digito: int, fecha_obj: datetime, hora_obj: time) -> bool:
     # Obtener día de la semana
