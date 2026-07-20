@@ -26,7 +26,7 @@ from pico_placa import (
 app = FastAPI()
 APP_START_TIME = time.time()
 
-API_KEY = os.getenv("API_KEY")
+API_KEY = (os.getenv("API_KEY") or "").strip()
 RATE_LIMIT_MAX = int(os.getenv("RATE_LIMIT_MAX", "30"))
 RATE_LIMIT_WINDOW_SEC = int(os.getenv("RATE_LIMIT_WINDOW_SEC", "60"))
 HISTORY_LIMIT = int(os.getenv("HISTORY_LIMIT", "20"))
@@ -96,7 +96,7 @@ def verificar_api_key(x_api_key: str | None = Header(default=None, alias="X-API-
     if not API_KEY:
         raise HTTPException(status_code=500, detail="API key no configurada")
 
-    if x_api_key != API_KEY:
+    if (x_api_key or "").strip() != API_KEY:
         raise HTTPException(status_code=401, detail="API key invalida")
 
     return x_api_key
