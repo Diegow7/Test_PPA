@@ -117,6 +117,9 @@ function setLoading(estado) {
     placaInput.disabled = estado;
     fechaInput.disabled = estado;
     horaInput.disabled = estado;
+    if (guardarHistorialCheckbox) {
+        guardarHistorialCheckbox.disabled = estado;
+    }
     btnConsultar.setAttribute("aria-busy", estado);
     if (statusRegion) {
         statusRegion.setAttribute("aria-busy", String(estado));
