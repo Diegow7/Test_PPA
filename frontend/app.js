@@ -1,4 +1,4 @@
-const API_KEY = document.querySelector('meta[name="api-key"]')?.content ?? "";
+const API_KEY = (document.querySelector('meta[name="api-key"]')?.content ?? "").trim();
 const API_KEY_PLACEHOLDER = "cambia-esto";
 
 const placaInput = document.getElementById("placa");
