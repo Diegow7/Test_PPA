@@ -161,6 +161,11 @@ function actualizarEstadoBotonConsultaPorApiKey() {
     btnConsultar.disabled = !apiKeyConfigurada;
     btnConsultar.setAttribute("aria-disabled", String(!apiKeyConfigurada));
 
+    const avisoApiKey = document.getElementById("aviso-api-key");
+    if (avisoApiKey) {
+        avisoApiKey.style.display = apiKeyConfigurada ? "none" : "";
+    }
+
     if (!apiKeyConfigurada) {
         btnConsultar.textContent = "Configura API key";
         return;
