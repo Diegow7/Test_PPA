@@ -515,7 +515,7 @@ function actualizarEstadoBotonLimpiarHistorial() {
     }
 
     const total = obtenerHistorialLocal().length;
-    const deshabilitado = total === 0;
+    const deshabilitado = total === 0 || !tieneApiKeyConfigurada();
     btnLimpiarHistorial.disabled = deshabilitado;
     btnLimpiarHistorial.setAttribute("aria-disabled", String(deshabilitado));
 }
