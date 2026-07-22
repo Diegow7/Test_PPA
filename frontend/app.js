@@ -121,6 +121,10 @@ function setLoading(estado) {
     placaInput.disabled = estado;
     fechaInput.disabled = estado;
     horaInput.disabled = estado;
+    if (btnLimpiarFormulario) {
+        btnLimpiarFormulario.disabled = estado;
+        btnLimpiarFormulario.setAttribute("aria-disabled", String(estado));
+    }
     if (guardarHistorialCheckbox) {
         guardarHistorialCheckbox.disabled = estado;
     }
