@@ -112,8 +112,12 @@ async function copiarResultado() {
 }
 
 function setLoading(estado) {
-    btnConsultar.disabled = estado;
-    btnConsultar.textContent = estado ? "Consultando..." : obtenerTextoBotonConsulta();
+    if (estado) {
+        btnConsultar.disabled = true;
+        btnConsultar.textContent = "Consultando...";
+    } else {
+        actualizarEstadoBotonConsultaPorApiKey();
+    }
     placaInput.disabled = estado;
     fechaInput.disabled = estado;
     horaInput.disabled = estado;
