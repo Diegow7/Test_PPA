@@ -35,6 +35,20 @@ def _normalizar_texto_obligatorio(
     mensaje_obligatorio: str,
     mensaje_tipo: str
 ) -> str:
+    """
+    Normaliza y valida que un texto requerido sea válido.
+    
+    Args:
+        valor: El valor a normalizar.
+        mensaje_obligatorio: Mensaje de error si el valor es vacío.
+        mensaje_tipo: Mensaje de error si el valor no es texto.
+    
+    Returns:
+        El texto normalizado (sin espacios al inicio/final).
+    
+    Raises:
+        ValueError: Si el valor es vacío, no es texto, o es solo espacios.
+    """
     if not valor:
         raise ValueError(mensaje_obligatorio)
 
@@ -49,6 +63,22 @@ def _normalizar_texto_obligatorio(
     return valor
 
 def _validar_placa(placa: object) -> tuple[str, int, str, str]:
+    """
+    Valida el formato de una placa vehicular ecuatoriana.
+    
+    Acepta dos formatos:
+    - Carro: AAA1111 (3 letras, 4 dígitos)
+    - Moto: AA111A (2 letras, 3 dígitos, 1 letra)
+    
+    Args:
+        placa: La placa a validar (puede incluir separadores como '-' o espacios).
+    
+    Returns:
+        Tupla con (placa_normalizada, último_dígito, tipo, prefijo).
+    
+    Raises:
+        ValueError: Si la placa no cumple con el formato requerido.
+    """
 
     if placa is None:
         raise ValueError("Placa invalida: es obligatoria")
@@ -86,6 +116,18 @@ def _validar_placa(placa: object) -> tuple[str, int, str, str]:
     raise ValueError("Placa invalida: formato esperado AAA1111 o AA111A")
 
 def obtener_info_placa(placa: object) -> dict[str, str | int]:
+    """
+    Extrae información detallada de una placa vehicular válida.
+    
+    Args:
+        placa: La placa a procesar.
+    
+    Returns:
+        Diccionario con claves: placa, último_dígito, tipo, prefijo.
+    
+    Raises:
+        ValueError: Si la placa es inválida.
+    """
     placa_norm, ultimo_digito, tipo, prefijo = _validar_placa(placa)
     return {
         "placa": placa_norm,
@@ -95,6 +137,18 @@ def obtener_info_placa(placa: object) -> dict[str, str | int]:
     }
 
 def _validar_fecha(fecha: object) -> datetime:
+    """
+    Valida que una fecha esté en formato YYYY-MM-DD y no sea futura.
+    
+    Args:
+        fecha: La fecha a validar (texto en formato YYYY-MM-DD).
+    
+    Returns:
+        Objeto datetime con la fecha validada.
+    
+    Raises:
+        ValueError: Si la fecha es inválida, tiene formato incorrecto o es futura.
+    """
     fecha = _normalizar_texto_obligatorio(
         fecha,
         "Fecha invalida: es obligatoria",
@@ -116,6 +170,20 @@ def _validar_fecha(fecha: object) -> datetime:
     return fecha_obj
 
 def _validar_hora(hora: object) -> time:
+    """
+    Valida que una hora esté en formato HH:MM y dentro del rango permitido.
+    
+    Rango válido: 05:00 a 19:30.
+    
+    Args:
+        hora: La hora a validar (texto en formato HH:MM).
+    
+    Returns:
+        Objeto time con la hora validada.
+    
+    Raises:
+        ValueError: Si la hora es inválida, tiene formato incorrecto o fuera de rango.
+    """
     hora = _normalizar_texto_obligatorio(
         hora,
         "Hora invalida: es obligatoria",
@@ -140,6 +208,21 @@ def validar_entrada(
     fecha: object,
     hora: object
 ) -> tuple[dict[str, str | int] | None, datetime | None, time | None, dict[str, str]]:
+    """
+    Valida todos los parámetros de entrada (placa, fecha, hora).
+    
+    Realiza validación de cada campo independientemente y retorna los resultados.
+    
+    Args:
+        placa: Placa vehicular a validar.
+        fecha: Fecha en formato YYYY-MM-DD.
+        hora: Hora en formato HH:MM.
+    
+    Returns:
+        Tupla con (info_placa, fecha_obj, hora_obj, errores_dict).
+        - Los objetos pueden ser None si hay error.
+        - errores_dict contiene claves: 'placa', 'fecha', 'hora'.
+    """
     errores = {}
 
     try:
@@ -163,9 +246,42 @@ def validar_entrada(
     return info, fecha_obj, hora_obj, errores
 
 def _esta_en_horario_restringido(hora_obj: time) -> bool:
+    """
+    Verifica si una hora cae dentro de los horarios restringidos.
+    
+    Horarios restringidos:
+    - Mañana: 07:00 - 09:30
+    - Tarde: 16:00 - 19:30
+    
+    Args:
+        hora_obj: Objeto time a verificar.
+    
+    Returns:
+        True si la hora está dentro de un horario restringido, False en caso contrario.
+    """
     return any(inicio <= hora_obj <= fin for inicio, fin in FRANJAS_RESTRINGIDAS)
 
 def _puede_circular(ultimo_digito: int, fecha_obj: datetime, hora_obj: time) -> bool:
+    """
+    Determina si un vehículo puede circular según su último dígito, fecha y hora.
+    
+    Implementa la lógica de Pico y Placa:
+    - Lunes-Martes: Dígitos 1, 2
+    - Miércoles-Jueves: Dígitos 5, 6
+    - Viernes: Dígitos 9, 0
+    
+    Un vehículo NO puede circular si:
+    - Su dígito coincide con la restricción del día
+    - Y la hora está dentro de un horario restringido
+    
+    Args:
+        ultimo_digito: Último dígito de la placa (0-9).
+        fecha_obj: Objeto datetime de la consulta.
+        hora_obj: Objeto time de la consulta.
+    
+    Returns:
+        True si el vehículo puede circular, False si está restringido.
+    """
     # Obtener día de la semana
     dia_semana = fecha_obj.strftime("%A")
 
@@ -179,6 +295,22 @@ def _puede_circular(ultimo_digito: int, fecha_obj: datetime, hora_obj: time) -> 
     return not _esta_en_horario_restringido(hora_obj)
 
 def puede_circular(placa: object, fecha: object, hora: object) -> bool:
+    """
+    Valida si un vehículo puede circular en una fecha y hora específicas.
+    
+    Realiza validación completa de entrada y aplica las reglas de Pico y Placa.
+    
+    Args:
+        placa: Placa vehicular (formato: AAA1111 o AA111A).
+        fecha: Fecha de consulta (formato: YYYY-MM-DD).
+        hora: Hora de consulta (formato: HH:MM).
+    
+    Returns:
+        True si el vehículo puede circular, False si está restringido.
+    
+    Raises:
+        ValueError: Si algún parámetro es inválido.
+    """
     info, fecha_obj, hora_obj, errores = validar_entrada(placa, fecha, hora)
     if errores:
         primer_error = next(iter(errores.values()))
