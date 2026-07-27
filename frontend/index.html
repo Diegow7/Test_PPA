@@ -71,6 +71,7 @@
                             autocapitalize="characters"
                             autocomplete="off"
                             spellcheck="false"
+                            aria-label="Ingresa la placa del vehículo (formato: AAA1111 o AA111A)"
                             aria-describedby="placa-ayuda placa-estado"
                             aria-required="true"
                             required
@@ -81,6 +82,7 @@
                             </svg>
                         </span>
                     </div>
+                    <span class="field-message" id="placa-ayuda" style="display: none;">Formato válido: ABC1234 (carro) o AB123A (moto)</span>
                     <span class="field-message" id="placa-estado" aria-live="polite"></span>
                 </label>
 
@@ -96,6 +98,7 @@
                         <input
                             type="date"
                             id="fecha"
+                            aria-label="Selecciona la fecha de consulta (formato: YYYY-MM-DD)"
                             aria-describedby="fecha-ayuda fecha-estado"
                             aria-required="true"
                             required
@@ -106,6 +109,7 @@
                             </svg>
                         </span>
                     </div>
+                    <span class="field-message" id="fecha-ayuda" style="display: none;">Formato válido: 2026-07-27 (no se permiten fechas futuras)</span>
                     <span class="field-message" id="fecha-estado" aria-live="polite"></span>
                 </label>
 
@@ -122,6 +126,7 @@
                             id="hora"
                             min="05:00"
                             max="19:30"
+                            aria-label="Selecciona la hora de consulta (formato: HH:MM, 05:00-19:30)"
                             aria-describedby="hora-ayuda hora-estado"
                             aria-required="true"
                             required
@@ -132,6 +137,7 @@
                             </svg>
                         </span>
                     </div>
+                    <span class="field-message" id="hora-ayuda" style="display: none;">Rango válido: 05:00 a 19:30 (formato 24 horas)</span>
                     <span class="field-message" id="hora-estado" aria-live="polite"></span>
                 </label>
                 </div>
