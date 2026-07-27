@@ -3,6 +3,10 @@ import time
 from collections import defaultdict, deque
 from datetime import datetime
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from fastapi import Depends, FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
