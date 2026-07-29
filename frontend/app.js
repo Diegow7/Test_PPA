@@ -248,7 +248,19 @@ function validarFecha(valor) {
         return "Formato invalido: usa YYYY-MM-DD";
     }
 
-    const fechaIngresada = new Date(`${valor}T00:00:00`);
+    const [anio, mes, dia] = valor.split("-").map(Number);
+    const fechaIngresada = new Date(anio, mes - 1, dia);
+
+    if (
+        Number.isNaN(fechaIngresada.getTime())
+        || fechaIngresada.getFullYear() !== anio
+        || fechaIngresada.getMonth() !== (mes - 1)
+        || fechaIngresada.getDate() !== dia
+    ) {
+        return "Fecha invalida";
+    }
+
+    fechaIngresada.setHours(0, 0, 0, 0);
     const hoy = new Date();
     hoy.setHours(0, 0, 0, 0);
 
