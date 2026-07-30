@@ -75,3 +75,21 @@ def test_limpiar_historial_ok():
     assert data["historial_vacio"] is True
     assert data["eliminadas"] >= 1
     assert data["restantes"] == 0
+
+
+def test_rate_limit_bloqueado():
+    headers = _headers()
+    original_max = main.RATE_LIMIT_MAX
+
+    main.RATE_LIMIT_MAX = 2
+    main._rate_limit_buckets.clear()
+
+    try:
+        for _ in range(2):
+            client.get("/health")
+
+        response = client.get("/health")
+        assert response.status_code == 429
+    finally:
+        main.RATE_LIMIT_MAX = original_max
+        main._rate_limit_buckets.clear()
