@@ -121,12 +121,28 @@ function setLoading(estado) {
     placaInput.disabled = estado;
     fechaInput.disabled = estado;
     horaInput.disabled = estado;
+    if (buscarHistorialInput) {
+        buscarHistorialInput.disabled = estado;
+    }
     if (btnLimpiarFormulario) {
         btnLimpiarFormulario.disabled = estado;
         btnLimpiarFormulario.setAttribute("aria-disabled", String(estado));
     }
     if (guardarHistorialCheckbox) {
         guardarHistorialCheckbox.disabled = estado;
+    }
+    if (btnExportarHistorial) {
+        btnExportarHistorial.disabled = estado || obtenerHistorialLocal().length === 0;
+        btnExportarHistorial.setAttribute("aria-disabled", String(btnExportarHistorial.disabled));
+    }
+    if (btnLimpiarHistorial) {
+        btnLimpiarHistorial.disabled = estado || obtenerHistorialLocal().length === 0 || !tieneApiKeyConfigurada();
+        btnLimpiarHistorial.setAttribute("aria-disabled", String(btnLimpiarHistorial.disabled));
+    }
+    if (btnRestaurarHistorial) {
+        const deshabilitado = estado || !historialBorradoTemporal || historialBorradoTemporal.length === 0;
+        btnRestaurarHistorial.disabled = deshabilitado;
+        btnRestaurarHistorial.setAttribute("aria-disabled", String(deshabilitado));
     }
     btnConsultar.setAttribute("aria-busy", estado);
     if (statusRegion) {
