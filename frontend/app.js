@@ -115,6 +115,7 @@ function setLoading(estado) {
     if (estado) {
         btnConsultar.disabled = true;
         btnConsultar.textContent = "Consultando...";
+        btnConsultar.setAttribute("aria-disabled", "true");
     } else {
         actualizarEstadoBotonConsultaPorApiKey();
     }
