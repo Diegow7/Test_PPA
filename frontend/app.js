@@ -624,12 +624,13 @@ function cargarHistorial() {
         const clase = item.resultado === "Puede circular"
             ? "history-item history-item--ok"
             : "history-item history-item--error";
-        const fechaObjeto = item.timestamp ? new Date(item.timestamp) : null;
+        const timestampTexto = item.timestamp || "";
+        const fechaObjeto = timestampTexto ? new Date(timestampTexto) : null;
         const fechaHora = fechaObjeto && !Number.isNaN(fechaObjeto.getTime())
             ? fechaObjeto.toLocaleString("es-EC", { dateStyle: "short", timeStyle: "short" })
-            : (item.timestamp || "");
+            : timestampTexto;
         return `
-            <div class="${clase}" title="Consultado: ${escapeHtml(item.timestamp)}">
+            <div class="${clase}" title="Consultado: ${escapeHtml(timestampTexto)}">
                 <strong>${escapeHtml(item.resultado)}</strong>
                 <span>${escapeHtml(item.placa)} · ${escapeHtml(item.fecha)} · ${escapeHtml(item.hora)}</span>
                 <span>${escapeHtml(fechaHora)}</span>
