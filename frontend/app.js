@@ -124,6 +124,7 @@ function setLoading(estado) {
     horaInput.disabled = estado;
     if (buscarHistorialInput) {
         buscarHistorialInput.disabled = estado;
+        buscarHistorialInput.setAttribute("aria-disabled", String(estado));
     }
     if (btnLimpiarFormulario) {
         btnLimpiarFormulario.disabled = estado;
