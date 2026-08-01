@@ -547,6 +547,8 @@ function actualizarBotonRestaurar() {
     }
 
     const mostrar = Boolean(historialBorradoTemporal && historialBorradoTemporal.length);
+    btnRestaurarHistorial.disabled = !mostrar;
+    btnRestaurarHistorial.setAttribute("aria-disabled", String(!mostrar));
     btnRestaurarHistorial.classList.toggle("is-hidden", !mostrar);
 }
 
