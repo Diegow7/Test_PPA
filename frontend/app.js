@@ -132,6 +132,7 @@ function setLoading(estado) {
     }
     if (guardarHistorialCheckbox) {
         guardarHistorialCheckbox.disabled = estado;
+        guardarHistorialCheckbox.setAttribute("aria-disabled", String(estado));
     }
     if (btnExportarHistorial) {
         btnExportarHistorial.disabled = estado || obtenerHistorialLocal().length === 0;
