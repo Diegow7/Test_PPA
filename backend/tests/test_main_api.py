@@ -37,6 +37,13 @@ def test_historial_requiere_api_key():
     assert response.status_code == 401
 
 
+def test_limpiar_historial_requiere_api_key():
+    main.API_KEY = "test-key"
+    response = client.post("/historial/limpiar")
+
+    assert response.status_code == 401
+
+
 def test_reglas_ok():
     response = client.get("/reglas", headers=_headers())
 
