@@ -81,6 +81,13 @@ def test_reglas_ok():
     assert monday["digitos"] == [1, 2]
 
 
+def test_reglas_acepta_api_key_con_espacios():
+    main.API_KEY = "test-key"
+    response = client.get("/reglas", headers={"X-API-Key": "  test-key  "})
+
+    assert response.status_code == 200
+
+
 def test_simular_ok():
     response = client.post("/simular", headers=_headers(), json={
         "placa": "ABC1230",
