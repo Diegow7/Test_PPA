@@ -23,6 +23,13 @@ def test_healthcheck_ok():
     assert "api_key_configurada" in data
 
 
+def test_home_ok():
+    response = client.get("/")
+
+    assert response.status_code == 200
+    assert "text/html" in response.headers["content-type"]
+
+
 def test_reglas_requiere_api_key():
     main.API_KEY = "test-key"
     response = client.get("/reglas")
