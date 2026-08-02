@@ -23,6 +23,20 @@ def test_healthcheck_ok():
     assert "api_key_configurada" in data
 
 
+def test_healthcheck_sin_api_key():
+    original_api_key = main.API_KEY
+    main.API_KEY = ""
+
+    try:
+        response = client.get("/health")
+
+        assert response.status_code == 200
+        data = response.json()
+        assert data["api_key_configurada"] is False
+    finally:
+        main.API_KEY = original_api_key
+
+
 def test_home_ok():
     response = client.get("/")
 
