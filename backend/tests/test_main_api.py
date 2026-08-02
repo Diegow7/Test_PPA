@@ -77,6 +77,17 @@ def test_validar_acepta_api_key_con_espacios():
     assert response.status_code == 200
 
 
+def test_simular_rechaza_api_key_incorrecta():
+    main.API_KEY = "test-key"
+    response = client.post("/simular", headers={"X-API-Key": "wrong-key"}, json={
+        "placa": "ABC1230",
+        "fecha": "2026-05-25",
+        "hora": "10:30"
+    })
+
+    assert response.status_code == 401
+
+
 def test_reglas_ok():
     response = client.get("/reglas", headers=_headers())
 
