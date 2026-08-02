@@ -211,7 +211,9 @@ def healthcheck():
         "timestamp": datetime.now().isoformat(timespec="seconds"),
         "historial_consultas": len(_historial_consultas),
         "uptime_seconds": round(time.time() - APP_START_TIME, 2),
-        "api_key_configurada": bool(API_KEY)
+        "api_key_configurada": bool(API_KEY),
+        "rate_limit_max": RATE_LIMIT_MAX,
+        "rate_limit_window_sec": RATE_LIMIT_WINDOW_SEC
     }
 
 @app.get("/reglas", response_model=ReglasPicoPlaca)

@@ -21,6 +21,8 @@ def test_healthcheck_ok():
     assert "historial_consultas" in data
     assert "uptime_seconds" in data
     assert "api_key_configurada" in data
+    assert "rate_limit_max" in data
+    assert "rate_limit_window_sec" in data
 
 
 def test_healthcheck_sin_api_key():
