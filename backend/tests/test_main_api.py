@@ -88,6 +88,13 @@ def test_simular_rechaza_api_key_incorrecta():
     assert response.status_code == 401
 
 
+def test_historial_rechaza_api_key_incorrecta():
+    main.API_KEY = "test-key"
+    response = client.get("/historial", headers={"X-API-Key": "wrong-key"})
+
+    assert response.status_code == 401
+
+
 def test_reglas_ok():
     response = client.get("/reglas", headers=_headers())
 
