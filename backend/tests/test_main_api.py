@@ -28,6 +28,7 @@ def test_home_ok():
 
     assert response.status_code == 200
     assert "text/html" in response.headers["content-type"]
+    assert "Pico y Placa" in response.text
 
 
 def test_reglas_requiere_api_key():
