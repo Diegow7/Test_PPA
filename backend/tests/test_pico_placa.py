@@ -155,3 +155,17 @@ def test_puede_circular_restringido_tarde():
 
 def test_puede_circular_permitido():
     assert puede_circular("ABC1230", "2026-05-25", "10:30") is True
+
+
+def test_validar_entrada_hora_limite_inferior():
+    _, _, hora_obj, errores = validar_entrada("ABC1234", "2026-05-25", "05:00")
+
+    assert errores == {}
+    assert hora_obj.strftime("%H:%M") == "05:00"
+
+
+def test_validar_entrada_hora_limite_superior():
+    _, _, hora_obj, errores = validar_entrada("ABC1234", "2026-05-25", "19:30")
+
+    assert errores == {}
+    assert hora_obj.strftime("%H:%M") == "19:30"
