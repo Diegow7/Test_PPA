@@ -1,5 +1,6 @@
 from datetime import datetime, time
 import re
+from types import MappingProxyType
 
 FORMATO_FECHA = "%Y-%m-%d"
 FORMATO_HORA = "%H:%M"
@@ -11,13 +12,13 @@ PATRON_SEPARADORES_PLACA = re.compile(r"[-\s]")
 PATRON_SEPARADORES_CONSECUTIVOS = re.compile(r"[-\s]{2,}")
 
 # Restricciones por día
-restricciones = {
+restricciones = MappingProxyType({
     "Monday": [1, 2],
     "Tuesday": [3, 4],
     "Wednesday": [5, 6],
     "Thursday": [7, 8],
     "Friday": [9, 0]
-}
+})
 
 HORA_INICIO_VALIDACION = datetime.strptime("05:00", FORMATO_HORA).time()
 HORA_FIN_VALIDACION = datetime.strptime("19:30", FORMATO_HORA).time()
