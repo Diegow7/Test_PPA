@@ -64,6 +64,16 @@ def test_validar_entrada_hora_justo_antes_del_limite_inferior():
     assert errores["hora"] == "Hora invalida: rango permitido 05:00 a 19:30"
 
 
+def test_validar_entrada_hora_justo_despues_del_limite_superior():
+    _, _, _, errores = validar_entrada(
+        "ABC1234",
+        "2026-05-25",
+        "19:31"
+    )
+
+    assert errores["hora"] == "Hora invalida: rango permitido 05:00 a 19:30"
+
+
 def test_validar_entrada_placa_vacia():
     info, _, _, errores = validar_entrada("", "2026-05-25", "08:00")
 
