@@ -213,7 +213,8 @@ def healthcheck():
         "uptime_seconds": round(time.time() - APP_START_TIME, 2),
         "api_key_configurada": bool(API_KEY),
         "rate_limit_max": RATE_LIMIT_MAX,
-        "rate_limit_window_sec": RATE_LIMIT_WINDOW_SEC
+        "rate_limit_window_sec": RATE_LIMIT_WINDOW_SEC,
+        "history_limit": HISTORY_LIMIT
     }
 
 @app.get("/reglas", response_model=ReglasPicoPlaca)

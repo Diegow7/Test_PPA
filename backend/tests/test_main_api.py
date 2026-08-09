@@ -23,8 +23,10 @@ def test_healthcheck_ok():
     assert "api_key_configurada" in data
     assert "rate_limit_max" in data
     assert "rate_limit_window_sec" in data
+    assert "history_limit" in data
     assert data["rate_limit_max"] == main.RATE_LIMIT_MAX
     assert data["rate_limit_window_sec"] == main.RATE_LIMIT_WINDOW_SEC
+    assert data["history_limit"] == main.HISTORY_LIMIT
 
 
 def test_healthcheck_sin_api_key():
