@@ -172,6 +172,16 @@ def test_simular_ok():
     assert data["simulado"] is True
 
 
+def test_validar_datos_invalidos_devuelve_400():
+    response = client.post("/validar", headers=_headers(), json={
+        "placa": "INVALID",
+        "fecha": "not-a-date",
+        "hora": "99:99"
+    })
+
+    assert response.status_code == 400
+
+
 def test_limpiar_historial_ok():
     headers = _headers()
 
