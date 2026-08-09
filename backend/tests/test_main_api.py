@@ -204,6 +204,24 @@ def test_validar_no_puede_circular():
     assert response.json()["resultado"] == "No puede circular"
 
 
+def test_validar_guarda_en_historial():
+    headers = _headers()
+    client.post("/historial/limpiar", headers=headers)
+
+    client.post("/validar", headers=headers, json={
+        "placa": "ABC1230",
+        "fecha": "2026-05-25",
+        "hora": "10:30"
+    })
+
+    response = client.get("/historial", headers=headers)
+
+    assert response.status_code == 200
+    data = response.json()
+    assert len(data) == 1
+    assert data[0]["placa"] == "ABC1230"
+
+
 def test_limpiar_historial_ok():
     headers = _headers()
 
