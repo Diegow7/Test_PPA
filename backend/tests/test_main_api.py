@@ -192,6 +192,18 @@ def test_simular_datos_invalidos_devuelve_400():
     assert response.status_code == 400
 
 
+def test_validar_no_puede_circular():
+    # ABC1231 termina en 1, restringido el lunes 2026-05-25 en horario de mañana
+    response = client.post("/validar", headers=_headers(), json={
+        "placa": "ABC1231",
+        "fecha": "2026-05-25",
+        "hora": "08:00"
+    })
+
+    assert response.status_code == 200
+    assert response.json()["resultado"] == "No puede circular"
+
+
 def test_limpiar_historial_ok():
     headers = _headers()
 
