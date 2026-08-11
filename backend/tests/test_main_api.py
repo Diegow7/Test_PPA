@@ -222,6 +222,22 @@ def test_validar_guarda_en_historial():
     assert data[0]["placa"] == "ABC1230"
 
 
+def test_simular_no_guarda_en_historial():
+    headers = _headers()
+    client.post("/historial/limpiar", headers=headers)
+
+    client.post("/simular", headers=headers, json={
+        "placa": "ABC1230",
+        "fecha": "2026-05-25",
+        "hora": "10:30"
+    })
+
+    response = client.get("/historial", headers=headers)
+
+    assert response.status_code == 200
+    assert len(response.json()) == 0
+
+
 def test_limpiar_historial_ok():
     headers = _headers()
 
