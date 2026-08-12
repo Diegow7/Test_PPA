@@ -238,6 +238,38 @@ def test_simular_no_guarda_en_historial():
     assert len(response.json()) == 0
 
 
+def test_historial_respeta_history_limit():
+    headers = _headers()
+    original_limit = main.HISTORY_LIMIT
+    main.HISTORY_LIMIT = 2
+    client.post("/historial/limpiar", headers=headers)
+
+    try:
+        client.post("/validar", headers=headers, json={
+            "placa": "ABC1230",
+            "fecha": "2026-05-25",
+            "hora": "10:30"
+        })
+        client.post("/validar", headers=headers, json={
+            "placa": "ABC1231",
+            "fecha": "2026-05-25",
+            "hora": "10:30"
+        })
+        client.post("/validar", headers=headers, json={
+            "placa": "ABC1232",
+            "fecha": "2026-05-25",
+            "hora": "10:30"
+        })
+
+        response = client.get("/historial", headers=headers)
+
+        assert response.status_code == 200
+        assert len(response.json()) == 2
+    finally:
+        main.HISTORY_LIMIT = original_limit
+        client.post("/historial/limpiar", headers=headers)
+
+
 def test_limpiar_historial_ok():
     headers = _headers()
 
