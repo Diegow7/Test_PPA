@@ -202,3 +202,17 @@ def test_puede_circular_fin_de_semana():
     # 2026-08-08 es sábado — sin restricciones ningún dígito
     assert puede_circular("ABC1231", "2026-08-08", "08:00") is True
     assert puede_circular("ABC1239", "2026-08-09", "17:00") is True
+
+
+def test_validar_entrada_fecha_futura():
+    _, fecha_obj, _, errores = validar_entrada("ABC1234", "2099-01-01", "08:00")
+
+    assert fecha_obj is None
+    assert errores["fecha"] == "Fecha invalida: no puede ser futura"
+
+
+def test_validar_entrada_fecha_imposible():
+    _, fecha_obj, _, errores = validar_entrada("ABC1234", "2026-02-31", "08:00")
+
+    assert fecha_obj is None
+    assert "fecha" in errores
