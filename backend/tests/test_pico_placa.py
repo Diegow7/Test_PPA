@@ -216,3 +216,19 @@ def test_validar_entrada_fecha_imposible():
 
     assert fecha_obj is None
     assert "fecha" in errores
+
+
+def test_restricciones_por_dia_de_semana():
+    # Martes 2026-05-26: dígitos 3 y 4
+    assert puede_circular("ABC1233", "2026-05-26", "08:00") is False
+    assert puede_circular("ABC1234", "2026-05-26", "08:00") is False
+    assert puede_circular("ABC1231", "2026-05-26", "08:00") is True
+    # Miércoles 2026-05-27: dígitos 5 y 6
+    assert puede_circular("ABC1235", "2026-05-27", "08:00") is False
+    assert puede_circular("ABC1236", "2026-05-27", "08:00") is False
+    # Jueves 2026-05-28: dígitos 7 y 8
+    assert puede_circular("ABC1237", "2026-05-28", "08:00") is False
+    assert puede_circular("ABC1238", "2026-05-28", "08:00") is False
+    # Viernes 2026-05-29: dígitos 9 y 0
+    assert puede_circular("ABC1239", "2026-05-29", "08:00") is False
+    assert puede_circular("ABC1230", "2026-05-29", "08:00") is False
