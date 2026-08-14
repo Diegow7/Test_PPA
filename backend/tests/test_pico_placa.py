@@ -239,3 +239,17 @@ def test_placa_restringida_fuera_de_horario_puede_circular():
     assert puede_circular("ABC1231", "2026-05-25", "06:00") is True
     assert puede_circular("ABC1231", "2026-05-25", "10:00") is True
     assert puede_circular("ABC1231", "2026-05-25", "14:00") is True
+
+
+def test_limites_exactos_franja_manana():
+    # ABC1231 restringida el lunes — límites de franja mañana 07:00-09:30
+    assert puede_circular("ABC1231", "2026-05-25", "07:00") is False
+    assert puede_circular("ABC1231", "2026-05-25", "09:30") is False
+    assert puede_circular("ABC1231", "2026-05-25", "06:59") is True
+
+
+def test_limites_exactos_franja_tarde():
+    # ABC1231 restringida el lunes — límites de franja tarde 16:00-19:30
+    assert puede_circular("ABC1231", "2026-05-25", "16:00") is False
+    assert puede_circular("ABC1231", "2026-05-25", "19:30") is False
+    assert puede_circular("ABC1231", "2026-05-25", "15:59") is True
