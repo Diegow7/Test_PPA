@@ -232,3 +232,10 @@ def test_restricciones_por_dia_de_semana():
     # Viernes 2026-05-29: dígitos 9 y 0
     assert puede_circular("ABC1239", "2026-05-29", "08:00") is False
     assert puede_circular("ABC1230", "2026-05-29", "08:00") is False
+
+
+def test_placa_restringida_fuera_de_horario_puede_circular():
+    # ABC1231 está restringida el lunes pero fuera de franja horaria puede circular
+    assert puede_circular("ABC1231", "2026-05-25", "06:00") is True
+    assert puede_circular("ABC1231", "2026-05-25", "10:00") is True
+    assert puede_circular("ABC1231", "2026-05-25", "14:00") is True
