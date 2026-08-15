@@ -294,3 +294,14 @@ def test_extrae_prefijo_carro_y_moto():
     info_moto, _, _, _ = validar_entrada("XY123Z", "2026-05-25", "08:00")
     assert info_moto["prefijo"] == "XY"
     assert info_moto["tipo"] == "moto"
+
+
+def test_validar_entrada_multiples_errores_simultaneos():
+    # Placa inválida, fecha futura, hora fuera de rango - deben reportar todos los errores
+    info, _, _, errores = validar_entrada("INVALID", "2099-12-31", "25:00")
+
+    assert info is None
+    assert "placa" in errores
+    assert "fecha" in errores
+    assert "hora" in errores
+    assert len(errores) == 3
