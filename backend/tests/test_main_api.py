@@ -134,6 +134,13 @@ def test_historial_rechaza_api_key_incorrecta():
     assert response.status_code == 401
 
 
+def test_historial_acepta_api_key_con_espacios():
+    main.API_KEY = "test-key"
+    response = client.get("/historial", headers={"X-API-Key": "  test-key  "})
+
+    assert response.status_code == 200
+
+
 def test_limpiar_historial_rechaza_api_key_incorrecta():
     main.API_KEY = "test-key"
     response = client.post("/historial/limpiar", headers={"X-API-Key": "wrong-key"})
