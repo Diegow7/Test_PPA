@@ -266,3 +266,9 @@ def test_validar_entrada_placa_solo_numeros():
     _, _, _, errores = validar_entrada("1234567", "2026-05-25", "08:00")
 
     assert "placa" in errores
+
+
+def test_validar_entrada_placa_con_caracteres_especiales():
+    _, _, _, errores = validar_entrada("ABC@1234", "2026-05-25", "08:00")
+
+    assert "placa" in errores
