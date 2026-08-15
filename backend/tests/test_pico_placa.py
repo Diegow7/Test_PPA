@@ -272,3 +272,13 @@ def test_validar_entrada_placa_con_caracteres_especiales():
     _, _, _, errores = validar_entrada("ABC@1234", "2026-05-25", "08:00")
 
     assert "placa" in errores
+
+
+def test_moto_extrae_digito_correcto():
+    # Moto AB123C: el dígito restrictivo es el 3ro (2), no el último (C)
+    # 2026-05-25 es lunes, restricción de dígitos 1 y 2
+    info, _, _, errores = validar_entrada("AB123C", "2026-05-25", "08:00")
+
+    assert errores == {}
+    assert info["ultimo_digito"] == 2  # 3er digit position is the restriction
+    assert info["tipo"] == "moto"
