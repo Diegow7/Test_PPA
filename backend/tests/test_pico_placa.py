@@ -253,3 +253,16 @@ def test_limites_exactos_franja_tarde():
     assert puede_circular("ABC1231", "2026-05-25", "16:00") is False
     assert puede_circular("ABC1231", "2026-05-25", "19:30") is False
     assert puede_circular("ABC1231", "2026-05-25", "15:59") is True
+
+
+def test_validar_entrada_placa_longitud_invalida():
+    _, _, _, errores = validar_entrada("AB12", "2026-05-25", "08:00")
+
+    assert "placa" in errores
+    assert "longitud" in errores["placa"].lower()
+
+
+def test_validar_entrada_placa_solo_numeros():
+    _, _, _, errores = validar_entrada("1234567", "2026-05-25", "08:00")
+
+    assert "placa" in errores
