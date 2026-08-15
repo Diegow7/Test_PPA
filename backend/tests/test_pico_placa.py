@@ -282,3 +282,15 @@ def test_moto_extrae_digito_correcto():
     assert errores == {}
     assert info["ultimo_digito"] == 2  # 3er digit position is the restriction
     assert info["tipo"] == "moto"
+
+
+def test_extrae_prefijo_carro_y_moto():
+    # Carro: prefijo son primeros 3 caracteres
+    info_carro, _, _, _ = validar_entrada("ABC1234", "2026-05-25", "08:00")
+    assert info_carro["prefijo"] == "ABC"
+    assert info_carro["tipo"] == "carro"
+
+    # Moto: prefijo son primeros 2 caracteres
+    info_moto, _, _, _ = validar_entrada("XY123Z", "2026-05-25", "08:00")
+    assert info_moto["prefijo"] == "XY"
+    assert info_moto["tipo"] == "moto"
