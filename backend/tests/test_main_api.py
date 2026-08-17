@@ -240,6 +240,19 @@ def test_validar_no_puede_circular():
     assert response.json()["resultado"] == "No puede circular"
 
 
+def test_validar_restringida_fuera_de_franja_horaria():
+    # ABC1231 está restringida lunes, pero solo en horas de restricción (07:00-09:30)
+    # A las 10:30 del lunes puede circular aunque esté restringida ese día
+    response = client.post("/validar", headers=_headers(), json={
+        "placa": "ABC1231",
+        "fecha": "2026-05-25",
+        "hora": "10:30"
+    })
+
+    assert response.status_code == 200
+    assert response.json()["resultado"] == "Puede circular"
+
+
 def test_validar_puede_circular():
     # ABC1230 termina en 0, restringido viernes; este es viernes pero hora de mediodía (fuera de rango)
     response = client.post("/validar", headers=_headers(), json={
