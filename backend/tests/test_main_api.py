@@ -208,6 +208,20 @@ def test_simular_ok():
     assert data["simulado"] is True
 
 
+def test_validar_retorna_simulado_false():
+    # /validar debe retornar "simulado": false para distinguirse de /simular
+    response = client.post("/validar", headers=_headers(), json={
+        "placa": "ABC1230",
+        "fecha": "2026-05-25",
+        "hora": "10:30"
+    })
+
+    assert response.status_code == 200
+    data = response.json()
+    assert data["resultado"] == "Puede circular"
+    assert data["simulado"] is False
+
+
 def test_validar_datos_invalidos_devuelve_400():
     response = client.post("/validar", headers=_headers(), json={
         "placa": "INVALID",
