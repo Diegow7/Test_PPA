@@ -338,6 +338,16 @@ def test_limpiar_historial_ok():
     assert data["restantes"] == 0
 
 
+def test_historial_vacio_devuelve_array_vacio():
+    headers = _headers()
+    client.post("/historial/limpiar", headers=headers)
+
+    response = client.get("/historial", headers=headers)
+
+    assert response.status_code == 200
+    assert response.json() == []
+
+
 def test_rate_limit_bloqueado():
     headers = _headers()
     original_max = main.RATE_LIMIT_MAX
