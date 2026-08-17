@@ -240,6 +240,18 @@ def test_validar_no_puede_circular():
     assert response.json()["resultado"] == "No puede circular"
 
 
+def test_validar_puede_circular():
+    # ABC1230 termina en 0, restringido viernes; este es viernes pero hora de mediodía (fuera de rango)
+    response = client.post("/validar", headers=_headers(), json={
+        "placa": "ABC1230",
+        "fecha": "2026-05-22",
+        "hora": "12:00"
+    })
+
+    assert response.status_code == 200
+    assert response.json()["resultado"] == "Puede circular"
+
+
 def test_validar_guarda_en_historial():
     headers = _headers()
     client.post("/historial/limpiar", headers=headers)
