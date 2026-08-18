@@ -208,6 +208,20 @@ def test_simular_ok():
     assert data["simulado"] is True
 
 
+def test_simular_no_puede_circular():
+    # ABC1231 termina en 1, restringido el lunes 2026-05-25 en horario de mañana
+    response = client.post("/simular", headers=_headers(), json={
+        "placa": "ABC1231",
+        "fecha": "2026-05-25",
+        "hora": "08:00"
+    })
+
+    assert response.status_code == 200
+    data = response.json()
+    assert data["resultado"] == "No puede circular"
+    assert data["simulado"] is True
+
+
 def test_validar_retorna_simulado_false():
     # /validar debe retornar "simulado": false para distinguirse de /simular
     response = client.post("/validar", headers=_headers(), json={
