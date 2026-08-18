@@ -222,6 +222,20 @@ def test_simular_no_puede_circular():
     assert data["simulado"] is True
 
 
+def test_simular_restringida_fuera_de_franja_horaria():
+    # ABC1231 está restringida lunes, pero fuera de franja debe poder circular
+    response = client.post("/simular", headers=_headers(), json={
+        "placa": "ABC1231",
+        "fecha": "2026-05-25",
+        "hora": "10:30"
+    })
+
+    assert response.status_code == 200
+    data = response.json()
+    assert data["resultado"] == "Puede circular"
+    assert data["simulado"] is True
+
+
 def test_validar_retorna_simulado_false():
     # /validar debe retornar "simulado": false para distinguirse de /simular
     response = client.post("/validar", headers=_headers(), json={
