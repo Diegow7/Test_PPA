@@ -361,6 +361,25 @@ def test_historial_orden_mas_reciente_primero():
     assert data[1]["placa"] == "ABC1230"
 
 
+def test_historial_incluye_timestamp_en_cada_entrada():
+    headers = _headers()
+    client.post("/historial/limpiar", headers=headers)
+
+    client.post("/validar", headers=headers, json={
+        "placa": "ABC1230",
+        "fecha": "2026-05-25",
+        "hora": "10:30"
+    })
+
+    response = client.get("/historial", headers=headers)
+
+    assert response.status_code == 200
+    data = response.json()
+    assert len(data) == 1
+    assert "timestamp" in data[0]
+    assert data[0]["timestamp"]
+
+
 def test_simular_no_guarda_en_historial():
     headers = _headers()
     client.post("/historial/limpiar", headers=headers)
