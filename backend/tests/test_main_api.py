@@ -29,6 +29,14 @@ def test_healthcheck_ok():
     assert data["history_limit"] == main.HISTORY_LIMIT
 
 
+def test_healthcheck_timestamp_iso_format():
+    response = client.get("/health")
+
+    assert response.status_code == 200
+    data = response.json()
+    assert "T" in data["timestamp"]
+
+
 def test_healthcheck_sin_api_key():
     original_api_key = main.API_KEY
     main.API_KEY = ""
