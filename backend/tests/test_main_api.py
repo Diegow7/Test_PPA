@@ -37,6 +37,15 @@ def test_healthcheck_timestamp_iso_format():
     assert "T" in data["timestamp"]
 
 
+def test_healthcheck_uptime_seconds_no_negativo():
+    response = client.get("/health")
+
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data["uptime_seconds"], (int, float))
+    assert data["uptime_seconds"] >= 0
+
+
 def test_healthcheck_sin_api_key():
     original_api_key = main.API_KEY
     main.API_KEY = ""
