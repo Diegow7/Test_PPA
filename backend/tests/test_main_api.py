@@ -405,6 +405,19 @@ def test_limpiar_historial_ok():
     assert data["restantes"] == 0
 
 
+def test_limpiar_historial_ya_vacio():
+    headers = _headers()
+    client.post("/historial/limpiar", headers=headers)
+
+    response = client.post("/historial/limpiar", headers=headers)
+
+    assert response.status_code == 200
+    data = response.json()
+    assert data["historial_vacio"] is True
+    assert data["eliminadas"] == 0
+    assert data["restantes"] == 0
+
+
 def test_historial_vacio_devuelve_array_vacio():
     headers = _headers()
     client.post("/historial/limpiar", headers=headers)
