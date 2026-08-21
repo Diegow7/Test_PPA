@@ -253,6 +253,18 @@ def test_simular_restringida_fuera_de_franja_horaria():
     assert data["simulado"] is True
 
 
+def test_simular_no_incluye_timestamp():
+    response = client.post("/simular", headers=_headers(), json={
+        "placa": "ABC1230",
+        "fecha": "2026-05-25",
+        "hora": "10:30"
+    })
+
+    assert response.status_code == 200
+    data = response.json()
+    assert "timestamp" not in data
+
+
 def test_validar_retorna_simulado_false():
     # /validar debe retornar "simulado": false para distinguirse de /simular
     response = client.post("/validar", headers=_headers(), json={
