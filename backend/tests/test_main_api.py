@@ -222,6 +222,15 @@ def test_reglas_viernes_digitos_correctos():
     assert friday["digitos"] == [9, 0]
 
 
+def test_reglas_incluye_dias_laborales_esperados():
+    response = client.get("/reglas", headers=_headers())
+
+    assert response.status_code == 200
+    data = response.json()
+    dias = {item["dia"] for item in data["restricciones_por_dia"]}
+    assert dias == {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"}
+
+
 def test_reglas_acepta_api_key_con_espacios():
     main.API_KEY = "test-key"
     response = client.get("/reglas", headers={"X-API-Key": "  test-key  "})
