@@ -539,6 +539,7 @@ def test_rate_limit_bloqueado():
 
         response = client.get("/health")
         assert response.status_code == 429
+        assert response.json()["detail"] == "Demasiadas solicitudes, intenta mas tarde"
     finally:
         main.RATE_LIMIT_MAX = original_max
         main._rate_limit_buckets.clear()
