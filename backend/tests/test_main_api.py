@@ -213,6 +213,15 @@ def test_reglas_incluye_cinco_dias_laborales():
     assert len(data["restricciones_por_dia"]) == 5
 
 
+def test_reglas_viernes_digitos_correctos():
+    response = client.get("/reglas", headers=_headers())
+
+    assert response.status_code == 200
+    data = response.json()
+    friday = next(item for item in data["restricciones_por_dia"] if item["dia"] == "Friday")
+    assert friday["digitos"] == [9, 0]
+
+
 def test_reglas_acepta_api_key_con_espacios():
     main.API_KEY = "test-key"
     response = client.get("/reglas", headers={"X-API-Key": "  test-key  "})
