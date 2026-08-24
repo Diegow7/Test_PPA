@@ -291,8 +291,8 @@ def test_simular_no_incluye_timestamp():
     assert "timestamp" not in data
 
 
-def test_validar_retorna_simulado_false():
-    # /validar debe retornar "simulado": false para distinguirse de /simular
+def test_validar_no_incluye_simulado():
+    # /validar no debe incluir el campo simulado; solo /simular lo retorna
     response = client.post("/validar", headers=_headers(), json={
         "placa": "ABC1230",
         "fecha": "2026-05-25",
@@ -302,7 +302,7 @@ def test_validar_retorna_simulado_false():
     assert response.status_code == 200
     data = response.json()
     assert data["resultado"] == "Puede circular"
-    assert data["simulado"] is False
+    assert "simulado" not in data
 
 
 def test_validar_datos_invalidos_devuelve_400():
