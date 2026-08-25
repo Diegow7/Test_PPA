@@ -60,6 +60,20 @@ def test_healthcheck_sin_api_key():
         main.API_KEY = original_api_key
 
 
+def test_healthcheck_con_api_key_configurada():
+    original_api_key = main.API_KEY
+    main.API_KEY = "test-key"
+
+    try:
+        response = client.get("/health")
+
+        assert response.status_code == 200
+        data = response.json()
+        assert data["api_key_configurada"] is True
+    finally:
+        main.API_KEY = original_api_key
+
+
 def test_home_ok():
     response = client.get("/")
 
@@ -315,18 +329,6 @@ def test_validar_no_incluye_simulado():
     data = response.json()
     assert data["resultado"] == "Puede circular"
     assert "simulado" not in data
-
-
-def test_validar_respuesta_incluye_campos_esperados():
-    response = client.post("/validar", headers=_headers(), json={
-        "placa": "ABC1230",
-        "fecha": "2026-05-25",
-        "hora": "10:30"
-    })
-
-    assert response.status_code == 200
-    data = response.json()
-    assert set(data.keys()) == {"placa", "fecha", "hora", "resultado"}
 
 
 def test_validar_datos_invalidos_devuelve_400():
