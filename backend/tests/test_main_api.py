@@ -291,6 +291,18 @@ def test_simular_no_incluye_timestamp():
     assert "timestamp" not in data
 
 
+def test_simular_respuesta_incluye_campos_esperados():
+    response = client.post("/simular", headers=_headers(), json={
+        "placa": "ABC1230",
+        "fecha": "2026-05-25",
+        "hora": "10:30"
+    })
+
+    assert response.status_code == 200
+    data = response.json()
+    assert set(data.keys()) == {"placa", "fecha", "hora", "resultado", "simulado"}
+
+
 def test_validar_no_incluye_simulado():
     # /validar no debe incluir el campo simulado; solo /simular lo retorna
     response = client.post("/validar", headers=_headers(), json={
