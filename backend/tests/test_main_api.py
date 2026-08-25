@@ -74,6 +74,17 @@ def test_healthcheck_con_api_key_configurada():
         main.API_KEY = original_api_key
 
 
+def test_healthcheck_no_requiere_api_key_con_api_configurada():
+    original_api_key = main.API_KEY
+    main.API_KEY = "test-key"
+
+    try:
+        response = client.get("/health")
+        assert response.status_code == 200
+    finally:
+        main.API_KEY = original_api_key
+
+
 def test_home_ok():
     response = client.get("/")
 
