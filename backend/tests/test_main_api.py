@@ -317,6 +317,18 @@ def test_validar_no_incluye_simulado():
     assert "simulado" not in data
 
 
+def test_validar_respuesta_incluye_campos_esperados():
+    response = client.post("/validar", headers=_headers(), json={
+        "placa": "ABC1230",
+        "fecha": "2026-05-25",
+        "hora": "10:30"
+    })
+
+    assert response.status_code == 200
+    data = response.json()
+    assert set(data.keys()) == {"placa", "fecha", "hora", "resultado"}
+
+
 def test_validar_datos_invalidos_devuelve_400():
     response = client.post("/validar", headers=_headers(), json={
         "placa": "INVALID",
