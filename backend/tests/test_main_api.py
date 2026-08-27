@@ -98,6 +98,7 @@ def test_reglas_requiere_api_key():
     response = client.get("/reglas")
 
     assert response.status_code == 401
+    assert response.json()["detail"] == "API key invalida"
 
 
 def test_historial_requiere_api_key():
