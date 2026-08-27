@@ -106,6 +106,7 @@ def test_historial_requiere_api_key():
     response = client.get("/historial")
 
     assert response.status_code == 401
+    assert response.json()["detail"] == "API key invalida"
 
 
 def test_limpiar_historial_requiere_api_key():
