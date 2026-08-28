@@ -138,6 +138,7 @@ def test_validar_requiere_api_key():
     })
 
     assert response.status_code == 401
+    assert response.json()["detail"] == "API key invalida"
 
 
 def test_validar_acepta_api_key_con_espacios():
