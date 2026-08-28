@@ -161,6 +161,7 @@ def test_simular_rechaza_api_key_incorrecta():
     })
 
     assert response.status_code == 401
+    assert response.json()["detail"] == "API key invalida"
 
 
 def test_validar_rechaza_api_key_incorrecta():
