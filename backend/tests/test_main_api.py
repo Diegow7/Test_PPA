@@ -192,6 +192,7 @@ def test_historial_rechaza_api_key_incorrecta():
     response = client.get("/historial", headers={"X-API-Key": "wrong-key"})
 
     assert response.status_code == 401
+    assert response.json()["detail"] == "API key invalida"
 
 
 def test_historial_acepta_api_key_con_espacios():
