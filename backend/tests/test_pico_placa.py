@@ -204,6 +204,12 @@ def test_puede_circular_lanza_value_error_si_entrada_invalida():
         puede_circular("INVALID", "2026-05-25", "08:00")
 
 
+def test_puede_circular_lanza_value_error_si_fecha_invalida():
+    import pytest
+    with pytest.raises(ValueError, match="Fecha invalida"):
+        puede_circular("ABC1234", "not-a-date", "08:00")
+
+
 def test_puede_circular_fin_de_semana():
     # 2026-08-08 es sábado — sin restricciones ningún dígito
     assert puede_circular("ABC1231", "2026-08-08", "08:00") is True
