@@ -216,6 +216,11 @@ def test_puede_circular_lanza_value_error_si_hora_invalida():
         puede_circular("ABC1234", "2026-05-25", "99:99")
 
 
+def test_puede_circular_domingo():
+    # 2026-05-31 es domingo — sin restricciones
+    assert puede_circular("ABC1231", "2026-05-31", "08:00") is True
+
+
 def test_puede_circular_fin_de_semana():
     # 2026-08-08 es sábado — sin restricciones ningún dígito
     assert puede_circular("ABC1231", "2026-08-08", "08:00") is True
