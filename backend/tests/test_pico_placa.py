@@ -302,6 +302,12 @@ def test_validar_entrada_placa_con_caracteres_especiales():
     assert "placa" in errores
 
 
+def test_validar_entrada_placa_solo_letras():
+    _, _, _, errores = validar_entrada("ABCDEFG", "2026-05-25", "08:00")
+
+    assert "placa" in errores
+
+
 def test_moto_extrae_digito_correcto():
     # Moto AB123C: el dígito restrictivo es el 3ro (2), no el último (C)
     # 2026-05-25 es lunes, restricción de dígitos 1 y 2
