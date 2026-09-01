@@ -221,6 +221,11 @@ def test_puede_circular_domingo():
     assert puede_circular("ABC1231", "2026-05-31", "08:00") is True
 
 
+def test_puede_circular_sabado():
+    # 2026-05-30 es sábado — sin restricciones
+    assert puede_circular("ABC1230", "2026-05-30", "17:00") is True
+
+
 def test_puede_circular_fin_de_semana():
     # 2026-08-08 es sábado — sin restricciones ningún dígito
     assert puede_circular("ABC1231", "2026-08-08", "08:00") is True
