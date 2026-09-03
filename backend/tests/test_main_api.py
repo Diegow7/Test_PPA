@@ -362,6 +362,17 @@ def test_validar_datos_invalidos_devuelve_400():
     assert response.status_code == 400
 
 
+def test_validar_rechaza_prefijo_no_configurado():
+    response = client.post("/validar", headers=_headers(), json={
+        "placa": "ZZZ1234",
+        "fecha": "2026-05-25",
+        "hora": "10:30"
+    })
+
+    assert response.status_code == 400
+    assert response.json()["detail"]["placa"] == "Prefijo no reconocido para carro: ZZZ"
+
+
 def test_simular_datos_invalidos_devuelve_400():
     response = client.post("/simular", headers=_headers(), json={
         "placa": "INVALID",
