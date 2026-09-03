@@ -453,6 +453,19 @@ def test_validar_fin_de_semana_puede_circular():
     assert response.json()["resultado"] == "Puede circular"
 
 
+def test_simular_fin_de_semana_puede_circular():
+    response = client.post("/simular", headers=_headers(), json={
+        "placa": "ABC1231",
+        "fecha": "2026-05-23",
+        "hora": "08:00"
+    })
+
+    assert response.status_code == 200
+    data = response.json()
+    assert data["resultado"] == "Puede circular"
+    assert data["simulado"] is True
+
+
 def test_validar_puede_circular():
     # ABC1230 termina en 0, restringido viernes; este es viernes pero hora de mediodía (fuera de rango)
     response = client.post("/validar", headers=_headers(), json={
