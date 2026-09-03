@@ -539,6 +539,24 @@ def test_historial_incluye_timestamp_en_cada_entrada():
     assert data[0]["timestamp"]
 
 
+def test_historial_campos_completos_en_cada_registro():
+    headers = _headers()
+    client.post("/historial/limpiar", headers=headers)
+
+    client.post("/validar", headers=headers, json={
+        "placa": "ABC1230",
+        "fecha": "2026-05-25",
+        "hora": "10:30"
+    })
+
+    response = client.get("/historial", headers=headers)
+
+    assert response.status_code == 200
+    data = response.json()
+    assert len(data) == 1
+    assert set(data[0].keys()) == {"placa", "fecha", "hora", "resultado", "timestamp"}
+
+
 def test_simular_no_guarda_en_historial():
     headers = _headers()
     client.post("/historial/limpiar", headers=headers)
