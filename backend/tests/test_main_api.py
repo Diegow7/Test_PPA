@@ -257,6 +257,15 @@ def test_reglas_viernes_digitos_correctos():
     assert friday["digitos"] == [9, 0]
 
 
+def test_reglas_miercoles_digitos_correctos():
+    response = client.get("/reglas", headers=_headers())
+
+    assert response.status_code == 200
+    data = response.json()
+    wednesday = next(item for item in data["restricciones_por_dia"] if item["dia"] == "Wednesday")
+    assert wednesday["digitos"] == [5, 6]
+
+
 def test_reglas_incluye_dias_laborales_esperados():
     response = client.get("/reglas", headers=_headers())
 
