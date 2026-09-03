@@ -405,6 +405,17 @@ def test_simular_rechaza_prefijo_no_configurado():
     assert response.json()["detail"]["placa"] == "Prefijo no reconocido para carro: ZZZ"
 
 
+def test_simular_rechaza_prefijo_moto_no_configurado():
+    response = client.post("/simular", headers=_headers(), json={
+        "placa": "ZZ123Z",
+        "fecha": "2026-05-25",
+        "hora": "10:30"
+    })
+
+    assert response.status_code == 400
+    assert response.json()["detail"]["placa"] == "Prefijo no reconocido para moto: ZZ"
+
+
 def test_validar_no_puede_circular():
     # ABC1231 termina en 1, restringido el lunes 2026-05-25 en horario de mañana
     response = client.post("/validar", headers=_headers(), json={
