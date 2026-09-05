@@ -240,6 +240,13 @@ def test_reglas_ok():
     assert monday["digitos"] == [1, 2]
 
 
+def test_reglas_devuelve_prefijos_carro_configurados():
+    response = client.get("/reglas", headers=_headers())
+
+    assert response.status_code == 200
+    assert response.json()["prefijos_carro"] == main.PREFIJOS_CARRO
+
+
 def test_reglas_incluye_cinco_dias_laborales():
     response = client.get("/reglas", headers=_headers())
 
@@ -255,6 +262,15 @@ def test_reglas_viernes_digitos_correctos():
     data = response.json()
     friday = next(item for item in data["restricciones_por_dia"] if item["dia"] == "Friday")
     assert friday["digitos"] == [9, 0]
+
+
+def test_reglas_martes_digitos_correctos():
+    response = client.get("/reglas", headers=_headers())
+
+    assert response.status_code == 200
+    data = response.json()
+    tuesday = next(item for item in data["restricciones_por_dia"] if item["dia"] == "Tuesday")
+    assert tuesday["digitos"] == [3, 4]
 
 
 def test_reglas_miercoles_digitos_correctos():
