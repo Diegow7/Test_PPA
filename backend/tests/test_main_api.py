@@ -247,6 +247,13 @@ def test_reglas_devuelve_prefijos_carro_configurados():
     assert response.json()["prefijos_carro"] == main.PREFIJOS_CARRO
 
 
+def test_reglas_devuelve_prefijos_moto_configurados():
+    response = client.get("/reglas", headers=_headers())
+
+    assert response.status_code == 200
+    assert response.json()["prefijos_moto"] == main.PREFIJOS_MOTO
+
+
 def test_reglas_incluye_cinco_dias_laborales():
     response = client.get("/reglas", headers=_headers())
 
