@@ -425,6 +425,17 @@ def test_validar_rechaza_prefijo_moto_no_configurado():
     assert response.json()["detail"]["placa"] == "Prefijo no reconocido para moto: ZZ"
 
 
+def test_validar_acepta_moto_con_prefijo_configurado():
+    response = client.post("/validar", headers=_headers(), json={
+        "placa": "AB123C",
+        "fecha": "2026-05-25",
+        "hora": "10:30"
+    })
+
+    assert response.status_code == 200
+    assert response.json()["resultado"] == "Puede circular"
+
+
 def test_simular_datos_invalidos_devuelve_400():
     response = client.post("/simular", headers=_headers(), json={
         "placa": "INVALID",
