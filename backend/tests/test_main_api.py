@@ -468,6 +468,19 @@ def test_simular_rechaza_prefijo_no_configurado():
     assert response.json()["detail"]["placa"] == "Prefijo no reconocido para carro: ZZZ"
 
 
+def test_simular_normaliza_prefijo_carro_en_minusculas():
+    response = client.post("/simular", headers=_headers(), json={
+        "placa": "abc1234",
+        "fecha": "2026-05-25",
+        "hora": "10:30"
+    })
+
+    assert response.status_code == 200
+    data = response.json()
+    assert data["resultado"] == "Puede circular"
+    assert data["simulado"] is True
+
+
 def test_simular_rechaza_prefijo_moto_no_configurado():
     response = client.post("/simular", headers=_headers(), json={
         "placa": "ZZ123Z",
