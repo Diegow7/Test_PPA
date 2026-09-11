@@ -46,6 +46,25 @@ def test_healthcheck_uptime_seconds_no_negativo():
     assert data["uptime_seconds"] >= 0
 
 
+def test_healthcheck_informa_consultas_guardadas():
+    headers = _headers()
+    client.post("/historial/limpiar", headers=headers)
+
+    try:
+        client.post("/validar", headers=headers, json={
+            "placa": "ABC1230",
+            "fecha": "2026-05-25",
+            "hora": "10:30"
+        })
+
+        response = client.get("/health")
+
+        assert response.status_code == 200
+        assert response.json()["historial_consultas"] == 1
+    finally:
+        client.post("/historial/limpiar", headers=headers)
+
+
 def test_healthcheck_sin_api_key():
     original_api_key = main.API_KEY
     main.API_KEY = ""
