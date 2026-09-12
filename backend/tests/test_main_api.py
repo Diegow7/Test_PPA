@@ -453,6 +453,22 @@ def test_procesar_consulta_restringida_devuelve_no_puede_circular():
     assert respuesta["resultado"] == "No puede circular"
 
 
+def test_procesar_consulta_rechaza_hora_fuera_de_rango():
+    import pytest
+
+    vehiculo = main.Vehiculo(
+        placa="ABC1230",
+        fecha="2026-05-25",
+        hora="04:59"
+    )
+
+    with pytest.raises(main.HTTPException) as error:
+        main._procesar_consulta(vehiculo)
+
+    assert error.value.status_code == 400
+    assert "hora" in error.value.detail
+
+
 def test_procesar_consulta_rechaza_prefijo_no_configurado():
     import pytest
 
