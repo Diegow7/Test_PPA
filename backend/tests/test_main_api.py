@@ -469,6 +469,22 @@ def test_procesar_consulta_rechaza_hora_fuera_de_rango():
     assert "hora" in error.value.detail
 
 
+def test_procesar_consulta_rechaza_fecha_futura():
+    import pytest
+
+    vehiculo = main.Vehiculo(
+        placa="ABC1230",
+        fecha="2099-01-01",
+        hora="10:30"
+    )
+
+    with pytest.raises(main.HTTPException) as error:
+        main._procesar_consulta(vehiculo)
+
+    assert error.value.status_code == 400
+    assert "fecha" in error.value.detail
+
+
 def test_procesar_consulta_rechaza_prefijo_no_configurado():
     import pytest
 
