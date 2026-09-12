@@ -441,6 +441,34 @@ def test_procesar_consulta_conserva_datos_validos():
     }
 
 
+def test_procesar_consulta_restringida_devuelve_no_puede_circular():
+    vehiculo = main.Vehiculo(
+        placa="ABC1231",
+        fecha="2026-05-25",
+        hora="08:00"
+    )
+
+    respuesta = main._procesar_consulta(vehiculo)
+
+    assert respuesta["resultado"] == "No puede circular"
+
+
+def test_procesar_consulta_rechaza_prefijo_no_configurado():
+    import pytest
+
+    vehiculo = main.Vehiculo(
+        placa="ZZZ1234",
+        fecha="2026-05-25",
+        hora="10:30"
+    )
+
+    with pytest.raises(main.HTTPException) as error:
+        main._procesar_consulta(vehiculo)
+
+    assert error.value.status_code == 400
+    assert error.value.detail["placa"] == "Prefijo no reconocido para carro: ZZZ"
+
+
 def test_validar_rechaza_prefijo_no_configurado():
     response = client.post("/validar", headers=_headers(), json={
         "placa": "ZZZ1234",
