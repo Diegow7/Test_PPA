@@ -424,6 +424,23 @@ def test_validar_datos_invalidos_devuelve_400():
     assert set(detail) == {"placa", "fecha", "hora"}
 
 
+def test_procesar_consulta_conserva_datos_validos():
+    vehiculo = main.Vehiculo(
+        placa="ABC1230",
+        fecha="2026-05-25",
+        hora="10:30"
+    )
+
+    respuesta = main._procesar_consulta(vehiculo)
+
+    assert respuesta == {
+        "placa": "ABC1230",
+        "fecha": "2026-05-25",
+        "hora": "10:30",
+        "resultado": "Puede circular"
+    }
+
+
 def test_validar_rechaza_prefijo_no_configurado():
     response = client.post("/validar", headers=_headers(), json={
         "placa": "ZZZ1234",
