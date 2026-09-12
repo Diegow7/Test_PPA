@@ -420,6 +420,8 @@ def test_validar_datos_invalidos_devuelve_400():
     })
 
     assert response.status_code == 400
+    detail = response.json()["detail"]
+    assert set(detail) == {"placa", "fecha", "hora"}
 
 
 def test_validar_rechaza_prefijo_no_configurado():
