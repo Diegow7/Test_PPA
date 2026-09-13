@@ -795,6 +795,23 @@ def test_validar_guarda_en_historial():
     assert data[0]["placa"] == "ABC1230"
 
 
+def test_validar_error_no_guarda_en_historial():
+    headers = _headers()
+    client.post("/historial/limpiar", headers=headers)
+
+    response = client.post("/validar", headers=headers, json={
+        "placa": "ZZZ1234",
+        "fecha": "2026-05-25",
+        "hora": "10:30"
+    })
+
+    historial = client.get("/historial", headers=headers)
+
+    assert response.status_code == 400
+    assert historial.status_code == 200
+    assert historial.json() == []
+
+
 def test_historial_orden_mas_reciente_primero():
     headers = _headers()
     client.post("/historial/limpiar", headers=headers)
