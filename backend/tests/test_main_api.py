@@ -465,6 +465,18 @@ def test_procesar_consulta_acepta_hora_limite_superior():
     assert respuesta["resultado"] == "Puede circular"
 
 
+def test_procesar_consulta_acepta_hora_limite_inferior():
+    vehiculo = main.Vehiculo(
+        placa="ABC1230",
+        fecha="2026-05-25",
+        hora="05:00"
+    )
+
+    respuesta = main._procesar_consulta(vehiculo)
+
+    assert respuesta["resultado"] == "Puede circular"
+
+
 def test_procesar_consulta_rechaza_hora_fuera_de_rango():
     import pytest
 
