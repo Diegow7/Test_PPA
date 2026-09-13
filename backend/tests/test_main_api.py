@@ -506,7 +506,7 @@ def test_procesar_consulta_rechaza_fecha_futura():
         main._procesar_consulta(vehiculo)
 
     assert error.value.status_code == 400
-    assert "fecha" in error.value.detail
+    assert error.value.detail["fecha"] == "Fecha invalida: no puede ser futura"
 
 
 def test_procesar_consulta_rechaza_fecha_imposible():
