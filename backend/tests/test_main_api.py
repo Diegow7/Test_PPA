@@ -522,7 +522,7 @@ def test_procesar_consulta_rechaza_fecha_imposible():
         main._procesar_consulta(vehiculo)
 
     assert error.value.status_code == 400
-    assert error.value.detail["fecha"] == "Fecha invalida: fecha inexistente"
+    assert error.value.detail["fecha"] == "Fecha invalida: formato esperado YYYY-MM-DD"
 
 
 def test_procesar_consulta_rechaza_prefijo_no_configurado():
