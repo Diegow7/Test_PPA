@@ -490,7 +490,7 @@ def test_procesar_consulta_rechaza_hora_fuera_de_rango():
         main._procesar_consulta(vehiculo)
 
     assert error.value.status_code == 400
-    assert "hora" in error.value.detail
+    assert error.value.detail["hora"] == "Hora invalida: rango permitido 05:00 a 19:30"
 
 
 def test_procesar_consulta_rechaza_fecha_futura():
