@@ -96,6 +96,13 @@ def test_healthcheck_informa_maximo_del_rate_limit():
     assert response.json()["rate_limit_max"] == main.RATE_LIMIT_MAX
 
 
+def test_healthcheck_devuelve_estado_ok():
+    response = client.get("/health")
+
+    assert response.status_code == 200
+    assert response.json()["status"] == "ok"
+
+
 def test_healthcheck_sin_api_key():
     original_api_key = main.API_KEY
     main.API_KEY = ""
