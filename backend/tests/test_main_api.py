@@ -82,6 +82,20 @@ def test_healthcheck_informa_limite_del_historial():
     assert response.json()["history_limit"] == main.HISTORY_LIMIT
 
 
+def test_healthcheck_informa_ventana_del_rate_limit():
+    response = client.get("/health")
+
+    assert response.status_code == 200
+    assert response.json()["rate_limit_window_sec"] == main.RATE_LIMIT_WINDOW_SEC
+
+
+def test_healthcheck_informa_maximo_del_rate_limit():
+    response = client.get("/health")
+
+    assert response.status_code == 200
+    assert response.json()["rate_limit_max"] == main.RATE_LIMIT_MAX
+
+
 def test_healthcheck_sin_api_key():
     original_api_key = main.API_KEY
     main.API_KEY = ""
