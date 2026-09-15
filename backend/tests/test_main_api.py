@@ -65,6 +65,16 @@ def test_healthcheck_informa_consultas_guardadas():
         client.post("/historial/limpiar", headers=headers)
 
 
+def test_healthcheck_informa_cero_consultas_con_historial_vacio():
+    headers = _headers()
+    client.post("/historial/limpiar", headers=headers)
+
+    response = client.get("/health")
+
+    assert response.status_code == 200
+    assert response.json()["historial_consultas"] == 0
+
+
 def test_healthcheck_sin_api_key():
     original_api_key = main.API_KEY
     main.API_KEY = ""
