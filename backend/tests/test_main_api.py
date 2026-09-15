@@ -617,6 +617,23 @@ def test_simular_datos_invalidos_devuelve_400():
     assert response.status_code == 400
 
 
+def test_simular_error_no_guarda_en_historial():
+    headers = _headers()
+    client.post("/historial/limpiar", headers=headers)
+
+    response = client.post("/simular", headers=headers, json={
+        "placa": "ZZZ1234",
+        "fecha": "2026-05-25",
+        "hora": "10:30"
+    })
+
+    historial = client.get("/historial", headers=headers)
+
+    assert response.status_code == 400
+    assert historial.status_code == 200
+    assert historial.json() == []
+
+
 def test_simular_rechaza_prefijo_no_configurado():
     response = client.post("/simular", headers=_headers(), json={
         "placa": "ZZZ1234",
