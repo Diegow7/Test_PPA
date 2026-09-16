@@ -172,6 +172,15 @@ def test_home_incluye_formulario_consulta():
     assert "id=\"formulario-consulta\"" in response.text
 
 
+def test_home_incluye_campos_de_consulta():
+    response = client.get("/")
+
+    assert response.status_code == 200
+    assert 'name="placa"' in response.text
+    assert 'name="fecha"' in response.text
+    assert 'name="hora"' in response.text
+
+
 def test_reglas_requiere_api_key():
     main.API_KEY = "test-key"
     response = client.get("/reglas")
