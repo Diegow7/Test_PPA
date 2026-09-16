@@ -157,6 +157,14 @@ def test_home_devuelve_html_no_vacio():
     assert response.text.strip()
 
 
+def test_home_incluye_etiqueta_title():
+    response = client.get("/")
+
+    assert response.status_code == 200
+    assert "<title>" in response.text
+    assert "</title>" in response.text
+
+
 def test_reglas_requiere_api_key():
     main.API_KEY = "test-key"
     response = client.get("/reglas")
