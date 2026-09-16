@@ -150,6 +150,13 @@ def test_home_ok():
     assert "Pico y Placa" in response.text
 
 
+def test_home_devuelve_html_no_vacio():
+    response = client.get("/")
+
+    assert response.status_code == 200
+    assert response.text.strip()
+
+
 def test_reglas_requiere_api_key():
     main.API_KEY = "test-key"
     response = client.get("/reglas")
