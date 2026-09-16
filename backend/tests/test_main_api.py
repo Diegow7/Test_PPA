@@ -165,6 +165,13 @@ def test_home_incluye_etiqueta_title():
     assert "</title>" in response.text
 
 
+def test_home_incluye_formulario_consulta():
+    response = client.get("/")
+
+    assert response.status_code == 200
+    assert "id=\"formulario-consulta\"" in response.text
+
+
 def test_reglas_requiere_api_key():
     main.API_KEY = "test-key"
     response = client.get("/reglas")
