@@ -96,6 +96,11 @@ class ReglasPicoPlaca(BaseModel):
     franjas_restringidas: list[str]
     restricciones_por_dia: list[ReglaDia]
 
+class ResultadoLimpiezaHistorial(BaseModel):
+    historial_vacio: bool
+    eliminadas: int
+    restantes: int
+
 def verificar_api_key(x_api_key: str | None = Header(default=None, alias="X-API-Key")):
     if not API_KEY:
         raise HTTPException(status_code=500, detail="API key no configurada")
@@ -246,7 +251,7 @@ def obtener_historial(
 ):
     return _historial_consultas
 
-@app.post("/historial/limpiar")
+@app.post("/historial/limpiar", response_model=ResultadoLimpiezaHistorial)
 def limpiar_historial(
     _: str = Depends(verificar_api_key),
     __: None = Depends(verificar_rate_limit)
