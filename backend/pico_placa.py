@@ -50,7 +50,7 @@ def _normalizar_texto_obligatorio(
     Raises:
         ValueError: Si el valor es vacío, no es texto, o es solo espacios.
     """
-    if not valor:
+    if valor is None:
         raise ValueError(mensaje_obligatorio)
 
     if not isinstance(valor, str):
