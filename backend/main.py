@@ -166,9 +166,9 @@ def _procesar_consulta(vehiculo: Vehiculo) -> dict:
     )
 
     return {
-        "placa": vehiculo.placa,
-        "fecha": vehiculo.fecha,
-        "hora": vehiculo.hora,
+        "placa": info_placa["placa"],
+        "fecha": fecha_obj.strftime("%Y-%m-%d"),
+        "hora": hora_obj.strftime("%H:%M"),
         "resultado": resultado
     }
 

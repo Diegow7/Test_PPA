@@ -491,6 +491,19 @@ def test_validar_datos_invalidos_devuelve_400():
     assert response.status_code == 400
     detail = response.json()["detail"]
     assert set(detail) == {"placa", "fecha", "hora"}
+def test_validar_devuelve_datos_normalizados():
+    response = client.post("/validar", headers=_headers(), json={
+        "placa": " abc-1230 ",
+        "fecha": "2026/05/25",
+        "hora": " 10:30 "
+    })
+
+    assert response.status_code == 200
+    assert response.json()["placa"] == "ABC1230"
+    assert response.json()["fecha"] == "2026-05-25"
+    assert response.json()["hora"] == "10:30"
+
+
 
 
 def test_procesar_consulta_conserva_datos_validos():
