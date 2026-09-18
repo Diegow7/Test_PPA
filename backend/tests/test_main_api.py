@@ -762,6 +762,9 @@ def test_simular_acepta_placa_con_espacios_y_guiones():
 
     assert response.status_code == 200
     data = response.json()
+    assert data["placa"] == "ABC1234"
+    assert data["fecha"] == "2026-05-25"
+    assert data["hora"] == "10:30"
     assert data["resultado"] == "Puede circular"
     assert data["simulado"] is True
 
