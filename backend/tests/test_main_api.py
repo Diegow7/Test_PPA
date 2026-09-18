@@ -756,8 +756,8 @@ def test_simular_normaliza_prefijo_moto_en_minusculas():
 def test_simular_acepta_placa_con_espacios_y_guiones():
     response = client.post("/simular", headers=_headers(), json={
         "placa": " abc-1234 ",
-        "fecha": "2026-05-25",
-        "hora": "10:30"
+        "fecha": "2026/05/25",
+        "hora": " 10:30 "
     })
 
     assert response.status_code == 200
