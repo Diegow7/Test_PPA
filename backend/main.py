@@ -187,9 +187,9 @@ def validar_vehiculo(
     respuesta = _procesar_consulta(vehiculo)
 
     _historial_consultas.insert(0, {
-        "placa": vehiculo.placa,
-        "fecha": vehiculo.fecha,
-        "hora": vehiculo.hora,
+        "placa": respuesta["placa"],
+        "fecha": respuesta["fecha"],
+        "hora": respuesta["hora"],
         "resultado": respuesta["resultado"],
         "timestamp": datetime.now().isoformat(timespec="seconds")
     })
