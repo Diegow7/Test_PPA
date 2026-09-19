@@ -181,6 +181,14 @@ def test_home_incluye_campos_de_consulta():
     assert 'name="hora"' in response.text
 
 
+def test_home_nombra_region_de_resultado():
+    response = client.get("/")
+
+    assert response.status_code == 200
+    assert 'role="region"' in response.text
+    assert 'aria-label="Resultado de la consulta"' in response.text
+
+
 def test_reglas_requiere_api_key():
     main.API_KEY = "test-key"
     response = client.get("/reglas")
