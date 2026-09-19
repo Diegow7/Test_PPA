@@ -478,6 +478,7 @@ def test_validar_no_incluye_simulado():
     assert response.status_code == 200
     data = response.json()
     assert data["resultado"] == "Puede circular"
+    assert set(data.keys()) == {"placa", "fecha", "hora", "resultado"}
     assert "simulado" not in data
 
 
