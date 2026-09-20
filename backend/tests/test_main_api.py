@@ -187,6 +187,7 @@ def test_home_nombra_region_de_resultado():
     assert response.status_code == 200
     assert 'role="region"' in response.text
     assert 'aria-label="Resultado de la consulta"' in response.text
+    assert 'aria-controls="resultado"' in response.text
 
 
 def test_reglas_requiere_api_key():
