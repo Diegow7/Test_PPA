@@ -179,6 +179,9 @@ def test_home_incluye_campos_de_consulta():
     assert 'name="placa"' in response.text
     assert 'name="fecha"' in response.text
     assert 'name="hora"' in response.text
+    assert 'id="fecha"' in response.text
+    assert 'id="hora"' in response.text
+    assert response.text.count('autocomplete="off"') >= 3
 
 
 def test_home_nombra_region_de_resultado():
