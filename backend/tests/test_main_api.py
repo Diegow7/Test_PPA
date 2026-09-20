@@ -185,6 +185,8 @@ def test_home_nombra_region_de_resultado():
     response = client.get("/")
 
     assert response.status_code == 200
+    assert 'id="resumen-errores"' in response.text
+    assert 'role="alert"' in response.text
     assert 'role="region"' in response.text
     assert 'aria-label="Resultado de la consulta"' in response.text
     assert 'aria-controls="resultado"' in response.text
