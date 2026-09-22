@@ -28,6 +28,7 @@ from pico_placa import (
 
 # Crear app
 app = FastAPI()
+APP_VERSION = "1.0.0"
 APP_START_TIME = time.time()
 
 API_KEY = (os.getenv("API_KEY") or "").strip()
@@ -213,6 +214,7 @@ def simular_vehiculo(
 def healthcheck():
     return {
         "status": "ok",
+        "version": APP_VERSION,
         "timestamp": datetime.now().isoformat(timespec="seconds"),
         "historial_consultas": len(_historial_consultas),
         "uptime_seconds": round(time.time() - APP_START_TIME, 2),
