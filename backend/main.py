@@ -214,6 +214,7 @@ def simular_vehiculo(
 def healthcheck():
     return {
         "status": "ok",
+        "service": "pico-placa",
         "version": APP_VERSION,
         "timestamp": datetime.now().isoformat(timespec="seconds"),
         "historial_consultas": len(_historial_consultas),
