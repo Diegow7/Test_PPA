@@ -27,8 +27,8 @@ from pico_placa import (
 )
 
 # Crear app
-app = FastAPI(title="Pico y Placa API", version=APP_VERSION)
 APP_VERSION = "1.0.0"
+app = FastAPI(title="Pico y Placa API", version=APP_VERSION)
 APP_START_TIME = time.time()
 
 API_KEY = (os.getenv("API_KEY") or "").strip()
