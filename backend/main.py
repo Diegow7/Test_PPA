@@ -28,7 +28,11 @@ from pico_placa import (
 
 # Crear app
 APP_VERSION = "1.0.0"
-app = FastAPI(title="Pico y Placa API", version=APP_VERSION)
+app = FastAPI(
+    title="Pico y Placa API",
+    version=APP_VERSION,
+    description="API for checking vehicle circulation restrictions."
+)
 APP_START_TIME = time.time()
 
 API_KEY = (os.getenv("API_KEY") or "").strip()
