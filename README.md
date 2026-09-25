@@ -72,6 +72,7 @@ Editar `.env` con tus valores:
 ```
 API_KEY=tu-clave-secreta
 CORS_ORIGINS=http://localhost:8000
+APP_VERSION=1.0.0
 ```
 
 ## Ejecutar proyecto

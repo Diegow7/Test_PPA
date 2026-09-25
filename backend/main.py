@@ -31,7 +31,9 @@ APP_VERSION = (os.getenv("APP_VERSION") or "1.0.0").strip()
 app = FastAPI(
     title="Pico y Placa API",
     version=APP_VERSION,
-    description="API for checking vehicle circulation restrictions."
+    description="API for checking vehicle circulation restrictions.",
+    docs_url="/docs",
+    redoc_url="/redoc"
 )
 APP_START_TIME = time.time()
 
