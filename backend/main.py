@@ -270,5 +270,6 @@ def limpiar_historial(
     return {
         "historial_vacio": True,
         "eliminadas": cantidad,
-        "restantes": len(_historial_consultas)
+        "restantes": len(_historial_consultas),
+        "message": "History cleared successfully"
     }
