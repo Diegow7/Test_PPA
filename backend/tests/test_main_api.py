@@ -17,6 +17,8 @@ def test_healthcheck_ok():
     assert response.status_code == 200
     data = response.json()
     assert data["status"] == "ok"
+    assert data["service"] == main.APP_NAME
+    assert data["version"] == main.APP_VERSION
     assert "timestamp" in data
     assert "historial_consultas" in data
     assert "uptime_seconds" in data
