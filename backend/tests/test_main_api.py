@@ -1077,6 +1077,7 @@ def test_limpiar_historial_ok():
     assert data["historial_vacio"] is True
     assert data["eliminadas"] >= 1
     assert data["restantes"] == 0
+    assert data["message"] == "History cleared successfully"
 
 
 def test_limpiar_historial_ya_vacio():
