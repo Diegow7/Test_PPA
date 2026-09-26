@@ -812,11 +812,16 @@ if (guardarHistorialCheckbox) {
 
 document.addEventListener("keydown", (event) => {
     const activeElement = document.activeElement;
+    const consultaForm = document.getElementById("formulario-consulta");
     const isTypingField = activeElement && (
         activeElement.tagName === "INPUT"
         || activeElement.tagName === "TEXTAREA"
         || activeElement.isContentEditable
     );
+
+    if (!isTypingField || !consultaForm?.contains(activeElement)) {
+        return;
+    }
 
     if (event.key === "Enter" && isTypingField && !btnConsultar.disabled) {
         event.preventDefault();
