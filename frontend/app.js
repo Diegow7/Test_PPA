@@ -225,7 +225,13 @@ function escapeHtml(valor) {
 }
 
 function validarPlaca(valor) {
-    const placa = normalizarPlaca(valor);
+    const entrada = String(valor ?? "").trim().toUpperCase();
+
+    if (/[-\s]{2,}/.test(entrada)) {
+        return "La placa no permite separadores consecutivos";
+    }
+
+    const placa = normalizarPlaca(entrada);
 
     if (!placa) {
         return "La placa es obligatoria";
