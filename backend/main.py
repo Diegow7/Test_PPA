@@ -27,7 +27,7 @@ from pico_placa import (
 )
 
 # Crear app
-APP_VERSION = (os.getenv("APP_VERSION") or "1.0.0").strip()
+APP_VERSION = (os.getenv("APP_VERSION") or "").strip() or "1.0.0"
 APP_NAME = "pico-placa"
 app = FastAPI(
     title="Pico y Placa API",
