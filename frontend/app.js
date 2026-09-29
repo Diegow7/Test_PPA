@@ -647,7 +647,10 @@ function cargarHistorial() {
     }
 
     if (!dataFiltrada.length) {
-        historial.innerHTML = "<div class=\"history-item\">Sin consultas aun.</div>";
+        const mensajeVacio = termino
+            ? "No hay coincidencias."
+            : "Sin consultas aun.";
+        historial.innerHTML = `<div class="history-item">${mensajeVacio}</div>`;
         return;
     }
 
