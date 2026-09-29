@@ -1,5 +1,6 @@
 import os
 import time
+import hmac
 from collections import defaultdict, deque
 from datetime import datetime
 
@@ -116,7 +117,10 @@ def verificar_api_key(x_api_key: str | None = Header(default=None, alias="X-API-
 
     api_key_header = (x_api_key or "").strip()
 
-    if api_key_header != API_KEY:
+    if not hmac.compare_digest(
+        api_key_header.encode("utf-8"),
+        API_KEY.encode("utf-8")
+    ):
         raise HTTPException(status_code=401, detail="API key invalida")
 
     return api_key_header
