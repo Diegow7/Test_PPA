@@ -1,6 +1,7 @@
 import pytest
+from datetime import datetime, time
 
-from pico_placa import validar_entrada, puede_circular
+from pico_placa import validar_entrada, puede_circular, _puede_circular
 
 
 def test_validar_entrada_ok_carro():
@@ -187,6 +188,18 @@ def test_validar_entrada_cero_numerico_se_trata_como_texto_invalido():
 
 def test_puede_circular_restringido():
     assert puede_circular("ABC1231", "2026-05-25", "08:00") is False
+
+
+def test_restriccion_no_depende_del_idioma_del_sistema():
+    class FechaConDiaEnEspanol(datetime):
+        def strftime(self, formato):
+            if formato == "%A":
+                return "lunes"
+            return super().strftime(formato)
+
+    fecha = FechaConDiaEnEspanol(2026, 5, 25)
+
+    assert _puede_circular(1, fecha, time(8, 0)) is False
 
 
 def test_puede_circular_restringido_tarde():

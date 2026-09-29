@@ -19,6 +19,15 @@ restricciones = MappingProxyType({
     "Thursday": [7, 8],
     "Friday": [9, 0]
 })
+DIAS_SEMANA = (
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday"
+)
 
 HORA_INICIO_VALIDACION = datetime.strptime("05:00", FORMATO_HORA).time()
 HORA_FIN_VALIDACION = datetime.strptime("19:30", FORMATO_HORA).time()
@@ -283,8 +292,7 @@ def _puede_circular(ultimo_digito: int, fecha_obj: datetime, hora_obj: time) -> 
     Returns:
         True si el vehículo puede circular, False si está restringido.
     """
-    # Obtener día de la semana
-    dia_semana = fecha_obj.strftime("%A")
+    dia_semana = DIAS_SEMANA[fecha_obj.weekday()]
 
     digitos_restringidos = restricciones.get(dia_semana)
     if not digitos_restringidos:
