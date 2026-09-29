@@ -1114,11 +1114,34 @@ def test_rate_limit_bloqueado():
 
     try:
         for _ in range(2):
-            client.get("/health")
+            response = client.get("/historial", headers=headers)
+            assert response.status_code == 200
 
-        response = client.get("/health")
+        response = client.get("/historial", headers=headers)
         assert response.status_code == 429
         assert response.json()["detail"] == "Demasiadas solicitudes, intenta mas tarde"
     finally:
         main.RATE_LIMIT_MAX = original_max
+        main._rate_limit_buckets.clear()
+
+
+def test_rate_limit_expira_con_reloj_monotonico(monkeypatch):
+    headers = _headers()
+    original_max = main.RATE_LIMIT_MAX
+    original_window = main.RATE_LIMIT_WINDOW_SEC
+    current_time = [100.0]
+    monkeypatch.setattr(main.time, "monotonic", lambda: current_time[0])
+    main.RATE_LIMIT_MAX = 1
+    main.RATE_LIMIT_WINDOW_SEC = 60
+    main._rate_limit_buckets.clear()
+
+    try:
+        response = client.get("/historial", headers=headers)
+        assert response.status_code == 200
+        current_time[0] += 61
+        response = client.get("/historial", headers=headers)
+        assert response.status_code == 200
+    finally:
+        main.RATE_LIMIT_MAX = original_max
+        main.RATE_LIMIT_WINDOW_SEC = original_window
         main._rate_limit_buckets.clear()

@@ -123,7 +123,7 @@ def verificar_api_key(x_api_key: str | None = Header(default=None, alias="X-API-
 
 def verificar_rate_limit(request: Request):
     client_ip = request.client.host if request.client else "unknown"
-    now = time.time()
+    now = time.monotonic()
     bucket = _rate_limit_buckets[client_ip]
 
     # Limpiar solicitudes fuera de la ventana
