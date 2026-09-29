@@ -327,6 +327,10 @@ function validarHora(valor) {
 }
 
 function validarFormulario() {
+    resultado.textContent = "";
+    resultado.classList.remove("resultado--ok", "resultado--error");
+    actualizarEstadoBotonCopiarResultado();
+
     const errores = [];
     const errorPlaca = validarPlaca(placaInput.value);
     const errorFecha = validarFecha(fechaInput.value);
