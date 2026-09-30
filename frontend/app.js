@@ -499,7 +499,14 @@ function obtenerHistorialLocal() {
         }
 
         const data = JSON.parse(raw);
-        return Array.isArray(data) ? data : [];
+        return Array.isArray(data)
+            ? data.filter((item) => item
+                && typeof item === "object"
+                && typeof item.placa === "string"
+                && typeof item.fecha === "string"
+                && typeof item.hora === "string"
+                && typeof item.resultado === "string")
+            : [];
     } catch {
         return [];
     }
