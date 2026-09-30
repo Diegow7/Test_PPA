@@ -572,9 +572,13 @@ function restaurarHistorialLocal() {
         return false;
     }
 
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(historialBorradoTemporal));
-    historialBorradoTemporal = null;
-    return true;
+    try {
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(historialBorradoTemporal));
+        historialBorradoTemporal = null;
+        return true;
+    } catch {
+        return false;
+    }
 }
 
 function actualizarBotonRestaurar() {
