@@ -470,7 +470,7 @@ async function validarVehiculo() {
         actualizarEstadoBotonCopiarResultado();
         
         if (guardarHistorialCheckbox && guardarHistorialCheckbox.checked) {
-            guardarConsultaLocal({
+            const guardadaLocalmente = guardarConsultaLocal({
                 placa: placaInput.value,
                 fecha: fechaInput.value,
                 hora: horaInput.value,
@@ -478,6 +478,9 @@ async function validarVehiculo() {
                 timestamp: new Date().toISOString().slice(0, 19)
             });
             cargarHistorial();
+            if (!guardadaLocalmente) {
+                setMensaje("Consulta lista, pero no se pudo guardar en el historial local.", "warn");
+            }
         } else {
             setMensaje("Consulta simulada (sin guardar)", "ok");
         }
@@ -520,7 +523,12 @@ function guardarConsultaLocal(consulta) {
         historialLocal.length = HISTORY_LIMIT;
     }
 
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(historialLocal));
+    try {
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(historialLocal));
+        return true;
+    } catch {
+        return false;
+    }
 }
 
 function limpiarHistorialLocal() {
