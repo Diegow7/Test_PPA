@@ -2,7 +2,7 @@ import os
 import time
 import hmac
 from collections import defaultdict, deque
-from datetime import datetime
+from datetime import datetime, timezone
 
 from dotenv import load_dotenv
 
@@ -204,7 +204,7 @@ def validar_vehiculo(
         "fecha": respuesta["fecha"],
         "hora": respuesta["hora"],
         "resultado": respuesta["resultado"],
-        "timestamp": datetime.now().isoformat(timespec="seconds")
+        "timestamp": datetime.now(timezone.utc).isoformat(timespec="seconds")
     })
 
     if len(_historial_consultas) > HISTORY_LIMIT:
@@ -228,7 +228,7 @@ def healthcheck():
         "status": "ok",
         "service": APP_NAME,
         "version": APP_VERSION,
-        "timestamp": datetime.now().isoformat(timespec="seconds"),
+        "timestamp": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "historial_consultas": len(_historial_consultas),
         "uptime_seconds": round(time.time() - APP_START_TIME, 2),
         "api_key_configurada": bool(API_KEY),

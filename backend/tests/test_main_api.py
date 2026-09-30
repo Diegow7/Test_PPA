@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from fastapi.testclient import TestClient
 
 import main
@@ -37,6 +39,7 @@ def test_healthcheck_timestamp_iso_format():
     assert response.status_code == 200
     data = response.json()
     assert "T" in data["timestamp"]
+    assert datetime.fromisoformat(data["timestamp"]).utcoffset() is not None
 
 
 def test_healthcheck_uptime_seconds_no_negativo():
