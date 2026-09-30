@@ -532,8 +532,16 @@ function guardarConsultaLocal(consulta) {
 }
 
 function limpiarHistorialLocal() {
-    historialBorradoTemporal = obtenerHistorialLocal();
-    localStorage.removeItem(HISTORY_KEY);
+    const historialLocal = obtenerHistorialLocal();
+
+    try {
+        localStorage.removeItem(HISTORY_KEY);
+        historialBorradoTemporal = historialLocal;
+        return true;
+    } catch {
+        historialBorradoTemporal = null;
+        return false;
+    }
 }
 
 async function limpiarHistorialServidor() {
@@ -803,13 +811,17 @@ if (btnExportarHistorial) {
 
 if (btnLimpiarHistorial) {
     btnLimpiarHistorial.addEventListener("click", async () => {
-        limpiarHistorialLocal();
+        const limpiadoLocalmente = limpiarHistorialLocal();
         cargarHistorial();
         const limpiadoServidor = await limpiarHistorialServidor();
-        if (limpiadoServidor) {
+        if (limpiadoLocalmente && limpiadoServidor) {
             setMensaje("Historial local y servidor limpiados.", "ok");
-        } else {
+        } else if (limpiadoLocalmente) {
             setMensaje("Historial local limpiado.", "warn");
+        } else if (limpiadoServidor) {
+            setMensaje("Servidor limpiado, pero no se pudo limpiar el historial local.", "warn");
+        } else {
+            setMensaje("No se pudo limpiar el historial local.", "error");
         }
         actualizarBotonRestaurar();
     });
