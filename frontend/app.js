@@ -633,7 +633,7 @@ function exportarHistorialCSV() {
         item.fecha,
         item.hora,
         item.resultado,
-        item.timestamp
+        item.timestamp ?? ""
     ]);
     const contenido = [encabezado, ...filas]
         .map((fila) => fila.map(escaparValorCSV).join(","))
