@@ -594,6 +594,12 @@ function actualizarEstadoBotonExportarHistorial() {
     btnExportarHistorial.setAttribute("aria-disabled", String(deshabilitado));
 }
 
+function escaparValorCSV(valor) {
+    const texto = String(valor ?? "");
+    const textoSeguro = /^[\s]*[=+\-@]/.test(texto) ? `'${texto}` : texto;
+    return `"${textoSeguro.replace(/"/g, '""')}"`;
+}
+
 function exportarHistorialCSV() {
     const data = obtenerHistorialLocal();
     if (!data.length) {
@@ -610,7 +616,7 @@ function exportarHistorialCSV() {
         item.timestamp
     ]);
     const contenido = [encabezado, ...filas]
-        .map((fila) => fila.map((valor) => `"${String(valor).replace(/"/g, '""')}"`).join(","))
+        .map((fila) => fila.map(escaparValorCSV).join(","))
         .join("\n");
 
     const blob = new Blob(["\uFEFF", contenido], { type: "text/csv;charset=utf-8;" });
