@@ -475,7 +475,7 @@ async function validarVehiculo() {
                 fecha: fechaInput.value,
                 hora: horaInput.value,
                 resultado: data.resultado,
-                timestamp: new Date().toISOString().slice(0, 19)
+                timestamp: new Date().toISOString()
             });
             cargarHistorial();
             if (!guardadaLocalmente) {
