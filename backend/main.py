@@ -131,7 +131,7 @@ def verificar_rate_limit(request: Request):
     bucket = _rate_limit_buckets[client_ip]
 
     # Limpiar solicitudes fuera de la ventana
-    while bucket and (now - bucket[0]) > RATE_LIMIT_WINDOW_SEC:
+    while bucket and (now - bucket[0]) >= RATE_LIMIT_WINDOW_SEC:
         bucket.popleft()
 
     if len(bucket) >= RATE_LIMIT_MAX:

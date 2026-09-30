@@ -1138,7 +1138,7 @@ def test_rate_limit_expira_con_reloj_monotonico(monkeypatch):
     try:
         response = client.get("/historial", headers=headers)
         assert response.status_code == 200
-        current_time[0] += 61
+        current_time[0] += 60
         response = client.get("/historial", headers=headers)
         assert response.status_code == 200
     finally:
