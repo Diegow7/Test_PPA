@@ -279,3 +279,4 @@ def limpiar_historial(
         "restantes": len(_historial_consultas),
         "message": "History cleared successfully"
     }
+#*
