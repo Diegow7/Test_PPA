@@ -657,7 +657,7 @@ function cargarHistorial() {
 
     const dataFiltrada = termino
         ? data.filter((item) => {
-            const contenido = `${item.placa} ${item.fecha} ${item.hora} ${item.resultado} ${item.timestamp}`
+            const contenido = `${item.placa} ${item.fecha} ${item.hora} ${item.resultado} ${item.timestamp ?? ""}`
                 .toLowerCase();
             return contenido.includes(termino);
         })
