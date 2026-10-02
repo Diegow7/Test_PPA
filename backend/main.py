@@ -37,7 +37,7 @@ app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc"
 )
-APP_START_TIME = time.time()
+APP_START_TIME = time.monotonic()
 
 API_KEY = (os.getenv("API_KEY") or "").strip()
 RATE_LIMIT_MAX = int(os.getenv("RATE_LIMIT_MAX", "30"))
@@ -230,7 +230,7 @@ def healthcheck():
         "version": APP_VERSION,
         "timestamp": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "historial_consultas": len(_historial_consultas),
-        "uptime_seconds": round(time.time() - APP_START_TIME, 2),
+        "uptime_seconds": round(time.monotonic() - APP_START_TIME, 2),
         "api_key_configurada": bool(API_KEY),
         "rate_limit_max": RATE_LIMIT_MAX,
         "rate_limit_window_sec": RATE_LIMIT_WINDOW_SEC,
