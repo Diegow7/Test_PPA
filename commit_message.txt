@@ -1,1 +1,1 @@
-fix: improve code quality [20261001_215021]
+style: adjust helper functions [20261001_215325]
