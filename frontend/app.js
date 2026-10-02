@@ -509,6 +509,7 @@ function obtenerHistorialLocal() {
                 && typeof item.fecha === "string"
                 && typeof item.hora === "string"
                 && typeof item.resultado === "string")
+                .slice(0, HISTORY_LIMIT)
             : [];
     } catch {
         return [];
