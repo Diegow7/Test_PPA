@@ -1,1 +1,1 @@
-style: adjust helper functions [20261001_215325]
+style: add unit tests for validators [20261002_112605]
