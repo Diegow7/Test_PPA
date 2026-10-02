@@ -6,6 +6,8 @@ python auto_commit.py
 
 git add .
 
-git commit -m "feat: modify backend files"
+for /f "delims=" %%i in (commit_message.txt) do set MSG=%%i
+
+git commit -m "%MSG%"
 
 git push
