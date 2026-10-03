@@ -9,6 +9,7 @@ __pycache__/
 *$py.class
 *.so
 .Python
+git_log.txt
 
 # Testing
 .pytest_cache/
