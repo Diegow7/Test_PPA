@@ -1,1 +1,1 @@
-style: clean temporary files [20261006_110057]
+style: improve endpoint documentation [20261006_164047]
