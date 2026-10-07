@@ -1,1 +1,1 @@
-docs: prevent duplicate records [20261006_205327]
+docs: update validation logic [20261007_090213]
