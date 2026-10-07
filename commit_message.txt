@@ -1,1 +1,1 @@
-refactor: clean temporary files [20261007_142934]
+chore: simplify validation logic [20261007_183155]
