@@ -1,1 +1,1 @@
-chore: simplify validation logic [20261007_183155]
+test: update repository structure [20261008_185930]
