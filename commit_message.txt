@@ -1,1 +1,1 @@
-docs: update repository structure [20261009_142453]
+chore: reorganize project files [20261009_142630]
