@@ -1,1 +1,1 @@
-fix: improve endpoint documentation [20261008_212527]
+chore: add unit tests for validators [20261009_105856]
