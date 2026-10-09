@@ -1,1 +1,1 @@
-feat: improve search performance [20261008_212153]
+fix: improve endpoint documentation [20261008_212527]
