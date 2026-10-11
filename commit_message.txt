@@ -1,1 +1,1 @@
-test: reorganize project files [20261009_200938]
+fix: improve endpoint documentation [20261010_192711]
