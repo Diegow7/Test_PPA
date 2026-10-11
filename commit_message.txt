@@ -1,1 +1,1 @@
-fix: improve endpoint documentation [20261010_192711]
+docs: optimize code flow [20261011_084124]
