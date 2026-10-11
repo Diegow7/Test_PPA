@@ -1,1 +1,1 @@
-refactor: improve endpoint documentation [20261011_112603]
+feat: extract reusable methods [20261011_141955]
