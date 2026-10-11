@@ -1,1 +1,1 @@
-docs: optimize code flow [20261011_084124]
+refactor: improve endpoint documentation [20261011_112603]
