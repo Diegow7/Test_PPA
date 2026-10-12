@@ -1,1 +1,1 @@
-style: improve search performance [20261011_195439]
+refactor: apply formatting cleanup [20261012_182556]
