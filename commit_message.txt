@@ -1,1 +1,1 @@
-refactor: apply formatting cleanup [20261012_182556]
+style: improve endpoint documentation [20261013_181309]
