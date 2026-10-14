@@ -1,1 +1,1 @@
-docs: simplify validation logic [20261013_201143]
+chore: add plate validation helper [20261014_092409]
