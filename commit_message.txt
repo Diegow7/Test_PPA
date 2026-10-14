@@ -1,1 +1,1 @@
-refactor: improve code quality [20261013_200139]
+refactor: adjust helper functions [20261013_200746]
