@@ -1,1 +1,1 @@
-docs: update validation logic [20261017_101116]
+docs: apply formatting cleanup [20261017_101300]
