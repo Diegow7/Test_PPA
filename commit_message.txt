@@ -1,1 +1,1 @@
-style: apply formatting cleanup [20261016_201549]
+fix: reorganize project files [20261016_201721]
