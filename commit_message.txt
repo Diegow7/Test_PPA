@@ -1,1 +1,1 @@
-feat: extract reusable methods [20261016_184814]
+chore: adjust helper functions [20261016_201129]
