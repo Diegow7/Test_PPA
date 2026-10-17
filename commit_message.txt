@@ -1,1 +1,1 @@
-fix: reorganize project files [20261016_201721]
+test: add plate validation helper [20261016_201738]
