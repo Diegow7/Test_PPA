@@ -1,1 +1,1 @@
-fix: adjust helper functions [20261017_205254]
+chore: simplify validation logic [20261018_104531]
