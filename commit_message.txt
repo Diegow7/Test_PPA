@@ -1,1 +1,1 @@
-chore: simplify validation logic [20261018_104531]
+fix: extract reusable methods [20261018_145243]
