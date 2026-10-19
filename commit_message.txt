@@ -1,1 +1,1 @@
-test: adjust helper functions [20261018_224844]
+docs: simplify validation logic [20261018_224856]
