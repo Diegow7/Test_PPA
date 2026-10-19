@@ -1,1 +1,1 @@
-chore: update validation logic [20261018_224815]
+fix: add plate validation helper [20261018_224832]
