@@ -1,1 +1,1 @@
-docs: adjust helper functions [20261021_084013]
+style: simplify validation logic [20261021_084232]
