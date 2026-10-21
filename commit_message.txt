@@ -1,1 +1,1 @@
-style: simplify validation logic [20261021_084232]
+fix: add plate validation helper [20261021_141606]
