@@ -1,1 +1,1 @@
-test: improve code quality [20261021_073812]
+docs: adjust helper functions [20261021_084013]
