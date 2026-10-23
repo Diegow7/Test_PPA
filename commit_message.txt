@@ -1,1 +1,1 @@
-chore: apply formatting cleanup [20261022_194251]
+feat: improve search performance [20261022_210229]
