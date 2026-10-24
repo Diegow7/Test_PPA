@@ -1,1 +1,1 @@
-chore: normalize code indentation [20261023_205652]
+fix: extract reusable methods [20261023_205937]
