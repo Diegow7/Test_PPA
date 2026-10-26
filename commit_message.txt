@@ -1,1 +1,1 @@
-feat: adjust helper functions [20261025_093556]
+fix: simplify validation logic [20261025_215029]
