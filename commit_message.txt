@@ -1,1 +1,1 @@
-fix: reorganize project files [20261025_224213]
+feat: update repository structure [20261026_184245]
