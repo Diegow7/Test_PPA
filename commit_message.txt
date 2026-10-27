@@ -1,1 +1,1 @@
-feat: update repository structure [20261026_184245]
+refactor: extract reusable methods [20261026_210931]
