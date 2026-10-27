@@ -1,1 +1,1 @@
-chore: apply formatting cleanup [20261026_211843]
+chore: add plate validation helper [20261026_215434]
