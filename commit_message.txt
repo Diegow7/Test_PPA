@@ -1,1 +1,1 @@
-docs: improve code quality [20261026_211141]
+chore: apply formatting cleanup [20261026_211843]
