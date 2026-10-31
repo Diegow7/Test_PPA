@@ -1,1 +1,1 @@
-refactor: normalize code indentation [20261029_184353]
+refactor: update validation logic [20261030_192540]
