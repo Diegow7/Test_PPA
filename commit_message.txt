@@ -1,1 +1,1 @@
-docs: normalize code indentation [20261103_192008]
+feat: simplify validation logic [20261103_203427]
