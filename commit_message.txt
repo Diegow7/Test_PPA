@@ -1,1 +1,1 @@
-feat: simplify validation logic [20261103_203427]
+fix: prevent duplicate records [20261104_081557]
