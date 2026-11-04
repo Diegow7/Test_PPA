@@ -1,1 +1,1 @@
-style: enhance test coverage [20261103_185934]
+fix: improve endpoint documentation [20261103_191551]
