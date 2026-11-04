@@ -1,1 +1,1 @@
-fix: improve endpoint documentation [20261103_191551]
+docs: update validation logic [20261103_192002]
