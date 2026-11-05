@@ -1,1 +1,1 @@
-feat: improve endpoint documentation [20261105_181452]
+fix: improve code quality [20261105_182945]
