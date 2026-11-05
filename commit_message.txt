@@ -1,1 +1,1 @@
-style: improve coverage for API routes [20261104_180238]
+feat: improve endpoint documentation [20261105_181452]
