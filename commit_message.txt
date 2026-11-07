@@ -1,1 +1,1 @@
-fix: apply formatting cleanup [20261106_183332]
+feat: simplify validation logic [20261106_203221]
