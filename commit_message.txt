@@ -1,1 +1,1 @@
-style: add unit tests for validators [20261109_204648]
+style: normalize code indentation [20261109_210823]
