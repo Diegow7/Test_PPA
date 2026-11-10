@@ -1,1 +1,1 @@
-style: update repository structure [20261110_180355]
+chore: improve endpoint documentation [20261110_180808]
