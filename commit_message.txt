@@ -1,1 +1,1 @@
-feat: improve endpoint documentation [20261111_140239]
+feat: update README examples [20261111_183607]
