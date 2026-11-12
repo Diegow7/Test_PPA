@@ -1,1 +1,1 @@
-feat: update README examples [20261111_183607]
+style: simplify validation logic [20261111_210815]
