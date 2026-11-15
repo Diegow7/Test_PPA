@@ -1,1 +1,1 @@
-style: clean temporary files [20261113_184506]
+docs: adjust helper functions [20261114_221908]
