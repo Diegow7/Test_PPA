@@ -1,1 +1,1 @@
-chore: improve endpoint documentation [20261114_222301]
+refactor: simplify validation logic [20261114_223503]
