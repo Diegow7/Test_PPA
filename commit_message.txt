@@ -1,1 +1,1 @@
-docs: adjust helper functions [20261114_221908]
+chore: improve endpoint documentation [20261114_222301]
