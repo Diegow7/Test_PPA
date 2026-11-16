@@ -1,1 +1,1 @@
-fix: adjust helper functions [20261115_194431]
+style: improve endpoint documentation [20261116_182635]
