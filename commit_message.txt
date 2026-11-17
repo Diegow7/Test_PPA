@@ -1,1 +1,1 @@
-fix: add unit tests for validators [20261117_181812]
+docs: adjust helper functions [20261117_183605]
