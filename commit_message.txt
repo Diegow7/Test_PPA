@@ -1,1 +1,1 @@
-feat: enhance test coverage [20261118_164114]
+docs: simplify validation logic [20261118_164617]
