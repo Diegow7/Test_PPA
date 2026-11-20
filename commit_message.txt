@@ -1,1 +1,1 @@
-refactor: optimize code flow [20261120_133721]
+style: handle null values in requests [20261120_150652]
