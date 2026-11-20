@@ -1,1 +1,1 @@
-test: extract reusable methods [20261119_190631]
+docs: adjust helper functions [20261120_132852]
