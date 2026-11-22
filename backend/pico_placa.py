@@ -399,3 +399,5 @@ def puede_circular(placa: object, fecha: object, hora: object) -> bool:
 # AutoUpdate 2026-11-20 13:37:21
 # AutoUpdate 2026-11-20 15:06:52
 # AutoUpdate 2026-11-20 16:01:26
+# AutoUpdate 2026-11-21 21:30:17
+# AutoUpdate 2026-11-21 21:30:17
