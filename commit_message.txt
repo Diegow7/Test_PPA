@@ -1,1 +1,1 @@
-feat: adjust helper functions [20261122_123534]
+chore: apply formatting cleanup [20261122_182757]
