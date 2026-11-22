@@ -1,1 +1,1 @@
-style: handle null values in requests [20261121_213055]
+docs: add plate validation helper [20261121_213113]
