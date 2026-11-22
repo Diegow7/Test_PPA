@@ -1,1 +1,1 @@
-style: handle null values in requests [20261121_213148]
+feat: update validation logic [20261121_213155]
