@@ -1,1 +1,1 @@
-fix: clean temporary files [20261121_213017]
+style: handle null values in requests [20261121_213055]
