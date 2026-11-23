@@ -1,1 +1,1 @@
-docs: simplify validation logic [20261123_184849]
+chore: normalize code indentation [20261123_185105]
