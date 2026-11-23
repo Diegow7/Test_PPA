@@ -1,1 +1,1 @@
-style: clean temporary files [20261123_184822]
+docs: simplify validation logic [20261123_184849]
