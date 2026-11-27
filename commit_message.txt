@@ -1,1 +1,1 @@
-fix: improve coverage for API routes [20261125_212729]
+style: extract reusable methods [20261126_225528]
